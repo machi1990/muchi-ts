@@ -1,22 +1,23 @@
 #!/usr/bin/env node
-const colors = require("colors");
 const path = require("path");
+const assert = require("assert");
+const colors = require("colors");
 const { spawn } = require("child_process");
+
 /**
  * Read test files from supplied arguments.
  */
-const testFiles = ["test/js-test.test.ts"];
+const testFiles = ["test/js-test.test.ts", "test/js-test-ignored.test.ts"];
 
 /**
  * Make tsconfig an env varibale.
  */
-const tsconfig = "tsconfig.json";
-const compileOpts = ["--build", tsconfig];
-
-/**
- * Read output folder from tsconfig.
- */
-const tsConfigOutDir = "build";
+const tsconfigFile = "./tsconfig.json";
+const { compilerOptions } = require(tsconfigFile);
+assert(compilerOptions, "invalid ts config file");
+const tsConfigOutDir = compilerOptions.outDir;
+assert(tsConfigOutDir, "expect output folder to be defined");
+const compileOpts = ["--build", tsconfigFile];
 
 const runTestFile = file => {
   const outputFile = path.join(
@@ -41,6 +42,9 @@ const runTestFile = file => {
     const out = chunk.toString();
     if (!out) return;
     output += colors.red(out);
+    /**
+     * Add filename and line number.
+     */
   });
 
   testRunning.on("close", code => {
@@ -48,7 +52,7 @@ const runTestFile = file => {
 
     const finished = code ? colors.red("Finished-") : colors.white("Finished-");
     console.log(output);
-    console.log(outputFile, finished, `- ${duration} ms`);
+    console.log(file, finished, `- ${duration} ms`);
   });
 };
 

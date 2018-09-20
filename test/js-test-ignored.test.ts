@@ -10,8 +10,8 @@ import {
 
 import Test from "./test";
 
-@run({ message: "JsTesting using Annotation" })
-class JsTest {
+@run({ message: "Ignored JsTesting using Annotation", ignore: true })
+class JsTestIgnored {
   private test: Test;
 
   constructor() {}
@@ -63,37 +63,7 @@ class JsTest {
   oneNumberStrictEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();
-
     // Then
     assertStrictEqual(one, "1");
-  }
-
-  @test({ message: "object strict equality with object" })
-  objectStrictEqualTest(): void {
-    // When
-    const helloWorld: Object = this.test.object();
-
-    // Then
-    assertStrictEqual(helloWorld, {
-      en: {
-        saying: "hello world"
-      },
-      fr: {
-        saying: "bonjour le monde"
-      }
-    });
-  }
-
-  @test({ message: "one number strict equality with string" })
-  objectStrictNotEqualTest(): void {
-    // When
-    const helloWorld: Object = this.test.object();
-
-    // Then
-    assertDeepEqual(helloWorld["fr"], {
-      en: {
-        saying: "hello world"
-      }
-    });
   }
 }

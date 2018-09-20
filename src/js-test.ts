@@ -8,15 +8,42 @@ import * as assert from "assert";
  * Group by me (file path / name ?) to establist an registry by function during test execution.
  */
 const SPACE: string = " ";
-const PENDING: string = colors.cyan("PENDING:");
-const PASSED: string = colors.green("PASSED: ");
-const FAILURE: string = colors.red("FAILURE:");
-const ACTUAL: string = colors.green("actual: ");
-const EXPECTED: string = colors.red("expected: ");
+const SKIPPED: string = colors.cyan("Skipped- ");
+const PASSED: string = colors.green("Passed- ");
+const FAILED: string = colors.red("Failed- ");
+const ACTUAL: string = colors.bgGreen("actual - ");
+const EXPECTED: string = colors.bgRed("expected - ");
+
+const operatorInWords = {
+  "==": "equal to",
+  "===": "strict equal to",
+  deepEqual: "deep equal to",
+  deepStrictEqual: "deep strict equal to"
+};
+
+interface Opts {
+  message: string;
+  ignore?: boolean;
+}
+
+interface Setup {
+  key: string;
+  before?: boolean;
+  after?: boolean;
+  me: Function;
+}
+
+interface Test {
+  key: string;
+  message: string;
+  name: string;
+  me: Function;
+  ignore: boolean;
+}
 
 export const testing = () => {
-  const testsRegistry = [];
-  const setups = [];
+  const testsRegistry: Array<Test> = [];
+  const setups: Array<Setup> = [];
 
   const before = (target, key, _descriptor) => {
     setups.push({
@@ -34,11 +61,6 @@ export const testing = () => {
     });
   };
 
-  interface Opts {
-    message: string;
-    ignore?: boolean;
-  }
-
   const test = (
     opts: Opts = {
       message: "",
@@ -50,30 +72,31 @@ export const testing = () => {
         .replace(/function\s*/, "")
         .split(/\s*\(/)[0]
         .trim();
-
-      testsRegistry.push({
+      const test: Test = {
         key,
         message: opts.message,
         name: `${name}.${key}()`,
         me: target,
         ignore: opts.ignore
-      });
+      };
+
+      testsRegistry.push(test);
     };
   };
 
   const run = (opts: Opts = { message: "", ignore: false }) => {
     return TestContext => {
-      const name = `${TestContext}`
+      const name: string = `${TestContext}`
         .replace(/function\s*/, "")
         .split(/\s*\(/)[0]
         .trim();
-      const message = opts.message;
+      const message: string = opts.message;
 
-      let testContext, before, after;
+      let testContext, before: Setup, after: Setup;
       const testContextIgnored: boolean = opts.ignore;
 
       if (testContextIgnored) {
-        console.log(PENDING, colors.cyan(name), colors.cyan(message));
+        console.log(SKIPPED, colors.cyan(name), colors.cyan(message));
       } else {
         console.log(colors.white(name), colors.white(message));
         testContext = new TestContext();
@@ -81,11 +104,11 @@ export const testing = () => {
         after = setups.find(setup => setup.after);
       }
 
-      testsRegistry.forEach((test, index) => {
+      testsRegistry.forEach((test: Test, index: number) => {
         if (testContextIgnored || test.ignore) {
           console.log(
             SPACE,
-            PENDING,
+            SKIPPED,
             colors.cyan(test.name),
             colors.cyan(test.message)
           );
@@ -107,15 +130,22 @@ export const testing = () => {
           );
         } catch (error) {
           duration = Date.now() - startTime;
-          const { message, actual, expected } = error;
+          const { message, actual, expected, operator } = error;
           console.error(
             SPACE,
-            FAILURE,
+            FAILED,
             colors.red(`${test.name} ${test.message}`),
             colors.gray(` - ${duration} ms`)
           );
-          console.info(SPACE, ACTUAL, colors.green(actual));
-          console.info(SPACE, EXPECTED, colors.red(expected));
+          console.info(
+            SPACE,
+            "assert",
+            ACTUAL,
+            colors.green(actual),
+            ` to ${operatorInWords[operator]}`,
+            EXPECTED,
+            colors.red(expected)
+          );
         }
 
         if (after) testContext[after.key]();
@@ -141,8 +171,4 @@ export const assertStrictEqual = (firstArg, secondArg) => {
 
 export const assertDeepEqual = (firstArg, secondArg) => {
   assert.deepEqual(firstArg, secondArg);
-};
-
-export const assertDeepStrictEqual = (firstArg, secondArg) => {
-  assert.assertDeepStrictEqual(firstArg, secondArg);
 };
