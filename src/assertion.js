@@ -1,20 +1,11 @@
-import * as assert from "assert";
-/**
- * Add more here.
- * - error assertion
- *  etc
- */
-interface AssertionError {
-  actual: any;
-  expected: any;
-  operator: string;
-}
-
-export const assertTruthy = value => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var assert = require("assert");
+exports.assertTruthy = function(value) {
   try {
     assert.ok(value);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: value,
       expected: "truthy",
       operator: "truthy"
@@ -22,12 +13,11 @@ export const assertTruthy = value => {
     throw assertionError;
   }
 };
-
-export const assertEqual = (firstArg, secondArg) => {
+exports.assertEqual = function(firstArg, secondArg) {
   try {
     assert.equal(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
       operator: "=="
@@ -35,12 +25,11 @@ export const assertEqual = (firstArg, secondArg) => {
     throw assertionError;
   }
 };
-
-export const assertStrictEqual = (firstArg, secondArg) => {
+exports.assertStrictEqual = function(firstArg, secondArg) {
   try {
     assert.strictEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
       operator: "==="
@@ -48,12 +37,11 @@ export const assertStrictEqual = (firstArg, secondArg) => {
     throw assertionError;
   }
 };
-
-export const assertDeepEqual = (firstArg, secondArg) => {
+exports.assertDeepEqual = function(firstArg, secondArg) {
   try {
     assert.deepEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
       operator: "deepEqual"
@@ -61,12 +49,11 @@ export const assertDeepEqual = (firstArg, secondArg) => {
     throw assertionError;
   }
 };
-
-export const assertNotEqual = (firstArg, secondArg) => {
+exports.assertNotEqual = function(firstArg, secondArg) {
   try {
     assert.notEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
       operator: "!=="
@@ -74,12 +61,11 @@ export const assertNotEqual = (firstArg, secondArg) => {
     throw assertionError;
   }
 };
-
-export const assertNotStrictEqual = (firstArg, secondArg) => {
+exports.assertNotStrictEqual = function(firstArg, secondArg) {
   try {
     assert.notStrictEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
       operator: "!==="
@@ -87,12 +73,11 @@ export const assertNotStrictEqual = (firstArg, secondArg) => {
     throw assertionError;
   }
 };
-
-export const assertNotDeepEqual = (firstArg, secondArg) => {
+exports.assertNotDeepEqual = function(firstArg, secondArg) {
   try {
     assert.notDeepEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
       operator: "notDeepEqual"

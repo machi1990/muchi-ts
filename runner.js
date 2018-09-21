@@ -3,12 +3,9 @@ const path = require("path");
 const assert = require("assert");
 const colors = require("colors");
 const { spawn } = require("child_process");
-
 const testFiles = process.argv.slice(2);
+const fs = require("fs");
 
-/**
- * Make tsconfig an env varibale.
- */
 const tsconfigFile = "./tsconfig.json";
 const { compilerOptions } = require(tsconfigFile);
 assert(compilerOptions, "invalid ts config file");
@@ -55,5 +52,16 @@ fileCompilation.stdout.pipe(process.stdout);
 fileCompilation.stderr.pipe(process.stderr);
 fileCompilation.on("close", exitCode => {
   if (exitCode) process.exit(exitCode);
-  testFiles.forEach(runTestFile);
+  const runFile = file => {
+    const stat = fs.statSync(file);
+    const isTsFile = stat.isFile() && path.extname(file) === ".ts";
+    if (isTsFile) {
+      runTestFile(file);
+    } else if (stat.isDirectory()) {
+      fs.readdirSync(file)
+        .map(child => path.join(file, child))
+        .forEach(runFile);
+    }
+  };
+  testFiles.forEach(runFile);
 });

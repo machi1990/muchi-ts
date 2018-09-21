@@ -2,9 +2,9 @@ import * as colors from "colors";
 
 /**
  * testsRegistry by tested class.
- * 1) Closure - an instance of testsRegistry par each test class.
- * 2) register target ==> me (class) to reference it later on.
- * 3) @context and implement context execution.
+ * 1) register target ==> me (class) to reference it later on.
+ * 2) @context and implement context execution.
+ * 3) async functions / operations.
  */
 const SPACE: string = " ";
 const SKIPPED: string = colors.cyan("Skipped- ");
