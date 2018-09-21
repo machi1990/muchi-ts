@@ -8,7 +8,7 @@
     "name": "Manyanda Chitimbo"
   },
   "scripts": {
-    "start": "node runner.js",
+    "start": "node runner.js test/js-test.test.ts test/js-test-ignored.test.ts",
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {

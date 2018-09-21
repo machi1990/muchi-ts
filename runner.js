@@ -4,10 +4,7 @@ const assert = require("assert");
 const colors = require("colors");
 const { spawn } = require("child_process");
 
-/**
- * Read test files from supplied arguments.
- */
-const testFiles = ["test/js-test.test.ts", "test/js-test-ignored.test.ts"];
+const testFiles = process.argv.slice(2);
 
 /**
  * Make tsconfig an env varibale.
