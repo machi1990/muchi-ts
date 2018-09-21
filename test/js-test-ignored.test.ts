@@ -26,10 +26,7 @@ class JsTestIgnored {
     this.test = null;
   }
 
-  @test({
-    message: "one string equality",
-    ignore: false
-  })
+  @test()
   oneStringEqualityTest(): void {
     // When
     const one: string = this.test.oneString();
@@ -38,10 +35,7 @@ class JsTestIgnored {
     assertEqual(one, "one");
   }
 
-  @test({
-    message: "one string strict equality",
-    ignore: true
-  })
+  @test()
   oneStringStrictEqualityTest(): void {
     // When
     const one: string = this.test.oneString();
@@ -50,7 +44,7 @@ class JsTestIgnored {
     assertStrictEqual(one, "one");
   }
 
-  @test({ message: "one number equality with string" })
+  @test({ message: "one number equality with string", ignore: false })
   oneNumberEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();
@@ -59,7 +53,7 @@ class JsTestIgnored {
     assertEqual(one, "1");
   }
 
-  @test({ message: "one number strict equality with string" })
+  @test({ message: "one number strict equality with string", ignore: true })
   oneNumberStrictEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();

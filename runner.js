@@ -25,23 +25,20 @@ const runTestFile = file => {
     file.substring(0, file.length - 3) + ".js"
   );
   const startTime = Date.now();
-
   const testRunning = spawn("node", [outputFile]);
-  /**
-   * testRunning.stdout.on('data', () => {}) to display output par test.
-   */
-  let output = "";
+
+  let testOutput = "";
 
   testRunning.stdout.on("data", chunk => {
     const out = chunk.toString();
     if (!out) return;
-    output += out;
+    testOutput += out;
   });
 
   testRunning.stderr.on("data", chunk => {
     const out = chunk.toString();
     if (!out) return;
-    output += colors.red(out);
+    testOutput += colors.red(out);
     /**
      * Add filename and line number.
      */
@@ -51,7 +48,7 @@ const runTestFile = file => {
     const duration = Date.now() - startTime;
 
     const finished = code ? colors.red("Finished-") : colors.white("Finished-");
-    console.log(output);
+    console.log(testOutput);
     console.log(file, finished, `- ${duration} ms`);
   });
 };

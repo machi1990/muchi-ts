@@ -1,11 +1,10 @@
 import * as colors from "colors";
-import * as assert from "assert";
 
 /**
  * testsRegistry by tested class.
  * 1) Closure - an instance of testsRegistry par each test class.
- * 3) register target ==> me (class) to reference it later on.
- * Group by me (file path / name ?) to establist an registry by function during test execution.
+ * 2) register target ==> me (class) to reference it later on.
+ * 3) @context and implement context execution.
  */
 const SPACE: string = " ";
 const SKIPPED: string = colors.cyan("Skipped- ");
@@ -15,14 +14,17 @@ const ACTUAL: string = colors.bgGreen("actual - ");
 const EXPECTED: string = colors.bgRed("expected - ");
 
 const operatorInWords = {
-  "==": "equal to",
-  "===": "strict equal to",
-  deepEqual: "deep equal to",
-  deepStrictEqual: "deep strict equal to"
+  truthy: "to be",
+  "==": "to equal to",
+  "===": "to strict equal to",
+  "!==": "to not equal to",
+  "!===": "to not strict equal to",
+  deepEqual: "to deep equal to",
+  notDeepEqual: "to not deep equal to"
 };
 
 interface Opts {
-  message: string;
+  message?: string;
   ignore?: boolean;
 }
 
@@ -30,14 +32,13 @@ interface Setup {
   key: string;
   before?: boolean;
   after?: boolean;
-  me: Function;
+  me: Function; // TODO 1)
 }
 
 interface Test {
   key: string;
   message: string;
-  name: string;
-  me: Function;
+  me: Function; // TODO 2)
   ignore: boolean;
 }
 
@@ -68,14 +69,9 @@ export const testing = () => {
     }
   ) => {
     return (target, key, descriptor) => {
-      const name = `${target.constructor}`
-        .replace(/function\s*/, "")
-        .split(/\s*\(/)[0]
-        .trim();
       const test: Test = {
         key,
         message: opts.message,
-        name: `${name}.${key}()`,
         me: target,
         ignore: opts.ignore
       };
@@ -86,32 +82,30 @@ export const testing = () => {
 
   const run = (opts: Opts = { message: "", ignore: false }) => {
     return TestContext => {
-      const name: string = `${TestContext}`
+      const testContexName: string = `${TestContext}`
         .replace(/function\s*/, "")
         .split(/\s*\(/)[0]
         .trim();
-      const message: string = opts.message;
+
+      const message: string = opts.message || testContexName;
 
       let testContext, before: Setup, after: Setup;
       const testContextIgnored: boolean = opts.ignore;
 
       if (testContextIgnored) {
-        console.log(SKIPPED, colors.cyan(name), colors.cyan(message));
+        console.log(SKIPPED, colors.cyan(message));
       } else {
-        console.log(colors.white(name), colors.white(message));
+        console.log(colors.white(message));
         testContext = new TestContext();
         before = setups.find(setup => setup.before);
         after = setups.find(setup => setup.after);
       }
 
-      testsRegistry.forEach((test: Test, index: number) => {
+      testsRegistry.forEach((test: Test) => {
+        const testMessage: string =
+          test.message || `${testContexName}.${test.key}()`;
         if (testContextIgnored || test.ignore) {
-          console.log(
-            SPACE,
-            SKIPPED,
-            colors.cyan(test.name),
-            colors.cyan(test.message)
-          );
+          console.log(SPACE, SKIPPED, colors.cyan(testMessage));
           return;
         }
 
@@ -124,17 +118,16 @@ export const testing = () => {
           console.log(
             SPACE,
             PASSED,
-            colors.green(test.name),
             colors.green(test.message),
             colors.gray(`- ${duration} ms`)
           );
         } catch (error) {
           duration = Date.now() - startTime;
-          const { message, actual, expected, operator } = error;
+          const { actual, expected, operator } = error;
           console.error(
             SPACE,
             FAILED,
-            colors.red(`${test.name} ${test.message}`),
+            colors.red(testMessage),
             colors.gray(` - ${duration} ms`)
           );
           console.info(
@@ -142,7 +135,7 @@ export const testing = () => {
             "assert",
             ACTUAL,
             colors.green(actual),
-            ` to ${operatorInWords[operator]}`,
+            `${operatorInWords[operator]}`,
             EXPECTED,
             colors.red(expected)
           );
@@ -153,22 +146,16 @@ export const testing = () => {
     };
   };
 
+  // TODO 3)
+  const context = (opts: Opts = { message: "", ignore: false }) => {
+    return (target, key, _descriptor) => {};
+  };
+
   return {
     run,
     test,
     after,
-    before
+    before,
+    context
   };
-};
-
-export const assertEqual = (firstArg, secondArg) => {
-  assert.equal(firstArg, secondArg);
-};
-
-export const assertStrictEqual = (firstArg, secondArg) => {
-  assert.strictEqual(firstArg, secondArg);
-};
-
-export const assertDeepEqual = (firstArg, secondArg) => {
-  assert.deepEqual(firstArg, secondArg);
 };
