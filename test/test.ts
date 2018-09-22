@@ -19,4 +19,9 @@ export default class Test {
       }
     };
   }
+
+  async testAsync(): Promise<string> {
+    const hello = await Promise.resolve("Hello async world");
+    return hello;
+  }
 }

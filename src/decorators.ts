@@ -5,7 +5,6 @@ import { Context } from "vm";
 /**
  * testsRegistry by tested class.
  * 1) @context and implement context execution.
- * 2) async functions / operations.
  */
 const SPACE: string = " ";
 const SKIPPED: string = colors.cyan("Skipped- ");
@@ -135,7 +134,7 @@ export const testing = () => {
         after = afters.find(setup => setup.canRunWithin(TestClass));
       }
 
-      testsRegistry.forEach((test: Test) => {
+      testsRegistry.forEach(async (test: Test) => {
         if (!test.canRunWithin(TestClass)) return;
 
         const testIgnored = test.ignore || testClassIgnored;
@@ -149,7 +148,7 @@ export const testing = () => {
 
         if (before) before.run(testContext);
         try {
-          test.run(testContext);
+          await test.run(testContext);
           duration = Date.now() - startTime;
           console.log(
             SPACE,

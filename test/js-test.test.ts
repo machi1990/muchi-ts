@@ -96,4 +96,13 @@ class JsTest {
       }
     });
   }
+
+  @test({ message: "Async function" })
+  async asyncFunctionTesting(): Promise<void> {
+    //When
+    const actual = await this.test.testAsync();
+
+    // Then
+    assertEqual(actual, "Hello async world");
+  }
 }
