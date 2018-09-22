@@ -1,10 +1,11 @@
+import "reflect-metadata";
 import * as colors from "colors";
-
+import { assertDeepEqual } from "./assertion";
+import { Context } from "vm";
 /**
  * testsRegistry by tested class.
- * 1) register target ==> me (class) to reference it later on.
- * 2) @context and implement context execution.
- * 3) async functions / operations.
+ * 1) @context and implement context execution.
+ * 2) async functions / operations.
  */
 const SPACE: string = " ";
 const SKIPPED: string = colors.cyan("Skipped- ");
@@ -28,37 +29,71 @@ interface Opts {
   ignore?: boolean;
 }
 
-interface Setup {
-  key: string;
-  before?: boolean;
-  after?: boolean;
-  me: Function; // TODO 1)
+interface Reflection {
+  constructor: string;
+  prepertyKeys: Array<PropertyKey>;
 }
 
+interface Setup {
+  run: (contex) => void;
+  canRunWithin: (TestClass) => boolean;
+}
+
+interface BeforeSetup extends Setup {}
+
+interface AfterSetup extends Setup {}
+
 interface Test {
-  key: string;
   message: string;
-  me: Function; // TODO 2)
   ignore: boolean;
+  run: (context: any) => void;
+  canRunWithin: (context) => boolean;
 }
 
 export const testing = () => {
-  const testsRegistry: Array<Test> = [];
-  const setups: Array<Setup> = [];
+  const testsRegistry: Array<Test> = [],
+    befores: Array<BeforeSetup> = [],
+    afters: Array<AfterSetup> = [];
+
+  const reflectTarget = (target): Reflection => {
+    return {
+      constructor: target.constructor,
+      prepertyKeys: Reflect.ownKeys(target)
+    };
+  };
+
+  const isSameReflection = (
+    firstArg: Reflection,
+    secondArg: Reflection
+  ): boolean => {
+    try {
+      assertDeepEqual(firstArg, secondArg);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const canRunWithin = (TestClass, target): boolean => {
+    const testContextReflection = {
+      constructor: TestClass.prototype.constructor,
+      prepertyKeys: Reflect.ownKeys(TestClass.prototype)
+    };
+
+    return isSameReflection(testContextReflection, reflectTarget(target));
+  };
 
   const before = (target, key, _descriptor) => {
-    setups.push({
-      key,
-      before: true,
-      me: target
+    befores.push({
+      run: context => context[key](),
+      canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
     });
   };
 
   const after = (target, key, _descriptor) => {
-    setups.push({
-      key,
-      after: true,
-      me: target
+    afters.push({
+      canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target),
+      run: context => context[key]()
     });
   };
 
@@ -69,11 +104,16 @@ export const testing = () => {
     }
   ) => {
     return (target, key, descriptor) => {
+      const name = `${target.constructor}`
+        .replace(/function\s*/g, "")
+        .split(/\(/)[0]
+        .trim();
+
       const test: Test = {
-        key,
-        message: opts.message,
-        me: target,
-        ignore: opts.ignore
+        message: opts.message || `${name}.${key}()`,
+        ignore: opts.ignore,
+        run: context => context[key](),
+        canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
       };
 
       testsRegistry.push(test);
@@ -81,35 +121,35 @@ export const testing = () => {
   };
 
   const run = (opts: Opts = { message: "", ignore: false }) => {
-    return TestContext => {
-      const testContexName: string = TestContext.name;
-      const message: string = opts.message || testContexName;
-
+    return TestClass => {
+      const message: string = opts.message || TestClass.name;
       let testContext, before: Setup, after: Setup;
-      const testContextIgnored: boolean = opts.ignore;
+      const testClassIgnored: boolean = opts.ignore;
 
-      if (testContextIgnored) {
+      if (testClassIgnored) {
         console.log(SKIPPED, colors.cyan(message));
       } else {
         console.log(colors.white(message));
-        testContext = new TestContext();
-        before = setups.find(setup => setup.before);
-        after = setups.find(setup => setup.after);
+        testContext = new TestClass();
+        before = befores.find(setup => setup.canRunWithin(TestClass));
+        after = afters.find(setup => setup.canRunWithin(TestClass));
       }
 
       testsRegistry.forEach((test: Test) => {
-        const testMessage: string =
-          test.message || `${testContexName}.${test.key}()`;
-        if (testContextIgnored || test.ignore) {
-          console.log(SPACE, SKIPPED, colors.cyan(testMessage));
+        if (!test.canRunWithin(TestClass)) return;
+
+        const testIgnored = test.ignore || testClassIgnored;
+        if (testIgnored) {
+          console.log(SPACE, SKIPPED, colors.cyan(test.message));
           return;
         }
 
-        if (before) testContext[before.key]();
         const startTime: number = Date.now();
         let duration: number = 0;
+
+        if (before) before.run(testContext);
         try {
-          testContext[test.key]();
+          test.run(testContext);
           duration = Date.now() - startTime;
           console.log(
             SPACE,
@@ -123,7 +163,7 @@ export const testing = () => {
           console.error(
             SPACE,
             FAILED,
-            colors.red(testMessage),
+            colors.red(test.message),
             colors.gray(` - ${duration} ms`)
           );
           console.info(
@@ -137,7 +177,7 @@ export const testing = () => {
           );
         }
 
-        if (after) testContext[after.key]();
+        if (after) after.run(testContext);
       });
     };
   };

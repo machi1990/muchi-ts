@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 var colors = require("colors");
+var assertion_1 = require("./assertion");
 /**
  * testsRegistry by tested class.
- * 1) register target ==> me (class) to reference it later on.
- * 2) @context and implement context execution.
- * 3) async functions / operations.
+ * 1) @context and implement context execution.
+ * 2) async functions / operations.
  */
 var SPACE = " ";
 var SKIPPED = colors.cyan("Skipped- ");
@@ -23,20 +24,48 @@ var operatorInWords = {
   notDeepEqual: "to not deep equal to"
 };
 exports.testing = function() {
-  var testsRegistry = [];
-  var setups = [];
+  var testsRegistry = [],
+    befores = [],
+    afters = [];
+  var reflectTarget = function(target) {
+    return {
+      constructor: target.constructor,
+      prepertyKeys: Reflect.ownKeys(target)
+    };
+  };
+  var isSameReflection = function(firstArg, secondArg) {
+    try {
+      assertion_1.assertDeepEqual(firstArg, secondArg);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+  var canRunWithin = function(TestClass, target) {
+    var testContextReflection = {
+      constructor: TestClass.prototype.constructor,
+      prepertyKeys: Reflect.ownKeys(TestClass.prototype)
+    };
+    return isSameReflection(testContextReflection, reflectTarget(target));
+  };
   var before = function(target, key, _descriptor) {
-    setups.push({
-      key: key,
-      before: true,
-      me: target
+    befores.push({
+      run: function(context) {
+        return context[key]();
+      },
+      canRunWithin: function(TestClass) {
+        return canRunWithin(TestClass, target);
+      }
     });
   };
   var after = function(target, key, _descriptor) {
-    setups.push({
-      key: key,
-      after: true,
-      me: target
+    afters.push({
+      canRunWithin: function(TestClass) {
+        return canRunWithin(TestClass, target);
+      },
+      run: function(context) {
+        return context[key]();
+      }
     });
   };
   var test = function(opts) {
@@ -47,11 +76,19 @@ exports.testing = function() {
       };
     }
     return function(target, key, descriptor) {
+      var name = ("" + target.constructor)
+        .replace(/function\s*/g, "")
+        .split(/\(/)[0]
+        .trim();
       var test = {
-        key: key,
-        message: opts.message,
-        me: target,
-        ignore: opts.ignore
+        message: opts.message || name + "." + key + "()",
+        ignore: opts.ignore,
+        run: function(context) {
+          return context[key]();
+        },
+        canRunWithin: function(TestClass) {
+          return canRunWithin(TestClass, target);
+        }
       };
       testsRegistry.push(test);
     };
@@ -60,35 +97,34 @@ exports.testing = function() {
     if (opts === void 0) {
       opts = { message: "", ignore: false };
     }
-    return function(TestContext) {
-      var testContexName = TestContext.name;
-      var message = opts.message || testContexName;
+    return function(TestClass) {
+      var message = opts.message || TestClass.name;
       var testContext, before, after;
-      var testContextIgnored = opts.ignore;
-      if (testContextIgnored) {
+      var testClassIgnored = opts.ignore;
+      if (testClassIgnored) {
         console.log(SKIPPED, colors.cyan(message));
       } else {
         console.log(colors.white(message));
-        testContext = new TestContext();
-        before = setups.find(function(setup) {
-          return setup.before;
+        testContext = new TestClass();
+        before = befores.find(function(setup) {
+          return setup.canRunWithin(TestClass);
         });
-        after = setups.find(function(setup) {
-          return setup.after;
+        after = afters.find(function(setup) {
+          return setup.canRunWithin(TestClass);
         });
       }
       testsRegistry.forEach(function(test) {
-        var testMessage =
-          test.message || testContexName + "." + test.key + "()";
-        if (testContextIgnored || test.ignore) {
-          console.log(SPACE, SKIPPED, colors.cyan(testMessage));
+        if (!test.canRunWithin(TestClass)) return;
+        var testIgnored = test.ignore || testClassIgnored;
+        if (testIgnored) {
+          console.log(SPACE, SKIPPED, colors.cyan(test.message));
           return;
         }
-        if (before) testContext[before.key]();
         var startTime = Date.now();
         var duration = 0;
+        if (before) before.run(testContext);
         try {
-          testContext[test.key]();
+          test.run(testContext);
           duration = Date.now() - startTime;
           console.log(
             SPACE,
@@ -104,7 +140,7 @@ exports.testing = function() {
           console.error(
             SPACE,
             FAILED,
-            colors.red(testMessage),
+            colors.red(test.message),
             colors.gray(" - " + duration + " ms")
           );
           console.info(
@@ -117,7 +153,7 @@ exports.testing = function() {
             colors.red(expected)
           );
         }
-        if (after) testContext[after.key]();
+        if (after) after.run(testContext);
       });
     };
   };

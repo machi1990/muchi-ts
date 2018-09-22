@@ -10,5 +10,5 @@
     "allowJs": true,
     "checkJs": false
   },
-  "exclude": ["node_modules", "build", "runner.js"]
+  "exclude": ["node_modules", "build", "muchi.js"]
 }
