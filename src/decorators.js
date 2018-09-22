@@ -61,10 +61,7 @@ exports.testing = function() {
       opts = { message: "", ignore: false };
     }
     return function(TestContext) {
-      var testContexName = ("" + TestContext)
-        .replace(/function\s*/, "")
-        .split(/\s*\(/)[0]
-        .trim();
+      var testContexName = TestContext.name;
       var message = opts.message || testContexName;
       var testContext, before, after;
       var testContextIgnored = opts.ignore;

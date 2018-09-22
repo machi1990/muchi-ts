@@ -8,17 +8,12 @@
     "name": "Manyanda Chitimbo"
   },
   "scripts": {
-    "start": "node runner.js test",
+    "start": "node muchi.js test",
     "format": "pretty-quick --staged",
     "build": "tsc -p tsconfig.prod.json",
-    "precommit": " lint-staged && npm run format"
+    "precommit": "lint-staged && npm run format"
   },
-  "lint-staged": {
-    ".*": [
-      "npm run build",
-      "git add ."
-    ]
-  },
+  "lint-staged": {},
   "devDependencies": {
     "husky": "0.14.3",
     "lint-staged": "^7.3.0",

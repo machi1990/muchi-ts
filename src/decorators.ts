@@ -82,11 +82,7 @@ export const testing = () => {
 
   const run = (opts: Opts = { message: "", ignore: false }) => {
     return TestContext => {
-      const testContexName: string = `${TestContext}`
-        .replace(/function\s*/, "")
-        .split(/\s*\(/)[0]
-        .trim();
-
+      const testContexName: string = TestContext.name;
       const message: string = opts.message || testContexName;
 
       let testContext, before: Setup, after: Setup;

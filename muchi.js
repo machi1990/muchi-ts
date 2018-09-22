@@ -1,11 +1,11 @@
 #!/usr/bin/env node
+const fs = require("fs");
 const path = require("path");
 const assert = require("assert");
 const colors = require("colors");
 const { spawn } = require("child_process");
-const testFiles = process.argv.slice(2);
-const fs = require("fs");
 
+const testFiles = process.argv.slice(2);
 const tsconfigFile = "./tsconfig.json";
 const { compilerOptions } = require(tsconfigFile);
 assert(compilerOptions, "invalid ts config file");
