@@ -6,11 +6,14 @@ const colors = require("colors");
 const { spawn } = require("child_process");
 
 const testFiles = process.argv.slice(2);
+
 const tsconfigFile = "./tsconfig.json";
 const { compilerOptions } = require(tsconfigFile);
+
 assert(compilerOptions, "invalid ts config file");
 const tsConfigOutDir = compilerOptions.outDir;
 assert(tsConfigOutDir, "expect output folder to be defined");
+
 const compileOpts = ["--build", tsconfigFile];
 
 const runTestFile = file => {
@@ -33,9 +36,6 @@ const runTestFile = file => {
     const out = chunk.toString();
     if (!out) return;
     testOutput += colors.red(out);
-    /**
-     * Add filename and line number.
-     */
   });
 
   testRunning.on("close", code => {
@@ -47,6 +47,9 @@ const runTestFile = file => {
   });
 };
 
+/**
+ * TODO. Review compilations.
+ */
 const fileCompilation = spawn("tsc", compileOpts);
 fileCompilation.stdout.pipe(process.stdout);
 fileCompilation.stderr.pipe(process.stderr);

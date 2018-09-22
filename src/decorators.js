@@ -133,7 +133,6 @@ require("reflect-metadata");
 var colors = require("colors");
 var assertion_1 = require("./assertion");
 /**
- * testsRegistry by tested class.
  * 1) @context and implement context execution.
  */
 var SPACE = " ";
@@ -151,31 +150,29 @@ var operatorInWords = {
   deepEqual: "to deep equal to",
   notDeepEqual: "to not deep equal to"
 };
-exports.testing = function() {
-  var testsRegistry = [],
+var isSame = function(firstArg, secondArg) {
+  try {
+    assertion_1.assertDeepEqual(firstArg, secondArg);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+var canRunWithin = function(TestClass, target) {
+  var testClassReflection = {
+    constructor: TestClass.prototype.constructor,
+    prepertyKeys: Reflect.ownKeys(TestClass.prototype)
+  };
+  var targetReflextion = {
+    constructor: target.constructor,
+    prepertyKeys: Reflect.ownKeys(target)
+  };
+  return isSame(testClassReflection, targetReflextion);
+};
+var testing = function() {
+  var testsSetups = [],
     befores = [],
     afters = [];
-  var reflectTarget = function(target) {
-    return {
-      constructor: target.constructor,
-      prepertyKeys: Reflect.ownKeys(target)
-    };
-  };
-  var isSameReflection = function(firstArg, secondArg) {
-    try {
-      assertion_1.assertDeepEqual(firstArg, secondArg);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  };
-  var canRunWithin = function(TestClass, target) {
-    var testContextReflection = {
-      constructor: TestClass.prototype.constructor,
-      prepertyKeys: Reflect.ownKeys(TestClass.prototype)
-    };
-    return isSameReflection(testContextReflection, reflectTarget(target));
-  };
   var before = function(target, key, _descriptor) {
     befores.push({
       run: function(context) {
@@ -188,11 +185,11 @@ exports.testing = function() {
   };
   var after = function(target, key, _descriptor) {
     afters.push({
-      canRunWithin: function(TestClass) {
-        return canRunWithin(TestClass, target);
-      },
       run: function(context) {
         return context[key]();
+      },
+      canRunWithin: function(TestClass) {
+        return canRunWithin(TestClass, target);
       }
     });
   };
@@ -205,8 +202,9 @@ exports.testing = function() {
     }
     return function(target, key, descriptor) {
       var name = ("" + target.constructor)
-        .replace(/function\s*/g, "")
-        .split(/\(/)[0]
+        .replace(/[fF]unction\s*/g, "")
+        .split(/\(/)
+        .shift()
         .trim();
       var test = {
         message: opts.message || name + "." + key + "()",
@@ -218,8 +216,15 @@ exports.testing = function() {
           return canRunWithin(TestClass, target);
         }
       };
-      testsRegistry.push(test);
+      testsSetups.push(test);
     };
+  };
+  // TODO 3)
+  var context = function(opts) {
+    if (opts === void 0) {
+      opts = { message: "", ignore: false };
+    }
+    return function(target, key, _descriptor) {};
   };
   var run = function(opts) {
     if (opts === void 0) {
@@ -241,78 +246,34 @@ exports.testing = function() {
           return setup.canRunWithin(TestClass);
         });
       }
-      testsRegistry.forEach(function(test) {
+      testsSetups.forEach(function(test) {
         return __awaiter(_this, void 0, void 0, function() {
-          var testIgnored,
-            startTime,
-            duration,
-            error_1,
-            actual,
-            expected,
-            operator;
           return __generator(this, function(_a) {
             switch (_a.label) {
               case 0:
                 if (!test.canRunWithin(TestClass)) return [2 /*return*/];
-                testIgnored = test.ignore || testClassIgnored;
-                if (testIgnored) {
-                  console.log(SPACE, SKIPPED, colors.cyan(test.message));
-                  return [2 /*return*/];
-                }
-                startTime = Date.now();
-                duration = 0;
-                if (before) before.run(testContext);
-                _a.label = 1;
+                return [
+                  4 /*yield*/,
+                  runTest(
+                    test,
+                    {
+                      testContext: testContext,
+                      testClassIgnored: testClassIgnored
+                    },
+                    {
+                      after: after,
+                      before: before
+                    }
+                  )
+                ];
               case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, test.run(testContext)];
-              case 2:
                 _a.sent();
-                duration = Date.now() - startTime;
-                console.log(
-                  SPACE,
-                  PASSED,
-                  colors.green(test.message),
-                  colors.gray("- " + duration + " ms")
-                );
-                return [3 /*break*/, 4];
-              case 3:
-                error_1 = _a.sent();
-                duration = Date.now() - startTime;
-                (actual = error_1.actual),
-                  (expected = error_1.expected),
-                  (operator = error_1.operator);
-                console.error(
-                  SPACE,
-                  FAILED,
-                  colors.red(test.message),
-                  colors.gray(" - " + duration + " ms")
-                );
-                console.info(
-                  SPACE,
-                  "assert",
-                  ACTUAL,
-                  colors.green(actual),
-                  "" + operatorInWords[operator],
-                  EXPECTED,
-                  colors.red(expected)
-                );
-                return [3 /*break*/, 4];
-              case 4:
-                if (after) after.run(testContext);
                 return [2 /*return*/];
             }
           });
         });
       });
     };
-  };
-  // TODO 3)
-  var context = function(opts) {
-    if (opts === void 0) {
-      opts = { message: "", ignore: false };
-    }
-    return function(target, key, _descriptor) {};
   };
   return {
     run: run,
@@ -321,4 +282,80 @@ exports.testing = function() {
     before: before,
     context: context
   };
+};
+exports.default = testing;
+var runTest = function(test, context, setups) {
+  return __awaiter(_this, void 0, void 0, function() {
+    var after,
+      before,
+      testContext,
+      testClassIgnored,
+      startTime,
+      duration,
+      testIgnored,
+      error_1,
+      actual,
+      expected,
+      operator;
+    return __generator(this, function(_a) {
+      switch (_a.label) {
+        case 0:
+          (after = setups.after), (before = setups.before);
+          (testContext = context.testContext),
+            (testClassIgnored = context.testClassIgnored);
+          startTime = Date.now();
+          duration = 0;
+          testIgnored = test.ignore || testClassIgnored;
+          if (testIgnored) {
+            console.log(SPACE, SKIPPED, colors.cyan(test.message));
+            return [2 /*return*/];
+          }
+          if (before) before.run(testContext);
+          _a.label = 1;
+        case 1:
+          _a.trys.push([1, 3, , 4]);
+          return [4 /*yield*/, test.run(testContext)];
+        case 2:
+          _a.sent();
+          duration = Date.now() - startTime;
+          console.log(
+            SPACE,
+            PASSED,
+            colors.green(test.message),
+            colors.gray("- " + duration + " ms")
+          );
+          return [3 /*break*/, 4];
+        case 3:
+          error_1 = _a.sent();
+          duration = Date.now() - startTime;
+          (actual = error_1.actual),
+            (expected = error_1.expected),
+            (operator = error_1.operator);
+          console.error(
+            SPACE,
+            FAILED,
+            colors.red(test.message),
+            colors.gray(" - " + duration + " ms")
+          );
+          /**
+           * Add filename and line number.
+           */
+          console.info(
+            SPACE,
+            SPACE,
+            "reason",
+            ACTUAL,
+            colors.green(actual),
+            "" + operatorInWords[operator],
+            EXPECTED,
+            colors.red(expected)
+          );
+          console.log(SPACE);
+          return [3 /*break*/, 4];
+        case 4:
+          if (after) after.run(testContext);
+          return [2 /*return*/];
+      }
+    });
+  });
 };
