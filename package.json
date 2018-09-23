@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node muchi.js test",
     "format": "pretty-quick --staged",
-    "build": "tsc -p tsconfig.prod.json",
+    "build": "tsc",
     "precommit": "lint-staged && npm run format"
   },
   "lint-staged": {},

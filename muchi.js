@@ -3,26 +3,26 @@ const fs = require("fs");
 const path = require("path");
 const assert = require("assert");
 const colors = require("colors");
+const compile = require("./compile");
 const { spawn } = require("child_process");
 
-const testFiles = process.argv.slice(2);
+const tsConfigOutDir = "build";
 
-const tsconfigFile = "./tsconfig.json";
-const { compilerOptions } = require(tsconfigFile);
+const runTestFiles = files => {
+  files
+    .map(file => ({
+      file,
+      transpiled: path.join(
+        tsConfigOutDir,
+        file.substring(0, file.length - 3) + ".js"
+      )
+    }))
+    .forEach(runTestFile);
+};
 
-assert(compilerOptions, "invalid ts config file");
-const tsConfigOutDir = compilerOptions.outDir;
-assert(tsConfigOutDir, "expect output folder to be defined");
-
-const compileOpts = ["--build", tsconfigFile];
-
-const runTestFile = file => {
-  const outputFile = path.join(
-    tsConfigOutDir,
-    file.substring(0, file.length - 3) + ".js"
-  );
+const runTestFile = ({ file, transpiled }) => {
   const startTime = Date.now();
-  const testRunning = spawn("node", [outputFile]);
+  const testRunning = spawn("node", [transpiled]);
 
   let testOutput = "";
 
@@ -47,24 +47,49 @@ const runTestFile = file => {
   });
 };
 
-/**
- * TODO. Review compilations.
- */
-const fileCompilation = spawn("tsc", compileOpts);
-fileCompilation.stdout.pipe(process.stdout);
-fileCompilation.stderr.pipe(process.stderr);
-fileCompilation.on("close", exitCode => {
-  if (exitCode) process.exit(exitCode);
-  const runFile = file => {
-    const stat = fs.statSync(file);
-    const isTsFile = stat.isFile() && path.extname(file) === ".ts";
-    if (isTsFile) {
-      runTestFile(file);
-    } else if (stat.isDirectory()) {
-      fs.readdirSync(file)
-        .map(child => path.join(file, child))
-        .forEach(runFile);
+const flatten = array => {
+  let res = [];
+  array.forEach(element => {
+    if (Array.isArray(element)) {
+      res = res.concat(flatten(element));
+    } else {
+      res.push(element);
     }
+  });
+  return res;
+};
+
+/**
+ * Fetch test files.
+ * TODO.
+ * - regex???
+ */
+const filesName = process.argv.slice(2).reduce((allFiles, file) => {
+  const fn = file => {
+    const stat = fs.statSync(file);
+    const isTsFile =
+      stat.isFile() &&
+      (path.extname(file) === ".ts" || path.extname(file) === ".js");
+    if (isTsFile) {
+      return [file];
+    } else if (stat.isDirectory()) {
+      const lsDir = fs
+        .readdirSync(file)
+        .map(child => fn(path.join(file, child)));
+      return flatten(lsDir);
+    }
+    return [];
   };
-  testFiles.forEach(runFile);
-});
+
+  return [...allFiles, ...fn(file)];
+}, []);
+
+/**
+ * compile
+ */
+compile(filesName, tsConfigOutDir);
+
+/**
+ * run test files.
+ */
+runTestFiles(filesName);
