@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-const fs = require("fs");
 const path = require("path");
 const assert = require("assert");
 const colors = require("colors");
-const compile = require("./compile");
+const compile = require("../compile");
 const { spawn } = require("child_process");
+const { statSync, readdirSync } = require("fs");
 
 const tsConfigOutDir = "build";
 
@@ -66,16 +66,14 @@ const flatten = array => {
  */
 const filesName = process.argv.slice(2).reduce((allFiles, file) => {
   const fn = file => {
-    const stat = fs.statSync(file);
+    const stat = statSync(file);
     const isTsFile =
       stat.isFile() &&
       (path.extname(file) === ".ts" || path.extname(file) === ".js");
     if (isTsFile) {
       return [file];
     } else if (stat.isDirectory()) {
-      const lsDir = fs
-        .readdirSync(file)
-        .map(child => fn(path.join(file, child)));
+      const lsDir = readdirSync(file).map(child => fn(path.join(file, child)));
       return flatten(lsDir);
     }
     return [];

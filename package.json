@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "Annotation based test runner for JavaScript and TypeScript, written in TypeScript.",
   "main": "index.js",
-  "license": "MIT",
-  "author": {
-    "email": "manyanda.chitimbo@gmail.com",
-    "name": "Manyanda Chitimbo"
+  "bin": {
+    "muchi": "./bin/muchi.js"
   },
   "scripts": {
-    "start": "node muchi.js test",
+    "prestart": "yarn link",
+    "start": "muchi test",
+    "poststart": "yarn unlink",
     "format": "pretty-quick --staged",
     "build": "tsc",
     "precommit": "lint-staged && npm run format"
@@ -26,5 +26,10 @@
     "assert": "1.4.1",
     "colors": "1.3.2",
     "typescript": "3.0.3"
+  },
+  "license": "MIT",
+  "author": {
+    "email": "manyanda.chitimbo@gmail.com",
+    "name": "Manyanda Chitimbo"
   }
 }

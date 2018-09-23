@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import * as colors from "colors";
 import { assertDeepEqual } from "./assertion";
-import { Context } from "vm";
+
 /**
  * 1) @context and implement context execution.
  */
