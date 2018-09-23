@@ -1,14 +1,20 @@
 import * as assert from "assert";
+import AssertionError from "./interfaces/assertion-error";
+import {
+  TRUTHY,
+  EQL_OP,
+  STRICT_EQL_OP,
+  DEEP_EQL_OP,
+  NOT_EQL_OP,
+  NOT_STRICT_EQL_OP,
+  NOT_DEEP_EQL_OP
+} from "./decorators/utils/op";
+
 /**
  * Add more here.
  * - error assertion
  *  etc
  */
-interface AssertionError {
-  actual: any;
-  expected: any;
-  operator: string;
-}
 
 export const assertTruthy = value => {
   try {
@@ -16,8 +22,8 @@ export const assertTruthy = value => {
   } catch (error) {
     const assertionError: AssertionError = {
       actual: value,
-      expected: "truthy",
-      operator: "truthy"
+      expected: TRUTHY,
+      operator: TRUTHY
     };
     throw assertionError;
   }
@@ -30,7 +36,7 @@ export const assertEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: "=="
+      operator: EQL_OP
     };
     throw assertionError;
   }
@@ -43,7 +49,7 @@ export const assertStrictEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: "==="
+      operator: STRICT_EQL_OP
     };
     throw assertionError;
   }
@@ -56,7 +62,7 @@ export const assertDeepEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: "deepEqual"
+      operator: DEEP_EQL_OP
     };
     throw assertionError;
   }
@@ -69,7 +75,7 @@ export const assertNotEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: "!=="
+      operator: NOT_EQL_OP
     };
     throw assertionError;
   }
@@ -82,7 +88,7 @@ export const assertNotStrictEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: "!==="
+      operator: NOT_STRICT_EQL_OP
     };
     throw assertionError;
   }
@@ -95,7 +101,7 @@ export const assertNotDeepEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: "notDeepEqual"
+      operator: NOT_DEEP_EQL_OP
     };
     throw assertionError;
   }

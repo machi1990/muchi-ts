@@ -1,3 +1,3 @@
 export * from "./src/assertion";
-import testing from "./src/decorators";
-export const { run, test, after, before } = testing();
+import muchi from "./src/decorators/js-muchi";
+export const { JsMuchi, test, after, before } = muchi();

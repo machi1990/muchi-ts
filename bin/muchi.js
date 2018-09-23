@@ -40,8 +40,8 @@ const runTestFile = ({ file, transpiled }) => {
 
   testRunning.on("close", code => {
     const duration = Date.now() - startTime;
-
     const finished = code ? colors.red("Finished-") : colors.white("Finished-");
+
     console.log(testOutput);
     console.log(file, finished, `- ${duration} ms`);
   });

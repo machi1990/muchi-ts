@@ -1,16 +1,15 @@
 import {
-  run,
   test,
   after,
   before,
+  JsMuchi,
   assertEqual,
-  assertStrictEqual,
-  assertDeepEqual
+  assertStrictEqual
 } from "../";
 
 import Test from "./test";
 
-@run({ message: "Ignored JsTesting using Annotation", ignore: true })
+@JsMuchi({ message: "Ignored JsTesting using Annotation", ignore: true })
 class JsTestIgnored {
   private test: Test;
 

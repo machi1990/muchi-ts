@@ -1,8 +1,8 @@
 import {
-  run,
   test,
   after,
   before,
+  JsMuchi,
   assertEqual,
   assertStrictEqual,
   assertDeepEqual
@@ -10,7 +10,7 @@ import {
 
 import Test from "./test";
 
-@run({ message: "JsTesting using Annotation" })
+@JsMuchi({ message: "JsTesting using Annotation" })
 class JsTest {
   private test: Test;
 
@@ -22,7 +22,7 @@ class JsTest {
   }
 
   @after
-  after(): void {
+  after(): any {
     this.test = null;
   }
 
