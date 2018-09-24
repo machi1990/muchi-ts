@@ -59,28 +59,29 @@ const flatten = array => {
   return res;
 };
 
-/**
- * Fetch test files.
- * TODO.
- * - regex???
- */
-const filesName = process.argv.slice(2).reduce((allFiles, file) => {
-  const fn = file => {
-    const stat = statSync(file);
-    const isTsFile =
-      stat.isFile() &&
-      (path.extname(file) === ".ts" || path.extname(file) === ".js");
-    if (isTsFile) {
-      return [file];
-    } else if (stat.isDirectory()) {
-      const lsDir = readdirSync(file).map(child => fn(path.join(file, child)));
-      return flatten(lsDir);
-    }
-    return [];
-  };
+const testsFilesArg = process.argv.slice(2);
+const fileRegexes = testsFilesArg.map(fileArg => new RegExp(fileArg));
+const tsOrJsExtension = /(\.[tj]s)$/;
+const isTestFile = file =>
+  tsOrJsExtension.test(file) && fileRegexes.some(regex => regex.test(file));
 
-  return [...allFiles, ...fn(file)];
-}, []);
+const ls = file => {
+  const stat = statSync(file);
+  const isTestCodeFile = stat.isFile() && isTestFile(file);
+  const isCodeDir =
+    stat.isDirectory() && !["node_modules", ".git"].includes(file);
+
+  if (isCodeDir) {
+    const lsDir = readdirSync(file).map(child => ls(path.join(file, child)));
+    return flatten(lsDir);
+  } else if (isTestCodeFile) {
+    return [file];
+  }
+  return [];
+};
+
+const workingDir = ".";
+const filesName = ls(workingDir);
 
 /**
  * compile

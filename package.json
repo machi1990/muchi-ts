@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prestart": "yarn link",
-    "start": "muchi test",
+    "start": "muchi test/*.test.ts",
     "poststart": "yarn unlink",
     "format": "pretty-quick --staged",
     "build": "tsc",
