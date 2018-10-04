@@ -15,6 +15,42 @@ import {
   EXPECTED
 } from "./utils/hard-corded-value";
 
+const JsMuchiRun = (
+  beforeSetups: Array<BeforeSetup>,
+  testsSetups: Array<TestSetup>,
+  afterSetups: Array<AfterSetup>
+) => (opts: AnnotationOpts = { message: "", ignore: false }) => {
+  return TestClass => {
+    const message: string = opts.message || TestClass.name;
+    let testContext, before: BeforeSetup, after: AfterSetup;
+    const testClassIgnored: boolean = opts.ignore;
+
+    if (testClassIgnored) {
+      console.log(SKIPPED, colors.cyan(message));
+    } else {
+      console.log(colors.white(message));
+      testContext = new TestClass();
+      before = beforeSetups.find(setup => setup.canRunWithin(TestClass));
+      after = afterSetups.find(setup => setup.canRunWithin(TestClass));
+    }
+
+    testsSetups.forEach(async (test: TestSetup) => {
+      if (!test.canRunWithin(TestClass)) return;
+      await runTest(
+        test,
+        {
+          testContext,
+          testClassIgnored
+        },
+        {
+          after,
+          before
+        }
+      );
+    });
+  };
+};
+
 const runTest = async (
   test: TestSetup,
   context: any,
@@ -67,42 +103,6 @@ const runTest = async (
     console.log(SPACE);
   }
   if (after) after.run(testContext);
-};
-
-const JsMuchiRun = (
-  beforeSetups: Array<BeforeSetup>,
-  testsSetups: Array<TestSetup>,
-  afterSetups: Array<AfterSetup>
-) => (opts: AnnotationOpts = { message: "", ignore: false }) => {
-  return TestClass => {
-    const message: string = opts.message || TestClass.name;
-    let testContext, before: BeforeSetup, after: AfterSetup;
-    const testClassIgnored: boolean = opts.ignore;
-
-    if (testClassIgnored) {
-      console.log(SKIPPED, colors.cyan(message));
-    } else {
-      console.log(colors.white(message));
-      testContext = new TestClass();
-      before = beforeSetups.find(setup => setup.canRunWithin(TestClass));
-      after = afterSetups.find(setup => setup.canRunWithin(TestClass));
-    }
-
-    testsSetups.forEach(async (test: TestSetup) => {
-      if (!test.canRunWithin(TestClass)) return;
-      await runTest(
-        test,
-        {
-          testContext,
-          testClassIgnored
-        },
-        {
-          after,
-          before
-        }
-      );
-    });
-  };
 };
 
 const JsMuchi = () => {
