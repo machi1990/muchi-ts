@@ -8,13 +8,38 @@ import {
   NOT_EQL_OP,
   NOT_STRICT_EQL_OP,
   NOT_DEEP_EQL_OP
-} from "./decorators/utils/op";
+} from "./utils/op";
 
 /**
  * Add more here.
  * - error assertion
  *  etc
  */
+
+const assertions = [
+  "assertTruthy",
+  "assertEqual",
+  "assertStrictEqual",
+  "assertDeepEqual",
+  "assertNotEqual",
+  "assertNotStrictEqual",
+  "assertNotDeepEqual"
+].map(method => new RegExp(`at Object.exports.${method} (\.*/assertion.ts)`));
+
+const findFailingLineNumberFromError = error => {
+  const stack = error.stack;
+  if (!stack) return "";
+  const stackLines = stack.split("\n");
+  let index = 0;
+  for (const line of stackLines) {
+    ++index;
+    if (assertions.some(assertion => assertion.test(line))) {
+      break;
+    }
+  }
+
+  return stackLines[index].trim();
+};
 
 export const assertTruthy = value => {
   try {
@@ -23,7 +48,8 @@ export const assertTruthy = value => {
     const assertionError: AssertionError = {
       actual: value,
       expected: TRUTHY,
-      operator: TRUTHY
+      operator: TRUTHY,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
@@ -36,7 +62,8 @@ export const assertEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: EQL_OP
+      operator: EQL_OP,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
@@ -49,7 +76,8 @@ export const assertStrictEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: STRICT_EQL_OP
+      operator: STRICT_EQL_OP,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
@@ -62,7 +90,8 @@ export const assertDeepEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: DEEP_EQL_OP
+      operator: DEEP_EQL_OP,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
@@ -75,7 +104,8 @@ export const assertNotEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: NOT_EQL_OP
+      operator: NOT_EQL_OP,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
@@ -88,7 +118,8 @@ export const assertNotStrictEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: NOT_STRICT_EQL_OP
+      operator: NOT_STRICT_EQL_OP,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
@@ -101,7 +132,8 @@ export const assertNotDeepEqual = (firstArg, secondArg) => {
     const assertionError: AssertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: NOT_DEEP_EQL_OP
+      operator: NOT_DEEP_EQL_OP,
+      stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }

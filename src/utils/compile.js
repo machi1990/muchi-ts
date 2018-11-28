@@ -10,7 +10,9 @@ const defaultCompilerOpts = {
   target: ts.ScriptTarget.ES5,
   module: ts.ModuleKind.CommonJS,
   experimentalDecorators: true,
-  emitDecoratorMetadata: true
+  emitDecoratorMetadata: true,
+  inlineSourceMap: true,
+  inlineSources: true
 };
 
 module.exports = (fileNames, outputDir = undefined) => {

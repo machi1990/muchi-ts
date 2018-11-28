@@ -1,7 +1,10 @@
-import AnnotationOpts from "../interfaces/annotation-opts";
 import { TestSetup } from "../interfaces/setup";
-import canRunWithin from "./utils/can-run-within";
+import canRunWithin from "../utils/can-run-within";
+import AnnotationOpts from "../interfaces/annotation-opts";
 
+/**
+ * TODO - test setup registry
+ */
 const test = (testsSetups: Array<TestSetup>) => (
   opts: AnnotationOpts = {
     message: "",
@@ -15,14 +18,37 @@ const test = (testsSetups: Array<TestSetup>) => (
       .shift()
       .trim();
 
-    const test: TestSetup = {
-      message: opts.message || `${name}.${key}()`,
-      ignore: opts.ignore,
-      run: context => context[key](),
-      canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
-    };
+    const message: string = opts.message || `${name}.${key}()`;
+    const ignore: boolean = opts.ignore || false;
 
-    testsSetups.push(test);
+    const correspondingTest: TestSetup = testsSetups.find(
+      ({ key: testKey, canRunWithin }) => {
+        return key === testKey && canRunWithin(target);
+      }
+    );
+
+    if (correspondingTest) {
+      /**
+       * Tests already registered using @Context decorator
+       * Updates only message and ignore values
+       */
+      correspondingTest.message = message;
+      correspondingTest.ignore =
+        correspondingTest.contextSetup.ignore || ignore;
+    } else {
+      /**
+       * Create a new test setup and register it
+       */
+      const testSetup: TestSetup = {
+        key,
+        ignore,
+        message,
+        order: testsSetups.length,
+        run: context => context[key](),
+        canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
+      };
+      testsSetups.push(testSetup);
+    }
   };
 };
 

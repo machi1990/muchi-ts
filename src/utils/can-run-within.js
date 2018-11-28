@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var reflection_1 = require("../../interfaces/reflection");
+var reflection_1 = require("../interfaces/reflection");
 var canRunWithin = function(TestClass, target) {
   var testClassReflection = {
     constructor: TestClass.prototype.constructor,

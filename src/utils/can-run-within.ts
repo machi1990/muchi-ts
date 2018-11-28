@@ -1,9 +1,14 @@
-import { Reflection, isSame } from "../../interfaces/reflection";
+import { Reflection, isSame } from "../interfaces/reflection";
 
+/**
+ * Checks if two classes are the same #mini-hack
+ * @param TestClass
+ * @param target
+ */
 const canRunWithin = (TestClass, target): boolean => {
   const testClassReflection: Reflection = {
-    constructor: TestClass.prototype.constructor,
-    prepertyKeys: Reflect.ownKeys(TestClass.prototype)
+    constructor: TestClass.constructor,
+    prepertyKeys: Reflect.ownKeys(TestClass)
   };
 
   const targetReflextion: Reflection = {
