@@ -7,7 +7,6 @@ import context from "./context";
 import * as colors from "colors";
 import { Op } from "../utils/op";
 import { TYPE, Logger } from "../utils/logger";
-import compareTestSetup from "../utils/compare-test-setup";
 import AnnotationOpts from "../interfaces/annotation-opts";
 import { TestSetup, BeforeSetup, AfterSetup } from "../interfaces/setup";
 
@@ -19,19 +18,23 @@ import {
   ACTUAL,
   EXPECTED
 } from "../utils/hard-corded-value";
+import BeforeRegistry from "../registries/test-registry";
+import AfterRegistry from "../registries/after-registry";
+import TestRegistry from "../registries/test-registry";
 
 const JsMuchiRun = (
-  beforeSetups: Array<BeforeSetup>,
-  testsSetups: Array<TestSetup>,
-  afterSetups: Array<AfterSetup>
+  beforeRegistry: BeforeRegistry,
+  afterRegistry: AfterRegistry,
+  testRegistry: TestRegistry
 ) => (opts: AnnotationOpts = { message: "", ignore: false }) => {
   return testClass => {
-    const message: string = opts.message || testClass.name;
-    let before: BeforeSetup, after: AfterSetup;
     const testContext = new testClass();
-    const testClassIgnored: boolean = opts.ignore;
-    const targetClass: any = testClass.prototype;
     const classLogger: Logger = new Logger();
+    const targetClass: any = testClass.prototype;
+    const testClassIgnored: boolean = opts.ignore;
+    const message: string = opts.message || testClass.name;
+
+    let before: BeforeSetup, after: AfterSetup;
     if (testClassIgnored) {
       /**
        * Skips test class if ignore metadata sets to true
@@ -41,8 +44,8 @@ const JsMuchiRun = (
       /**
        * Retrieve before and after annotation if present.
        */
-      before = beforeSetups.find(setup => setup.canRunWithin(targetClass));
-      after = afterSetups.find(setup => setup.canRunWithin(targetClass));
+      before = beforeRegistry.find(setup => setup.canRunWithin(targetClass));
+      after = afterRegistry.find(setup => setup.canRunWithin(targetClass));
       classLogger.addLog(TYPE.log, colors.white(message));
     }
 
@@ -54,7 +57,7 @@ const JsMuchiRun = (
     /**
      * Sort test setup before execution
      */
-    testsSetups.sort(compareTestSetup);
+    testRegistry.sort();
     /**
      * Runs each test
      */
@@ -65,21 +68,22 @@ const JsMuchiRun = (
       after,
       before
     };
-    runAsyncAtIndex(0, testsSetups, context);
+
+    runAsyncAtIndex(testRegistry, context);
   };
 };
 
-const runAsyncAtIndex = async (index, testsSetups, context) => {
-  if (testsSetups.length === index) return;
+const runAsyncAtIndex = async (testRegistry: TestRegistry, context: any) => {
+  const { value } = testRegistry.next();
+
+  if (!value) return;
 
   const { targetClass } = context;
-  const test: TestSetup = testsSetups[index];
-
-  if (test.canRunWithin(targetClass)) {
-    await runTest(test, context);
+  if (value.canRunWithin(targetClass)) {
+    await runTest(value, context);
   }
 
-  return runAsyncAtIndex(index + 1, testsSetups, context);
+  return runAsyncAtIndex(testRegistry, context);
 };
 
 const runTest = async (test: TestSetup, context: any): Promise<void> => {
@@ -145,19 +149,18 @@ const runTest = async (test: TestSetup, context: any): Promise<void> => {
 };
 
 const JsMuchi = () => {
-  const beforeSetups: Array<BeforeSetup> = [],
-    testsSetups: Array<TestSetup> = [],
-    afterSetups: Array<AfterSetup> = [];
-
+  const testRegistry: TestRegistry = new TestRegistry();
+  const afterRegistry: AfterRegistry = new AfterRegistry();
+  const beforeRegistry: BeforeRegistry = new BeforeRegistry();
   /**
    * Tests decorators
    */
   return {
-    After: after(afterSetups),
-    Test: test(testsSetups),
-    Context: context(testsSetups),
-    Before: before(beforeSetups),
-    JsMuchi: JsMuchiRun(beforeSetups, testsSetups, afterSetups)
+    After: after(afterRegistry),
+    Test: test(testRegistry),
+    Context: context(testRegistry),
+    Before: before(beforeRegistry),
+    JsMuchi: JsMuchiRun(beforeRegistry, afterRegistry, testRegistry)
   };
 };
 

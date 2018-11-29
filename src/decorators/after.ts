@@ -1,10 +1,8 @@
 import { AfterSetup } from "../interfaces/setup";
 import canRunWithin from "../utils/can-run-within";
+import AfterRegistry from "../registries/after-registry";
 
-/**
- * TODO - after setup registry
- */
-const after = (afters: Array<AfterSetup>) => {
+const after = (registry: AfterRegistry) => {
   const afterDecorator = (target, key, _descriptor) => {
     /**
      * Declare and register after setup.
@@ -13,7 +11,7 @@ const after = (afters: Array<AfterSetup>) => {
       run: context => context[key](),
       canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
     };
-    afters.push(afterSetup);
+    registry.register(afterSetup);
   };
 
   return afterDecorator;

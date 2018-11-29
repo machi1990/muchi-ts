@@ -1,10 +1,8 @@
 import canRunWithin from "../utils/can-run-within";
 import { BeforeSetup } from "../interfaces/setup";
+import BeforeRegistry from "../registries/before-registry";
 
-/**
- * TODO - before setup registry
- */
-const before = (befores: Array<BeforeSetup>) => {
+const before = (registry: BeforeRegistry) => {
   const beforeDecorator = (target, key, _descriptor) => {
     /**
      * Declare and register before setup.
@@ -13,7 +11,7 @@ const before = (befores: Array<BeforeSetup>) => {
       run: context => context[key](),
       canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
     };
-    befores.push(beforeSetup);
+    registry.register(beforeSetup);
   };
 
   return beforeDecorator;

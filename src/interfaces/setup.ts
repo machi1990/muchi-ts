@@ -1,4 +1,4 @@
-interface Setup {
+export interface Setup {
   run: (contex) => void;
   canRunWithin: (TestClass) => boolean;
 }

@@ -1,11 +1,9 @@
 import { TestSetup } from "../interfaces/setup";
 import canRunWithin from "../utils/can-run-within";
 import AnnotationOpts from "../interfaces/annotation-opts";
+import TestRegistry from "../registries/test-registry";
 
-/**
- * TODO - test setup registry
- */
-const test = (testsSetups: Array<TestSetup>) => (
+const test = (registry: TestRegistry) => (
   opts: AnnotationOpts = {
     message: "",
     ignore: false
@@ -21,7 +19,7 @@ const test = (testsSetups: Array<TestSetup>) => (
     const message: string = opts.message || `${name}.${key}()`;
     const ignore: boolean = opts.ignore || false;
 
-    const correspondingTest: TestSetup = testsSetups.find(
+    const correspondingTest: TestSetup = registry.find(
       ({ key: testKey, canRunWithin }) => {
         return key === testKey && canRunWithin(target);
       }
@@ -43,11 +41,11 @@ const test = (testsSetups: Array<TestSetup>) => (
         key,
         ignore,
         message,
-        order: testsSetups.length,
+        order: registry.size(),
         run: context => context[key](),
         canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
       };
-      testsSetups.push(testSetup);
+      registry.register(testSetup);
     }
   };
 };

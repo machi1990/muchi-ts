@@ -1,12 +1,9 @@
 import canRunWithin from "../utils/can-run-within";
 import AnnotationOpts from "../interfaces/annotation-opts";
 import { TestSetup, ContextSetup } from "../interfaces/setup";
+import TestRegistry from "../registries/test-registry";
 
-/**
- * TODO - test setup registry
- */
-
-const context = (testsSetups: Array<TestSetup>) => {
+const context = (registry: TestRegistry) => {
   const contextDecorator = ({
     ignore = false,
     message = ""
@@ -18,15 +15,9 @@ const context = (testsSetups: Array<TestSetup>) => {
       ignore
     };
 
-    const testWithSameContextSetup: TestSetup = testsSetups.find(
-      ({
-        canRunWithin,
-        contextSetup: testContextSetup = { name: undefined }
-      }) => {
-        return (
-          contextSetup.name === testContextSetup.name && canRunWithin(target)
-        );
-      }
+    const testWithSameContextSetup: TestSetup = registry.findTestWithSameContextSetup(
+      contextSetup,
+      target
     );
 
     if (testWithSameContextSetup) {
@@ -40,10 +31,9 @@ const context = (testsSetups: Array<TestSetup>) => {
       recordedOrder = testWithSameContextSetup.order;
     }
 
-    const correspondingTestSetup: TestSetup = testsSetups.find(
-      ({ key: testKey, canRunWithin }) => {
-        return key === testKey && canRunWithin(target);
-      }
+    const correspondingTestSetup: TestSetup = registry.findTestSetupByName(
+      key,
+      target
     );
 
     if (correspondingTestSetup) {
@@ -67,11 +57,11 @@ const context = (testsSetups: Array<TestSetup>) => {
         contextSetup,
         ignore: undefined,
         message: undefined,
-        order: recordedOrder !== undefined ? recordedOrder : testsSetups.length,
+        order: recordedOrder !== undefined ? recordedOrder : registry.size(),
         run: context => context[key](),
         canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target)
       };
-      testsSetups.push(testSetup);
+      registry.register(testSetup);
     }
   };
   return contextDecorator;
