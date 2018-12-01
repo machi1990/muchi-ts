@@ -14,9 +14,12 @@ var Registry = /** @class */ (function() {
   Registry.prototype.find = function(predicate) {
     return this[elements].find(predicate);
   };
-  Registry.prototype.keepOnly = function(predicate) {
-    this[elements] = this[elements].filter(predicate);
-    return this;
+  Registry.prototype.filter = function(predicate) {
+    var registry = new Registry();
+    this[elements].filter(predicate).forEach(function(element) {
+      return registry.register(element);
+    });
+    return registry;
   };
   Registry.prototype.map = function(transformer) {
     return this[elements].map(transformer);

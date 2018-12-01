@@ -10,9 +10,13 @@ export interface AfterSetup extends Setup {}
 export interface MethodSetup extends Setup {
   message: string;
   ignore: boolean;
-  key: string;
+  key: string | number;
 }
 
 export interface ContextSetup extends MethodSetup {}
 
 export interface TestSetup extends MethodSetup {}
+
+export interface MockSetup extends Setup {
+  key: string | number;
+}

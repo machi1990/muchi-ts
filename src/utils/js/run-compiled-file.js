@@ -6,23 +6,21 @@ module.exports = ({ file, compilationPath }) => {
   const testRunning = spawn("node", [compilationPath]);
   let testOutput = "";
 
-  testRunning.stdout.on("data", chunk => {
+  const append = chunk => {
     const out = chunk.toString();
     if (!out) return;
     testOutput += out;
-  });
+  };
 
-  testRunning.stderr.on("data", chunk => {
-    const out = chunk.toString();
-    if (!out) return;
-    testOutput += colors.red(out);
-  });
-
-  testRunning.on("close", code => {
+  const display = code => {
     const duration = Date.now() - startTime;
     const finished = code ? colors.red("Finished-") : colors.white("Finished-");
 
     console.log(testOutput);
     console.log(file, finished, `- ${duration} ms`);
-  });
+  };
+
+  testRunning.stdout.on("data", append);
+  testRunning.stderr.on("data", append);
+  testRunning.on("close", display);
 };

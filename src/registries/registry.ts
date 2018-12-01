@@ -20,9 +20,12 @@ export default class Registry<T extends Setup>
     return this[elements].find(predicate);
   }
 
-  public keepOnly(predicate: (T) => boolean): Registry<T> {
-    this[elements] = this[elements].filter(predicate);
-    return this;
+  public filter(predicate: (T) => boolean): Registry<T> {
+    const registry = new Registry<T>();
+    this[elements]
+      .filter(predicate)
+      .forEach(element => registry.register(element));
+    return registry;
   }
 
   public map<R>(transformer: (x: T) => R): Array<R> {

@@ -27,11 +27,11 @@ var __extends =
   })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var registry_1 = require("./registry");
-var MethodRegistry = /** @class */ (function(_super) {
-  __extends(MethodRegistry, _super);
-  function MethodRegistry() {
+var MockRegistry = /** @class */ (function(_super) {
+  __extends(MockRegistry, _super);
+  function MockRegistry() {
     return (_super !== null && _super.apply(this, arguments)) || this;
   }
-  return MethodRegistry;
+  return MockRegistry;
 })(registry_1.default);
-exports.default = MethodRegistry;
+exports.default = MockRegistry;

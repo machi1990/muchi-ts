@@ -8,13 +8,23 @@ import canRunWithin from "../../utils/ts/can-run-within";
 import TestRegistry from "../../registries/method-registry";
 import DecoratorFactory from "../../interfaces/decorator-factory";
 import { TestMethodOpts } from "../../interfaces/annotation-opts";
-import { SPACE, ACTUAL, EXPECTED } from "../../utils/ts/hard-corded-value";
+import {
+  SPACE,
+  EXPECTS,
+  PASSED,
+  FAILED,
+  SKIPPED
+} from "../../utils/ts/hard-corded-value";
 
 export default class TestDecoratorFactory implements DecoratorFactory {
   constructor(private registry: TestRegistry) {}
   public create(): Decorator {
     return (opts: TestMethodOpts) => {
-      return (target, method, _descriptor) => {
+      return (
+        target: Object,
+        method: string | number,
+        _descriptor: PropertyDescriptor
+      ) => {
         const name = `${target.constructor}`
           .replace(/[fF]unction\s*/g, "")
           .split(/\(/)
@@ -51,8 +61,8 @@ const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
   if (skipTest) {
     runnerOpts.logger.addLog(
       TYPE.log,
-      SPACE.repeat(level),
-      SPACE,
+      SPACE.repeat(level + 1),
+      SKIPPED,
       colors.cyan(message)
     );
   } else {
@@ -64,8 +74,8 @@ const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
       duration = Date.now() - startTime;
       logger.addLog(
         TYPE.log,
-        SPACE.repeat(level),
-        SPACE,
+        SPACE.repeat(level + 1),
+        PASSED,
         colors.green(message),
         colors.gray(`- ${duration} ms`) // tests logs
       );
@@ -74,32 +84,20 @@ const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
       const { actual, expected, operator, stack } = error;
       logger.addLog(
         TYPE.error,
-        SPACE.repeat(level),
-        SPACE,
+        SPACE.repeat(level + 1),
+        FAILED,
         colors.red(message),
         colors.gray(` - ${duration} ms`)
       );
-
       logger.addLog(
-        TYPE.info,
-        SPACE.repeat(level),
-        SPACE,
-        SPACE,
-        "reason",
-        ACTUAL,
-        colors.green(actual),
-        `${Op[operator]}`,
-        EXPECTED,
-        colors.red(expected)
+        TYPE.error,
+        SPACE.repeat(level + 2),
+        EXPECTS,
+        colors.white(actual),
+        colors.bold(`${Op[operator]}`),
+        colors.white(expected)
       );
-      logger.addLog(
-        TYPE.log,
-        SPACE.repeat(level),
-        SPACE,
-        SPACE,
-        colors.red(stack)
-      );
-      logger.addLog(TYPE.log, SPACE.repeat(level), SPACE);
+      logger.addLog(TYPE.error, SPACE.repeat(level + 2), colors.red(stack));
     }
   }
 };

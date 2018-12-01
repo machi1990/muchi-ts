@@ -1,22 +1,25 @@
 import * as colors from "colors";
 import { TYPE, Logger } from "../../utils/ts/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
-import { SPACE } from "../../utils/ts/hard-corded-value";
+import { SPACE, SKIPPED } from "../../utils/ts/hard-corded-value";
 import BeforeRegistry from "../../registries/before-registry";
 import AfterRegistry from "../../registries/after-registry";
 import MethodRegistry from "../../registries/method-registry";
 import { MethodSetup } from "../../interfaces/setup";
 import { BeforeSetupContext, AfterSetupContext } from "./setup-runner";
+import MockRegistry from "../../registries/mock-registry";
 
 export default class {
   private afterRegistry: AfterRegistry = new AfterRegistry();
   private methodRegistry: MethodRegistry = new MethodRegistry();
   private beforeRegistry: BeforeRegistry = new BeforeRegistry();
+  private mockRegistry: MockRegistry = new MockRegistry();
 
   constructor(
     _beforeRegistry: BeforeRegistry,
     _methodRegistry: MethodRegistry,
-    _afterRegistry: AfterRegistry
+    _afterRegistry: AfterRegistry,
+    _mockRegistry: MockRegistry
   ) {
     /**
      * copy test entries to new register to keep to avoid sharing a global registry
@@ -24,12 +27,20 @@ export default class {
     _beforeRegistry.feed(this.beforeRegistry);
     _afterRegistry.feed(this.afterRegistry);
     _methodRegistry.feed(this.methodRegistry);
+    _mockRegistry.feed(this.mockRegistry);
   }
 
   async run(runnerOpts: RunnerOpts): Promise<void> {
-    const message: string = runnerOpts.message;
+    const message: string = colors.bold(runnerOpts.message);
     const logger: Logger = runnerOpts.logger;
     const level: number = runnerOpts.level * 2;
+
+    /**
+     * Mock that's need to be mocked
+     */
+    this.mockRegistry
+      .filter(setup => setup.canRunWithin(runnerOpts.contextClazz))
+      .map(setup => setup.run(runnerOpts));
 
     /**
      * Retrieve before and after annotation.
@@ -37,7 +48,7 @@ export default class {
     const beforeSetupContexts: Array<
       BeforeSetupContext
     > = this.beforeRegistry
-      .keepOnly(setup => setup.canRunWithin(runnerOpts.contextClazz))
+      .filter(setup => setup.canRunWithin(runnerOpts.contextClazz))
       .map(setup => {
         return {
           setup,
@@ -49,7 +60,7 @@ export default class {
     const afterSetupContexts: Array<
       AfterSetupContext
     > = this.afterRegistry
-      .keepOnly(setup => setup.canRunWithin(runnerOpts.contextClazz))
+      .filter(setup => setup.canRunWithin(runnerOpts.contextClazz))
       .map(setup => {
         return {
           setup,
@@ -65,7 +76,8 @@ export default class {
       /**
        * Skips test class if ignore metadata sets to true
        */
-      logger.addLog(TYPE.log, SPACE.repeat(level), colors.cyan(message));
+      const skipMsg = level === 0 ? message : `${SKIPPED} ${message}`;
+      logger.addLog(TYPE.log, SPACE.repeat(level), colors.cyan(skipMsg));
     } else {
       logger.addLog(TYPE.log, SPACE.repeat(level), message);
     }

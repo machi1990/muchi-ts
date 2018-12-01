@@ -3,6 +3,7 @@ import RunnerOpts from "../../interfaces/runner-opts";
 import { ContextSetup } from "../../interfaces/setup";
 import TsMuchiTestRunner from "./ts-muchi-test-runner";
 import canRunWithin from "../../utils/ts/can-run-within";
+import MockRegistry from "../../registries/mock-registry";
 import ContextBuilder from "../../utils/ts/context-builder";
 import AfterRegistry from "../../registries/after-registry";
 import BeforeRegistry from "../../registries/before-registry";
@@ -15,11 +16,16 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
   constructor(
     private beforeRegistry: BeforeRegistry,
     private methodRegistry: MethodRegistry,
-    private afterRegistry: AfterRegistry
+    private afterRegistry: AfterRegistry,
+    private mockRegistry: MockRegistry
   ) {}
 
   public create(): Decorator {
-    return (opts: ContextClassOpts) => (target, method, _descriptor) => {
+    return (opts: ContextClassOpts) => (
+      target: Object,
+      method: string,
+      _descriptor: PropertyDescriptor
+    ) => {
       const name = `${target.constructor}`
         .replace(/[fF]unction\s*/g, "")
         .split(/\(/)
@@ -65,7 +71,8 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
             const tsMuchiTestRunner = new TsMuchiTestRunner(
               this.beforeRegistry,
               this.methodRegistry,
-              this.afterRegistry
+              this.afterRegistry,
+              this.mockRegistry
             );
 
             return tsMuchiTestRunner.run(runnerOpts);

@@ -10,7 +10,7 @@ import {
 
 import TestClass from "./test";
 
-@TsMuchi({ name: "JsTesting using Annotation", ignore: false })
+@TsMuchi({ name: "Test, Before, After, TsMuchi Annotation", ignore: false })
 class TsTest {
   private test: TestClass;
 

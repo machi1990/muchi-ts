@@ -9,7 +9,7 @@ import {
 
 import TestClass from "./test";
 
-@TsMuchi({ name: "Ignored JsTesting using Annotation", ignore: true })
+@TsMuchi({ name: "Ignored flag on TsMuchi Annotation", ignore: true })
 class TsTestIgnored {
   private test: TestClass;
 
@@ -74,7 +74,7 @@ class TsTestIgnored {
   }
 
   @Test({ it: "tests async function second" })
-  async asyncFunctionTesting1(): Promise<void> {
+  async asyncFunctionTesting2(): Promise<void> {
     //When
     const actual = await this.test.testAsync();
 

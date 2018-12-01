@@ -9,8 +9,12 @@ import DecoratorFactory from "../../interfaces/decorator-factory";
 export default class BeforeDecoratorFactory implements DecoratorFactory {
   constructor(private registry: BeforeRegistry) {}
 
-  public create() {
-    return (target, before, _descriptor) => {
+  public create(): Decorator {
+    return (
+      target: Object,
+      before: string | number,
+      _descriptor: PropertyDescriptor
+    ) => {
       /**
        * Declare and register before setup.
        */

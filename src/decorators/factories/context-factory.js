@@ -136,11 +136,13 @@ var ContextDecoratorFactory = /** @class */ (function() {
   function ContextDecoratorFactory(
     beforeRegistry,
     methodRegistry,
-    afterRegistry
+    afterRegistry,
+    mockRegistry
   ) {
     this.beforeRegistry = beforeRegistry;
     this.methodRegistry = methodRegistry;
     this.afterRegistry = afterRegistry;
+    this.mockRegistry = mockRegistry;
   }
   ContextDecoratorFactory.prototype.create = function() {
     var _this = this;
@@ -204,7 +206,8 @@ var ContextDecoratorFactory = /** @class */ (function() {
                       tsMuchiTestRunner = new ts_muchi_test_runner_1.default(
                         this.beforeRegistry,
                         this.methodRegistry,
-                        this.afterRegistry
+                        this.afterRegistry,
+                        this.mockRegistry
                       );
                       return [2 /*return*/, tsMuchiTestRunner.run(runnerOpts)];
                     }

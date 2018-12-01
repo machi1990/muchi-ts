@@ -134,29 +134,52 @@ var hard_corded_value_1 = require("../../utils/ts/hard-corded-value");
 var before_registry_1 = require("../../registries/before-registry");
 var after_registry_1 = require("../../registries/after-registry");
 var method_registry_1 = require("../../registries/method-registry");
+var mock_registry_1 = require("../../registries/mock-registry");
 var default_1 = /** @class */ (function() {
-  function default_1(_beforeRegistry, _methodRegistry, _afterRegistry) {
+  function default_1(
+    _beforeRegistry,
+    _methodRegistry,
+    _afterRegistry,
+    _mockRegistry
+  ) {
     this.afterRegistry = new after_registry_1.default();
     this.methodRegistry = new method_registry_1.default();
     this.beforeRegistry = new before_registry_1.default();
+    this.mockRegistry = new mock_registry_1.default();
     /**
      * copy test entries to new register to keep to avoid sharing a global registry
      */
     _beforeRegistry.feed(this.beforeRegistry);
     _afterRegistry.feed(this.afterRegistry);
     _methodRegistry.feed(this.methodRegistry);
+    _mockRegistry.feed(this.mockRegistry);
   }
   default_1.prototype.run = function(runnerOpts) {
     return __awaiter(this, void 0, void 0, function() {
-      var message, logger, level, beforeSetupContexts, afterSetupContexts;
+      var message,
+        logger,
+        level,
+        beforeSetupContexts,
+        afterSetupContexts,
+        skipMsg;
       return __generator(this, function(_a) {
         switch (_a.label) {
           case 0:
-            message = runnerOpts.message;
+            message = colors.bold(runnerOpts.message);
             logger = runnerOpts.logger;
             level = runnerOpts.level * 2;
+            /**
+             * Mock that's need to be mocked
+             */
+            this.mockRegistry
+              .filter(function(setup) {
+                return setup.canRunWithin(runnerOpts.contextClazz);
+              })
+              .map(function(setup) {
+                return setup.run(runnerOpts);
+              });
             beforeSetupContexts = this.beforeRegistry
-              .keepOnly(function(setup) {
+              .filter(function(setup) {
                 return setup.canRunWithin(runnerOpts.contextClazz);
               })
               .map(function(setup) {
@@ -167,7 +190,7 @@ var default_1 = /** @class */ (function() {
                 };
               });
             afterSetupContexts = this.afterRegistry
-              .keepOnly(function(setup) {
+              .filter(function(setup) {
                 return setup.canRunWithin(runnerOpts.contextClazz);
               })
               .map(function(setup) {
@@ -180,13 +203,14 @@ var default_1 = /** @class */ (function() {
             runnerOpts.beforeRunner.addAll(beforeSetupContexts);
             runnerOpts.afterRunner.addAll(afterSetupContexts);
             if (runnerOpts.ignore) {
-              /**
-               * Skips test class if ignore metadata sets to true
-               */
+              skipMsg =
+                level === 0
+                  ? message
+                  : hard_corded_value_1.SKIPPED + " " + message;
               logger.addLog(
                 logger_1.TYPE.log,
                 hard_corded_value_1.SPACE.repeat(level),
-                colors.cyan(message)
+                colors.cyan(skipMsg)
               );
             } else {
               logger.addLog(

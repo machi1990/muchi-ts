@@ -8,11 +8,13 @@ var TsMuchiDecoratorFactory = /** @class */ (function() {
   function TsMuchiDecoratorFactory(
     beforeRegistry,
     methodRegistry,
-    afterRegistry
+    afterRegistry,
+    mockRegistry
   ) {
     this.beforeRegistry = beforeRegistry;
     this.methodRegistry = methodRegistry;
     this.afterRegistry = afterRegistry;
+    this.mockRegistry = mockRegistry;
   }
   TsMuchiDecoratorFactory.prototype.create = function() {
     var _this = this;
@@ -34,7 +36,8 @@ var TsMuchiDecoratorFactory = /** @class */ (function() {
         var tsMuchiTestRunner = new ts_muchi_test_runner_1.default(
           _this.beforeRegistry,
           _this.methodRegistry,
-          _this.afterRegistry
+          _this.afterRegistry,
+          _this.mockRegistry
         );
         tsMuchiTestRunner
           .run(runnerOpts)

@@ -16,7 +16,7 @@ var assertions = [
   "assertNotStrictEqual",
   "assertNotDeepEqual"
 ].map(function(method) {
-  return new RegExp("at Object.exports." + method + " (.*/assertion.ts)");
+  return new RegExp("at Object.exports." + method + " (.*/assertion.[tj]s)");
 });
 var findFailingLineNumberFromError = function(error) {
   var stack = error.stack;

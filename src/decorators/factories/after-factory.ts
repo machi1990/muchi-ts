@@ -10,7 +10,11 @@ export default class AfterDecoratorFactory implements DecoratorFactory {
   constructor(private registry: AfterRegistry) {}
 
   public create(): Decorator {
-    return (target, after, _descriptor) => {
+    return (
+      target: Object,
+      after: string | number,
+      _descriptor: PropertyDescriptor
+    ) => {
       /**
        * Declare and register after setup.
        */

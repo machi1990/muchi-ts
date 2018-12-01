@@ -24,7 +24,9 @@ const assertions = [
   "assertNotEqual",
   "assertNotStrictEqual",
   "assertNotDeepEqual"
-].map(method => new RegExp(`at Object.exports.${method} (\.*/assertion.ts)`));
+].map(
+  method => new RegExp(`at Object.exports.${method} (\.*/assertion.[tj]s)`)
+);
 
 const findFailingLineNumberFromError = error => {
   const stack = error.stack;

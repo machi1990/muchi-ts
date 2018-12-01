@@ -6,4 +6,5 @@ export default interface TsMuchiApi {
   Before: any;
   TsMuchi: any;
   Context: any;
+  Mock: any;
 }

@@ -207,8 +207,8 @@ var run = function(runnerOpts, _a) {
           if (!skipTest) return [3 /*break*/, 1];
           runnerOpts.logger.addLog(
             logger_1.TYPE.log,
-            hard_corded_value_1.SPACE.repeat(level),
-            hard_corded_value_1.SPACE,
+            hard_corded_value_1.SPACE.repeat(level + 1),
+            hard_corded_value_1.SKIPPED,
             colors.cyan(message)
           );
           return [3 /*break*/, 5];
@@ -224,8 +224,8 @@ var run = function(runnerOpts, _a) {
           duration = Date.now() - startTime;
           logger.addLog(
             logger_1.TYPE.log,
-            hard_corded_value_1.SPACE.repeat(level),
-            hard_corded_value_1.SPACE,
+            hard_corded_value_1.SPACE.repeat(level + 1),
+            hard_corded_value_1.PASSED,
             colors.green(message),
             colors.gray("- " + duration + " ms") // tests logs
           );
@@ -239,34 +239,23 @@ var run = function(runnerOpts, _a) {
             (stack = error_1.stack);
           logger.addLog(
             logger_1.TYPE.error,
-            hard_corded_value_1.SPACE.repeat(level),
-            hard_corded_value_1.SPACE,
+            hard_corded_value_1.SPACE.repeat(level + 1),
+            hard_corded_value_1.FAILED,
             colors.red(message),
             colors.gray(" - " + duration + " ms")
           );
           logger.addLog(
-            logger_1.TYPE.info,
-            hard_corded_value_1.SPACE.repeat(level),
-            hard_corded_value_1.SPACE,
-            hard_corded_value_1.SPACE,
-            "reason",
-            hard_corded_value_1.ACTUAL,
-            colors.green(actual),
-            "" + op_1.Op[operator],
-            hard_corded_value_1.EXPECTED,
-            colors.red(expected)
+            logger_1.TYPE.error,
+            hard_corded_value_1.SPACE.repeat(level + 2),
+            hard_corded_value_1.EXPECTS,
+            colors.white(actual),
+            colors.bold("" + op_1.Op[operator]),
+            colors.white(expected)
           );
           logger.addLog(
-            logger_1.TYPE.log,
-            hard_corded_value_1.SPACE.repeat(level),
-            hard_corded_value_1.SPACE,
-            hard_corded_value_1.SPACE,
+            logger_1.TYPE.error,
+            hard_corded_value_1.SPACE.repeat(level + 2),
             colors.red(stack)
-          );
-          logger.addLog(
-            logger_1.TYPE.log,
-            hard_corded_value_1.SPACE.repeat(level),
-            hard_corded_value_1.SPACE
           );
           return [3 /*break*/, 5];
         case 5:

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const tsConfigOutDir = "build";
+const tsConfigOutDir = "build/";
 
 const ls = require("../src/utils/js/ls");
 const compile = require("../src/utils/js/compile");
@@ -17,7 +17,7 @@ const isTestFile = file =>
 
 const workingDir = ".";
 const filesName = ls(workingDir, {
-  exclude: ["node_modules", ".git"],
+  exclude: ["node_modules", ".git", tsConfigOutDir],
   predicate: isTestFile
 });
 

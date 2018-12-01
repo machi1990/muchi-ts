@@ -10,5 +10,14 @@
     "allowJs": true,
     "checkJs": false
   },
-  "exclude": ["node_modules", "build", "test", "bin", "src/utils/js"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "test",
+    "bin",
+    "src/**/js",
+    "src/*js",
+    "dada-js",
+    "*.js"
+  ]
 }

@@ -9,12 +9,14 @@ import { TestClassOpts } from "../../interfaces/annotation-opts";
 import DecoratorFactory from "../../interfaces/decorator-factory";
 import ContextBuilder from "../../utils/ts/context-builder";
 import { BeforeSetupRunner, AfterSetupRunner } from "./setup-runner";
+import MockRegistry from "../../registries/mock-registry";
 
 export default class TsMuchiDecoratorFactory implements DecoratorFactory {
   constructor(
     private beforeRegistry: BeforeRegistry,
     private methodRegistry: MethodRegistry,
-    private afterRegistry: AfterRegistry
+    private afterRegistry: AfterRegistry,
+    private mockRegistry: MockRegistry
   ) {}
 
   public create(): Decorator {
@@ -34,7 +36,8 @@ export default class TsMuchiDecoratorFactory implements DecoratorFactory {
       const tsMuchiTestRunner = new TsMuchiTestRunner(
         this.beforeRegistry,
         this.methodRegistry,
-        this.afterRegistry
+        this.afterRegistry,
+        this.mockRegistry
       );
 
       tsMuchiTestRunner

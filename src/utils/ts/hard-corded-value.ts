@@ -1,5 +1,7 @@
 import * as colors from "colors";
 
 export const SPACE: string = " ";
-export const ACTUAL: string = colors.bgGreen("actual - ");
-export const EXPECTED: string = colors.bgRed("expected - ");
+export const EXPECTS: string = colors.bold(colors.green("expects: "));
+export const PASSED: string = colors.green("\u2713");
+export const FAILED: string = colors.red("\u2718");
+export const SKIPPED: string = colors.cyan("\u2610");

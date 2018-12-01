@@ -1,5 +1,5 @@
 import TestClass from "./test";
-import { Context, TsMuchi, Test, assertEqual, Before } from "../index";
+import { Context, TsMuchi, Test, assertEqual, Before } from "..";
 
 class ContextTestInContainer3 {
   private test: TestClass;
@@ -63,7 +63,7 @@ class ContextTestInContainer {
 }
 
 @TsMuchi({
-  name: "Testing Context construct",
+  name: "Context Annotation",
   ignore: false
 })
 class ContextTest {

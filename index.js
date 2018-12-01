@@ -10,4 +10,5 @@ var ts_muchi_1 = require("./src/decorators/ts-muchi");
   (exports.Test = _a.Test),
   (exports.After = _a.After),
   (exports.Context = _a.Context),
-  (exports.Before = _a.Before);
+  (exports.Before = _a.Before),
+  (exports.Mock = _a.Mock);
