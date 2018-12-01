@@ -1,9 +1,9 @@
 const colors = require("colors");
 const { spawn } = require("child_process");
 
-module.exports = ({ file, transpiled }) => {
+module.exports = ({ file, compilationPath }) => {
   const startTime = Date.now();
-  const testRunning = spawn("node", [transpiled]);
+  const testRunning = spawn("node", [compilationPath]);
   let testOutput = "";
 
   testRunning.stdout.on("data", chunk => {

@@ -1,4 +1,4 @@
-import { Reflection, isSame } from "../interfaces/reflection";
+import { Reflection, isSame } from "../../interfaces/reflection";
 
 /**
  * Checks if two classes are the same #mini-hack

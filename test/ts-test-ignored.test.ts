@@ -2,16 +2,15 @@ import {
   Test,
   After,
   Before,
-  Context,
-  JsMuchi,
+  TsMuchi,
   assertEqual,
   assertStrictEqual
-} from "../";
+} from "..";
 
 import TestClass from "./test";
 
-@JsMuchi({ message: "Ignored JsTesting using Annotation", ignore: true })
-class JsTestIgnored {
+@TsMuchi({ name: "Ignored JsTesting using Annotation", ignore: true })
+class TsTestIgnored {
   private test: TestClass;
 
   constructor() {}
@@ -26,7 +25,9 @@ class JsTestIgnored {
     this.test = null;
   }
 
-  @Test()
+  @Test({
+    it: "checks equality"
+  })
   oneStringEqualityTest(): void {
     // When
     const one: string = this.test.oneString();
@@ -35,7 +36,9 @@ class JsTestIgnored {
     assertEqual(one, "one");
   }
 
-  @Test()
+  @Test({
+    it: "checks strict equality"
+  })
   oneStringStrictEqualityTest(): void {
     // When
     const one: string = this.test.oneString();
@@ -44,7 +47,7 @@ class JsTestIgnored {
     assertStrictEqual(one, "one");
   }
 
-  @Test({ message: "one number equality with string", ignore: false })
+  @Test({ it: "one number equality with string", ignore: false })
   oneNumberEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();
@@ -53,7 +56,7 @@ class JsTestIgnored {
     assertEqual(one, "1");
   }
 
-  @Test({ message: "one number strict equality with string", ignore: true })
+  @Test({ it: "tests one number strict equality with string", ignore: true })
   oneNumberStrictEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();
@@ -61,8 +64,7 @@ class JsTestIgnored {
     assertStrictEqual(one, "1");
   }
 
-  @Test({ message: "Async function first" })
-  @Context({ message: "When testing async" })
+  @Test({ it: "tests async function first" })
   async asyncFunctionTesting1(): Promise<void> {
     //When
     const actual = await this.test.testAsync();
@@ -71,8 +73,7 @@ class JsTestIgnored {
     assertEqual(actual, "Hello async world");
   }
 
-  @Test({ message: "Async function second" })
-  @Context({ message: "When testing async" })
+  @Test({ it: "tests async function second" })
   async asyncFunctionTesting1(): Promise<void> {
     //When
     const actual = await this.test.testAsync();

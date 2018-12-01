@@ -1,22 +1,13 @@
-import * as assert from "assert";
-import AssertionError from "./interfaces/assertion-error";
-import {
-  TRUTHY,
-  EQL_OP,
-  STRICT_EQL_OP,
-  DEEP_EQL_OP,
-  NOT_EQL_OP,
-  NOT_STRICT_EQL_OP,
-  NOT_DEEP_EQL_OP
-} from "./utils/ts/op";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var assert = require("assert");
+var op_1 = require("./utils/ts/op");
 /**
  * Add more here.
  * - error assertion
  *  etc
  */
-
-const assertions = [
+var assertions = [
   "assertTruthy",
   "assertEqual",
   "assertStrictEqual",
@@ -24,115 +15,117 @@ const assertions = [
   "assertNotEqual",
   "assertNotStrictEqual",
   "assertNotDeepEqual"
-].map(method => new RegExp(`at Object.exports.${method} (\.*/assertion.ts)`));
-
-const findFailingLineNumberFromError = error => {
-  const stack = error.stack;
+].map(function(method) {
+  return new RegExp("at Object.exports." + method + " (.*/assertion.ts)");
+});
+var findFailingLineNumberFromError = function(error) {
+  var stack = error.stack;
   if (!stack) return "";
-  const stackLines = stack.split("\n");
-  let index = 0;
-  for (const line of stackLines) {
+  var stackLines = stack.split("\n");
+  var index = 0;
+  var _loop_1 = function(line) {
     ++index;
-    if (assertions.some(assertion => assertion.test(line))) {
-      break;
+    if (
+      assertions.some(function(assertion) {
+        return assertion.test(line);
+      })
+    ) {
+      return "break";
     }
+  };
+  for (var _i = 0, stackLines_1 = stackLines; _i < stackLines_1.length; _i++) {
+    var line = stackLines_1[_i];
+    var state_1 = _loop_1(line);
+    if (state_1 === "break") break;
   }
-
   return stackLines[index].trim();
 };
-
-export const assertTruthy = value => {
+exports.assertTruthy = function(value) {
   try {
     assert.ok(value);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: value,
-      expected: TRUTHY,
-      operator: TRUTHY,
+      expected: op_1.TRUTHY,
+      operator: op_1.TRUTHY,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
 };
-
-export const assertEqual = (firstArg, secondArg) => {
+exports.assertEqual = function(firstArg, secondArg) {
   try {
     assert.equal(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: EQL_OP,
+      operator: op_1.EQL_OP,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
 };
-
-export const assertStrictEqual = (firstArg, secondArg) => {
+exports.assertStrictEqual = function(firstArg, secondArg) {
   try {
     assert.strictEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: STRICT_EQL_OP,
+      operator: op_1.STRICT_EQL_OP,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
 };
-
-export const assertDeepEqual = (firstArg, secondArg) => {
+exports.assertDeepEqual = function(firstArg, secondArg) {
   try {
     assert.deepEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: DEEP_EQL_OP,
+      operator: op_1.DEEP_EQL_OP,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
 };
-
-export const assertNotEqual = (firstArg, secondArg) => {
+exports.assertNotEqual = function(firstArg, secondArg) {
   try {
     assert.notEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: NOT_EQL_OP,
+      operator: op_1.NOT_EQL_OP,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
 };
-
-export const assertNotStrictEqual = (firstArg, secondArg) => {
+exports.assertNotStrictEqual = function(firstArg, secondArg) {
   try {
     assert.notStrictEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: NOT_STRICT_EQL_OP,
+      operator: op_1.NOT_STRICT_EQL_OP,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;
   }
 };
-
-export const assertNotDeepEqual = (firstArg, secondArg) => {
+exports.assertNotDeepEqual = function(firstArg, secondArg) {
   try {
     assert.notDeepEqual(firstArg, secondArg);
   } catch (error) {
-    const assertionError: AssertionError = {
+    var assertionError = {
       actual: firstArg,
       expected: secondArg,
-      operator: NOT_DEEP_EQL_OP,
+      operator: op_1.NOT_DEEP_EQL_OP,
       stack: findFailingLineNumberFromError(error)
     };
     throw assertionError;

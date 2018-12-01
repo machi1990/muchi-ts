@@ -1,3 +1,4 @@
 export * from "./src/assertion";
-import muchi from "./src/decorators/js-muchi";
-export const { JsMuchi, Test, After, Context, Before } = muchi();
+import tsMuchi from "./src/decorators/ts-muchi";
+
+export const { TsMuchi, Test, After, Context, Before } = tsMuchi();

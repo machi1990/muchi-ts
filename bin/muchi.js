@@ -2,9 +2,11 @@
 
 const tsConfigOutDir = "build";
 
-const ls = require("../src/utils/ls");
-const compile = require("../src/utils/compile");
-const runTestFiles = require("../src/utils/run-test-files")(tsConfigOutDir);
+const ls = require("../src/utils/js/ls");
+const compile = require("../src/utils/js/compile");
+const runCompiledTestFiles = require("../src/utils/js/run-compiled-test-files")(
+  tsConfigOutDir
+);
 
 const testsFilesArg = process.argv.slice(2);
 
@@ -27,4 +29,4 @@ compile(filesName, tsConfigOutDir);
 /**
  * run test files.
  */
-runTestFiles(filesName);
+runCompiledTestFiles(filesName);

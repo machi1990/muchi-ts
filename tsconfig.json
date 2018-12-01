@@ -10,5 +10,5 @@
     "allowJs": true,
     "checkJs": false
   },
-  "exclude": ["node_modules", "build", "test", "bin", "compile.js"]
+  "exclude": ["node_modules", "build", "test", "bin", "src/utils/js"]
 }

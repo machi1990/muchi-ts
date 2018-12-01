@@ -1,10 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var reflection_1 = require("../interfaces/reflection");
+var reflection_1 = require("../../interfaces/reflection");
+/**
+ * Checks if two classes are the same #mini-hack
+ * @param TestClass
+ * @param target
+ */
 var canRunWithin = function(TestClass, target) {
   var testClassReflection = {
-    constructor: TestClass.prototype.constructor,
-    prepertyKeys: Reflect.ownKeys(TestClass.prototype)
+    constructor: TestClass.constructor,
+    prepertyKeys: Reflect.ownKeys(TestClass)
   };
   var targetReflextion = {
     constructor: target.constructor,

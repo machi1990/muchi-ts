@@ -14,11 +14,17 @@ export class Logger {
     this[logs] = new Array<any>();
   }
 
-  public addLog(type: Symbol, ...logEntry: any) {
+  public addLog(type: Symbol, ...logEntry: Array<any>) {
     this[logs].push({
       type,
       logEntry
     });
+  }
+
+  public append(logger: Logger) {
+    if (!logger) return;
+
+    this[logs] = [...this[logs], ...logger[logs]];
   }
 
   public log(): void {

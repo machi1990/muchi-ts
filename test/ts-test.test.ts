@@ -2,17 +2,16 @@ import {
   Test,
   After,
   Before,
-  Context,
-  JsMuchi,
+  TsMuchi,
   assertEqual,
   assertStrictEqual,
   assertDeepEqual
-} from "../";
+} from "..";
 
 import TestClass from "./test";
 
-@JsMuchi({ message: "JsTesting using Annotation" })
-class JsTest {
+@TsMuchi({ name: "JsTesting using Annotation", ignore: false })
+class TsTest {
   private test: TestClass;
 
   constructor() {}
@@ -28,7 +27,7 @@ class JsTest {
   }
 
   @Test({
-    message: "one string equality",
+    it: "one string equality",
     ignore: false
   })
   oneStringEqualityTest(): void {
@@ -40,7 +39,7 @@ class JsTest {
   }
 
   @Test({
-    message: "one string strict equality",
+    it: "one string strict equality",
     ignore: true
   })
   oneStringStrictEqualityTest(): void {
@@ -51,7 +50,7 @@ class JsTest {
     assertStrictEqual(one, "one");
   }
 
-  @Test({ message: "one number equality with string" })
+  @Test({ it: "one number equality with string" })
   oneNumberEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();
@@ -60,7 +59,7 @@ class JsTest {
     assertEqual(one, "1");
   }
 
-  @Test({ message: "one number strict equality with string" })
+  @Test({ it: "one number strict equality with string" })
   oneNumberStrictEqualToOneStringTest(): void {
     // When
     const one: number = this.test.oneNumber();
@@ -69,7 +68,7 @@ class JsTest {
     assertStrictEqual(one, "1");
   }
 
-  @Test({ message: "object strict equality with object" })
+  @Test({ it: "object strict equality with object" })
   objectStrictEqualTest(): void {
     // When
     const helloWorld: Object = this.test.object();
@@ -85,17 +84,7 @@ class JsTest {
     });
   }
 
-  @Test({ message: "Async function third" })
-  @Context({ message: "When testing async" })
-  async asyncFunctionTesting3(): Promise<void> {
-    //When
-    const actual = await this.test.testAsync();
-
-    // Then
-    assertEqual(actual, "Hello async world");
-  }
-
-  @Test({ message: "one number strict equality with string" })
+  @Test({ it: "one number strict equality with string" })
   objectStrictNotEqualTest(): void {
     // When
     const helloWorld: Object = this.test.object();
@@ -108,19 +97,8 @@ class JsTest {
     });
   }
 
-  @Test({ message: "Async function first" })
-  @Context({ message: "When testing async" })
+  @Test({ it: "Async function" })
   async asyncFunctionTesting(): Promise<void> {
-    //When
-    const actual = await this.test.testAsync();
-
-    // Then
-    assertEqual(actual, "Hello async world");
-  }
-
-  @Test({ message: "Async function second" })
-  @Context({ message: "When testing async" })
-  async asyncFunctionTesting2(): Promise<void> {
     //When
     const actual = await this.test.testAsync();
 

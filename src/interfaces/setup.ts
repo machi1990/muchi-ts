@@ -1,5 +1,5 @@
 export interface Setup {
-  run: (contex) => void;
+  run: (runnerOpts) => void;
   canRunWithin: (TestClass) => boolean;
 }
 
@@ -7,15 +7,14 @@ export interface BeforeSetup extends Setup {}
 
 export interface AfterSetup extends Setup {}
 
-export interface ContextSetup {
-  name: string;
-  ignore: boolean;
-}
-
-export interface TestSetup extends Setup {
+export interface MethodSetup extends Setup {
   message: string;
   ignore: boolean;
-  order: number;
   key: string;
-  contextSetup?: ContextSetup;
 }
+
+export interface ContextSetup extends MethodSetup {
+  englobingClass: any;
+}
+
+export interface TestSetup extends MethodSetup {}

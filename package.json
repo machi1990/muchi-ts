@@ -1,17 +1,17 @@
 {
-  "name": "muchi-js",
-  "version": "1.0.0",
+  "name": "muchi-ts",
+  "version": "1.1.0",
   "description": "Annotation based test runner for JavaScript and TypeScript, written in TypeScript.",
   "main": "index.js",
   "bin": {
     "muchi": "./bin/muchi.js"
   },
   "scripts": {
-    "prestart": "yarn link",
+    "prestart": "tsc && yarn link",
     "start": "muchi test/*.test.ts",
     "poststart": "yarn unlink",
     "format": "pretty-quick --staged",
-    "build": "tsc",
+    "compile": "tsc",
     "precommit": "lint-staged && npm run format"
   },
   "lint-staged": {},
