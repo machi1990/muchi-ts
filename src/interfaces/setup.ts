@@ -13,8 +13,6 @@ export interface MethodSetup extends Setup {
   key: string;
 }
 
-export interface ContextSetup extends MethodSetup {
-  englobingClass: any;
-}
+export interface ContextSetup extends MethodSetup {}
 
 export interface TestSetup extends MethodSetup {}

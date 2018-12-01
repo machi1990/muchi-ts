@@ -200,14 +200,14 @@ var run = function(runnerOpts, _a) {
     return __generator(this, function(_b) {
       switch (_b.label) {
         case 0:
-          level = runnerOpts.level;
+          level = runnerOpts.level * 2;
           logger = runnerOpts.logger;
           skipTest = ignore || runnerOpts.ignore;
           context = runnerOpts.contextInstance;
           if (!skipTest) return [3 /*break*/, 1];
           runnerOpts.logger.addLog(
             logger_1.TYPE.log,
-            hard_corded_value_1.SPACE.repeat(runnerOpts.level),
+            hard_corded_value_1.SPACE.repeat(level),
             hard_corded_value_1.SPACE,
             colors.cyan(message)
           );
@@ -226,7 +226,6 @@ var run = function(runnerOpts, _a) {
             logger_1.TYPE.log,
             hard_corded_value_1.SPACE.repeat(level),
             hard_corded_value_1.SPACE,
-            hard_corded_value_1.PASSED,
             colors.green(message),
             colors.gray("- " + duration + " ms") // tests logs
           );
@@ -242,7 +241,6 @@ var run = function(runnerOpts, _a) {
             logger_1.TYPE.error,
             hard_corded_value_1.SPACE.repeat(level),
             hard_corded_value_1.SPACE,
-            hard_corded_value_1.FAILED,
             colors.red(message),
             colors.gray(" - " + duration + " ms")
           );

@@ -160,7 +160,6 @@ var ContextDecoratorFactory = /** @class */ (function() {
           ignore: ignore,
           message: message,
           key: method,
-          englobingClass: opts.englobingClass,
           canRunWithin: function(TestClass) {
             return can_run_within_1.default(TestClass, target);
           },

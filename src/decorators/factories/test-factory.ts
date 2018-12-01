@@ -8,13 +8,7 @@ import canRunWithin from "../../utils/ts/can-run-within";
 import TestRegistry from "../../registries/method-registry";
 import DecoratorFactory from "../../interfaces/decorator-factory";
 import { TestMethodOpts } from "../../interfaces/annotation-opts";
-import {
-  SPACE,
-  PASSED,
-  FAILED,
-  ACTUAL,
-  EXPECTED
-} from "../../utils/ts/hard-corded-value";
+import { SPACE, ACTUAL, EXPECTED } from "../../utils/ts/hard-corded-value";
 
 export default class TestDecoratorFactory implements DecoratorFactory {
   constructor(private registry: TestRegistry) {}
@@ -49,7 +43,7 @@ export default class TestDecoratorFactory implements DecoratorFactory {
 }
 
 const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
-  const level: number = runnerOpts.level;
+  const level: number = runnerOpts.level * 2;
   const logger: Logger = runnerOpts.logger;
   const skipTest = ignore || runnerOpts.ignore;
   const context: any = runnerOpts.contextInstance;
@@ -57,7 +51,7 @@ const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
   if (skipTest) {
     runnerOpts.logger.addLog(
       TYPE.log,
-      SPACE.repeat(runnerOpts.level),
+      SPACE.repeat(level),
       SPACE,
       colors.cyan(message)
     );
@@ -72,7 +66,6 @@ const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
         TYPE.log,
         SPACE.repeat(level),
         SPACE,
-        PASSED,
         colors.green(message),
         colors.gray(`- ${duration} ms`) // tests logs
       );
@@ -83,7 +76,6 @@ const run = async (runnerOpts: RunnerOpts, { method, ignore, message }) => {
         TYPE.error,
         SPACE.repeat(level),
         SPACE,
-        FAILED,
         colors.red(message),
         colors.gray(` - ${duration} ms`)
       );

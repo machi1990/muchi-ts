@@ -36,7 +36,6 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
         ignore,
         message,
         key: method,
-        englobingClass: opts.englobingClass,
         canRunWithin: (TestClass): boolean => canRunWithin(TestClass, target),
         run: async (currentRunnerOpts: RunnerOpts) => {
           const callerContext: any = currentRunnerOpts.contextInstance;

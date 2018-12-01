@@ -34,6 +34,9 @@ var Registry = /** @class */ (function() {
       value: done ? null : this.get(this[counter]++)
     };
   };
+  Registry.prototype[((_a = counter), Symbol.iterator)] = function() {
+    return this;
+  };
   Registry.prototype.feed = function(destination) {
     for (var _i = 0, _a = this[elements]; _i < _a.length; _i++) {
       var setup = _a[_i];
@@ -43,5 +46,4 @@ var Registry = /** @class */ (function() {
   };
   return Registry;
 })();
-_a = counter;
 exports.default = Registry;

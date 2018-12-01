@@ -148,12 +148,13 @@ var default_1 = /** @class */ (function() {
   }
   default_1.prototype.run = function(runnerOpts) {
     return __awaiter(this, void 0, void 0, function() {
-      var message, logger, beforeSetupContexts, afterSetupContexts;
+      var message, logger, level, beforeSetupContexts, afterSetupContexts;
       return __generator(this, function(_a) {
         switch (_a.label) {
           case 0:
             message = runnerOpts.message;
             logger = runnerOpts.logger;
+            level = runnerOpts.level * 2;
             beforeSetupContexts = this.beforeRegistry
               .keepOnly(function(setup) {
                 return setup.canRunWithin(runnerOpts.contextClazz);
@@ -184,13 +185,13 @@ var default_1 = /** @class */ (function() {
                */
               logger.addLog(
                 logger_1.TYPE.log,
-                hard_corded_value_1.SPACE.repeat(runnerOpts.level),
+                hard_corded_value_1.SPACE.repeat(level),
                 colors.cyan(message)
               );
             } else {
               logger.addLog(
                 logger_1.TYPE.log,
-                hard_corded_value_1.SPACE.repeat(runnerOpts.level),
+                hard_corded_value_1.SPACE.repeat(level),
                 message
               );
             }

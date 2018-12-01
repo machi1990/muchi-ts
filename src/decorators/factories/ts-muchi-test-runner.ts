@@ -29,6 +29,7 @@ export default class {
   async run(runnerOpts: RunnerOpts): Promise<void> {
     const message: string = runnerOpts.message;
     const logger: Logger = runnerOpts.logger;
+    const level: number = runnerOpts.level * 2;
 
     /**
      * Retrieve before and after annotation.
@@ -64,13 +65,9 @@ export default class {
       /**
        * Skips test class if ignore metadata sets to true
        */
-      logger.addLog(
-        TYPE.log,
-        SPACE.repeat(runnerOpts.level),
-        colors.cyan(message)
-      );
+      logger.addLog(TYPE.log, SPACE.repeat(level), colors.cyan(message));
     } else {
-      logger.addLog(TYPE.log, SPACE.repeat(runnerOpts.level), message);
+      logger.addLog(TYPE.log, SPACE.repeat(level), message);
     }
 
     /**

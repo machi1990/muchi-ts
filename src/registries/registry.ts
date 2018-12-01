@@ -3,7 +3,8 @@ import { Setup } from "../interfaces/setup";
 const elements = Symbol("elements");
 const counter = Symbol("counter");
 
-export default class Registry<T extends Setup> implements Iterator<T> {
+export default class Registry<T extends Setup>
+  implements Iterator<T>, IterableIterator<T> {
   private [elements]: Array<T>;
   private [counter]: number = 0;
 
@@ -42,6 +43,10 @@ export default class Registry<T extends Setup> implements Iterator<T> {
       done,
       value: done ? null : this.get(this[counter]++)
     };
+  }
+
+  public [Symbol.iterator](): IterableIterator<T> {
+    return this;
   }
 
   feed<R extends Registry<T>>(destination: R): R {
