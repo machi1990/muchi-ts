@@ -1,4 +1,3 @@
-import Decorator from "../../types/decorator";
 import { AfterSetup } from "../../interfaces/setup";
 import { Logger, TYPE } from "../../utils/ts/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
@@ -9,12 +8,8 @@ import DecoratorFactory from "../../interfaces/decorator-factory";
 export default class AfterDecoratorFactory implements DecoratorFactory {
   constructor(private registry: AfterRegistry) {}
 
-  public create(): Decorator {
-    return (
-      target: Object,
-      after: string | number,
-      _descriptor: PropertyDescriptor
-    ) => {
+  public create(): MethodDecorator {
+    return (target: Object, after: string, _descriptor: PropertyDescriptor) => {
       /**
        * Declare and register after setup.
        */

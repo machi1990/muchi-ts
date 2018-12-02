@@ -1,5 +1,5 @@
-import { mock } from "dada-js";
-import Decorator from "../../types/decorator";
+import { stub } from "dada-js";
+import TsMuchiDecorator from "../../types/ts-muchi-decorator";
 import { MockSetup } from "../../interfaces/setup";
 import canRunWithin from "../../utils/ts/can-run-within";
 import MockRegistry from "../../registries/mock-registry";
@@ -8,9 +8,9 @@ import RunnerOpts from "../../interfaces/runner-opts";
 
 export default class MockFactory implements DecoratorFactory {
   constructor(private mockRegistry: MockRegistry) {}
-  public create(): Decorator {
-    return (Class: any) => {
-      return (target: Object, key: string | number) => {
+  public create(): TsMuchiDecorator {
+    return (Class: any): PropertyDecorator => {
+      return (target: Object, key: string) => {
         const mockSetup: MockSetup = {
           key,
           canRunWithin: TestClass => canRunWithin(TestClass, target),
@@ -18,14 +18,14 @@ export default class MockFactory implements DecoratorFactory {
             const MockClass = () => {};
             MockClass.prototype = Class.prototype;
 
-            const mockObj: Object = new MockClass();
+            const obj: Object = new MockClass();
             const methods = Reflect.ownKeys(
               Object.getPrototypeOf(Class.prototype)
             );
             methods.forEach(fnName => {
-              mockObj[fnName] = mock(mockObj, fnName);
+              obj[fnName] = stub(obj, fnName);
             });
-            runnerOpts.contextInstance[key] = mockObj;
+            runnerOpts.contextInstance[key] = obj;
           }
         };
 

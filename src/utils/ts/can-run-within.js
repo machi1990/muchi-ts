@@ -6,15 +6,15 @@ var reflection_1 = require("../../interfaces/reflection");
  * @param TestClass
  * @param target
  */
-var canRunWithin = function(TestClass, target) {
-  var testClassReflection = {
-    constructor: TestClass.constructor,
-    prepertyKeys: Reflect.ownKeys(TestClass)
-  };
-  var targetReflextion = {
-    constructor: target.constructor,
-    prepertyKeys: Reflect.ownKeys(target)
-  };
-  return reflection_1.isSame(testClassReflection, targetReflextion);
+var canRunWithin = function (TestClass, target) {
+    var testClassReflection = {
+        constructor: TestClass.constructor,
+        prepertyKeys: Reflect.ownKeys(TestClass)
+    };
+    var targetReflextion = {
+        constructor: target.constructor,
+        prepertyKeys: Reflect.ownKeys(target)
+    };
+    return reflection_1.isSame(testClassReflection, targetReflextion);
 };
 exports.default = canRunWithin;

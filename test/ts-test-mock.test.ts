@@ -1,4 +1,4 @@
-import { Test, TsMuchi, Mock, After, assertEqual, Before } from "..";
+import { Test, TsMuchi, Mock, After, assertEqual, Before, reflect } from "..";
 import TestClass from "./test";
 
 class TestGrandChild extends TestClass {
@@ -57,6 +57,6 @@ class TsTest {
     this.classWithMock.callMock();
 
     // Then
-    assertEqual(this.mock.oneNumber["callCount"](), 1);
+    assertEqual(reflect(this.mock.oneNumber).callCount(), 1);
   }
 }

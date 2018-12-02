@@ -12,3 +12,4 @@ var ts_muchi_1 = require("./src/decorators/ts-muchi");
   (exports.Context = _a.Context),
   (exports.Before = _a.Before),
   (exports.Mock = _a.Mock);
+__export(require("./src/utils/ts/test-double"));

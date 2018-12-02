@@ -1,6 +1,6 @@
 import * as colors from "colors";
 import { Op } from "../../utils/ts/op";
-import Decorator from "../../types/decorator";
+import TsMuchiDecorator from "../../types/ts-muchi-decorator";
 import { TestSetup } from "../../interfaces/setup";
 import { TYPE, Logger } from "../../utils/ts/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
@@ -18,11 +18,11 @@ import {
 
 export default class TestDecoratorFactory implements DecoratorFactory {
   constructor(private registry: TestRegistry) {}
-  public create(): Decorator {
-    return (opts: TestMethodOpts) => {
+  public create(): TsMuchiDecorator {
+    return (opts: TestMethodOpts): MethodDecorator => {
       return (
         target: Object,
-        method: string | number,
+        method: string,
         _descriptor: PropertyDescriptor
       ) => {
         const name = `${target.constructor}`

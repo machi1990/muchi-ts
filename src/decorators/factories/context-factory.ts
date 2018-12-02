@@ -1,4 +1,3 @@
-import Decorator from "../../types/decorator";
 import RunnerOpts from "../../interfaces/runner-opts";
 import { ContextSetup } from "../../interfaces/setup";
 import TsMuchiTestRunner from "./ts-muchi-test-runner";
@@ -8,6 +7,7 @@ import ContextBuilder from "../../utils/ts/context-builder";
 import AfterRegistry from "../../registries/after-registry";
 import BeforeRegistry from "../../registries/before-registry";
 import MethodRegistry from "../../registries/method-registry";
+import TsMuchiDecorator from "../../types/ts-muchi-decorator";
 import DecoratorFactory from "../../interfaces/decorator-factory";
 import { ContextClassOpts } from "../../interfaces/annotation-opts";
 import { BeforeSetupRunner, AfterSetupRunner } from "./setup-runner";
@@ -20,8 +20,8 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
     private mockRegistry: MockRegistry
   ) {}
 
-  public create(): Decorator {
-    return (opts: ContextClassOpts) => (
+  public create(): TsMuchiDecorator {
+    return (opts: ContextClassOpts): MethodDecorator => (
       target: Object,
       method: string,
       _descriptor: PropertyDescriptor

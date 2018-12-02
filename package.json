@@ -1,6 +1,6 @@
 {
   "name": "muchi-ts",
-  "version": "1.3.1",
+  "version": "2.3.0",
   "description": "Annotation based test runner for JavaScript and TypeScript, written in TypeScript.",
   "main": "index.js",
   "bin": {
@@ -8,7 +8,9 @@
   },
   "scripts": {
     "prestart": "tsc && yarn link",
-    "start": "muchi test/*.test.ts",
+    "start": "muchi -t test/.*.test.ts",
+    "pretest": "tsc && yarn link",
+    "test": "muchi -t test/test-double.test.ts",
     "poststart": "yarn unlink",
     "format": "pretty-quick --staged",
     "compile": "tsc",
@@ -25,7 +27,8 @@
     "@types/node": "10.10.2",
     "assert": "1.4.1",
     "colors": "1.3.2",
-    "dada-js": "git+https://chitson1990@bitbucket.org/chitson1990/dada-js.git",
+    "commander": "2.19.0",
+    "dada-js": "https://github.com/machi1990/dada-js.git",
     "reflect-metadata": "0.1.12",
     "source-map-support": "0.5.9",
     "typescript": "3.1.3"

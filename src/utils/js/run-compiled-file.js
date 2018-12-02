@@ -23,4 +23,5 @@ module.exports = ({ file, compilationPath }) => {
   testRunning.stdout.on("data", append);
   testRunning.stderr.on("data", append);
   testRunning.on("close", display);
+  return testRunning;
 };

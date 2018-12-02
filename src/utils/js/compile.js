@@ -1,12 +1,11 @@
+const fs = require('fs');
 const path = require("path");
 const ts = require("typescript");
 const colors = require("colors");
 
-module.exports = (fileNames, outputDir = undefined) => {
-  const outDir = outputDir || "build";
-
+module.exports = (fileNames, outDir) => {
   const defaultCompilerOpts = {
-    allowJs: true,
+    allowJs: false,
     checkJs: false,
     lib: ["es6", "dom"],
     noEmitOnError: false,
@@ -22,16 +21,16 @@ module.exports = (fileNames, outputDir = undefined) => {
     exclude: [outDir, "node_modules"]
   };
 
-  const compilerOpts = {
+  const compileOpts = {
     ...{
       outDir: path.join(process.cwd(), outDir)
     },
     ...defaultCompilerOpts
   };
 
-  const emitResult = ts.createProgram(fileNames, compilerOpts).emit();
+  const emitResult = ts.createProgram(fileNames, compileOpts).emit();
   if (emitResult.emitSkipped) {
-    console.log(colors.red("compilation failed", fileNames));
+    console.log(colors.red('compilation failed for:', fileNames));
     process.exit(1);
   }
-};
+}

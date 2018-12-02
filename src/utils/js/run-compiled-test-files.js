@@ -4,7 +4,7 @@ const runCompiledFile = require("./run-compiled-file");
  * Runs test files located in an ouput folder
  */
 module.exports = outputDir => files => {
-  files.forEach(file =>
+  return files.map(file =>
     runCompiledFile({
       file,
       compilationPath: path.join(

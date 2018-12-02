@@ -1,4 +1,3 @@
-import Decorator from "../../types/decorator";
 import { TYPE, Logger } from "../../utils/ts/logger";
 import { BeforeSetup } from "../../interfaces/setup";
 import RunnerOpts from "../../interfaces/runner-opts";
@@ -9,10 +8,10 @@ import DecoratorFactory from "../../interfaces/decorator-factory";
 export default class BeforeDecoratorFactory implements DecoratorFactory {
   constructor(private registry: BeforeRegistry) {}
 
-  public create(): Decorator {
+  public create(): MethodDecorator {
     return (
       target: Object,
-      before: string | number,
+      before: string,
       _descriptor: PropertyDescriptor
     ) => {
       /**

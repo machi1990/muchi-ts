@@ -18,14 +18,14 @@ var MockFactory = /** @class */ (function() {
           run: function(runnerOpts) {
             var MockClass = function() {};
             MockClass.prototype = Class.prototype;
-            var mockObj = new MockClass();
+            var obj = new MockClass();
             var methods = Reflect.ownKeys(
               Object.getPrototypeOf(Class.prototype)
             );
             methods.forEach(function(fnName) {
-              mockObj[fnName] = dada_js_1.mock(mockObj, fnName);
+              obj[fnName] = dada_js_1.stub(obj, fnName);
             });
-            runnerOpts.contextInstance[key] = mockObj;
+            runnerOpts.contextInstance[key] = obj;
           }
         };
         _this.mockRegistry.register(mockSetup);

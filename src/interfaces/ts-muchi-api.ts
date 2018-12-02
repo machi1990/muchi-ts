@@ -1,4 +1,4 @@
-import Decorator from "../types/decorator";
+import Decorator from "../types/ts-muchi-decorator";
 
 export default interface TsMuchiApi {
   Test: any;

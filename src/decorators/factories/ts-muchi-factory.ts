@@ -1,4 +1,4 @@
-import Decorator from "../../types/decorator";
+import TsMuchiDecorator from "../../types/ts-muchi-decorator";
 import { Logger } from "../../utils/ts/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
 import TsMuchiTestRunner from "./ts-muchi-test-runner";
@@ -19,8 +19,8 @@ export default class TsMuchiDecoratorFactory implements DecoratorFactory {
     private mockRegistry: MockRegistry
   ) {}
 
-  public create(): Decorator {
-    return ({ name, ignore }: TestClassOpts) => testClass => {
+  public create(): TsMuchiDecorator {
+    return ({ name, ignore }: TestClassOpts): ClassDecorator => testClass => {
       const message: string = name || testClass.name;
       const runnerOpts: RunnerOpts = {
         message,
