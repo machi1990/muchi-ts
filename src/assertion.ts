@@ -10,37 +10,17 @@ import {
   NOT_DEEP_EQL_OP
 } from "./utils/ts/op";
 
-/**
- * Add more here.
- * - error assertion
- *  etc
- */
-
-const assertions = [
-  "assertTruthy",
-  "assertEqual",
-  "assertStrictEqual",
-  "assertDeepEqual",
-  "assertNotEqual",
-  "assertNotStrictEqual",
-  "assertNotDeepEqual"
-].map(
-  method => new RegExp(`at Object.exports.${method} (\.*/assertion.[tj]s)`)
-);
-
 const findFailingLineNumberFromError = error => {
   const stack = error.stack;
   if (!stack) return "";
   const stackLines = stack.split("\n");
-  let index = 0;
   for (const line of stackLines) {
-    ++index;
-    if (assertions.some(assertion => assertion.test(line))) {
-      break;
+    if (/.*(\.ts:\d+:\d+\))$/.test(line)) {
+      return line;
     }
   }
 
-  return stackLines[index].trim();
+  return stack;
 };
 
 export const assertTruthy = value => {

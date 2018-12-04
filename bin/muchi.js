@@ -2,8 +2,8 @@
 
 const colors = require("colors");
 const muchiTsProgram = require("commander");
-const runTest = require("../src/utils/js/run-test");
 const { name, version } = require("../package.json");
+const runTest = require("../src/utils/js/run-test")(name);
 
 const collect = (val, memo) => {
   memo.push(val);

@@ -5,7 +5,6 @@ import { SPACE, SKIPPED } from "../../utils/ts/hard-corded-value";
 import BeforeRegistry from "../../registries/before-registry";
 import AfterRegistry from "../../registries/after-registry";
 import MethodRegistry from "../../registries/method-registry";
-import { MethodSetup } from "../../interfaces/setup";
 import { BeforeSetupContext, AfterSetupContext } from "./setup-runner";
 import MockRegistry from "../../registries/mock-registry";
 
@@ -93,29 +92,9 @@ export default class {
     if (!value) return;
 
     if (value.canRunWithin(runnerOpts.contextClazz)) {
-      await this.runTest(runnerOpts, value);
+      await value.run(runnerOpts);
     }
 
-    return this.runAllRecursive(runnerOpts);
-  }
-
-  async runTest(
-    runnerOpts: RunnerOpts,
-    methodSetup: MethodSetup
-  ): Promise<void> {
-    /**
-     * Execute before setup if any
-     */
-    await runnerOpts.beforeRunner.run(runnerOpts);
-
-    /**
-     * Execute test setup using current runner options
-     */
-    await methodSetup.run(runnerOpts);
-
-    /**
-     * Execute after setup if any
-     */
-    await runnerOpts.afterRunner.run(runnerOpts);
+    await this.runAllRecursive(runnerOpts);
   }
 }

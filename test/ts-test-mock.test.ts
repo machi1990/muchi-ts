@@ -1,4 +1,4 @@
-import { Test, TsMuchi, Mock, After, assertEqual, Before, reflect } from "..";
+import { assertEqual } from "..";
 import TestClass from "./test";
 
 class TestGrandChild extends TestClass {
@@ -16,7 +16,7 @@ class ClassWithMock {
   }
 }
 
-@TsMuchi({ name: "Mocking Annotation", ignore: false })
+@MuchiTs({ name: "Mocking Annotation", ignore: false })
 class TsTest {
   @Mock(TestGrandChild)
   private mock: TestClass;

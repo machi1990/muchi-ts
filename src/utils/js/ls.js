@@ -18,7 +18,7 @@ const ls = (file, opts) => {
     const lsDir = readdirSync(file).map(child =>
       ls(path.join(file, child), opts)
     );
-    return flatten(lsDir);
+    return [file, ...flatten(lsDir)];
   } else if (isTestCodeFile) {
     return [file];
   }

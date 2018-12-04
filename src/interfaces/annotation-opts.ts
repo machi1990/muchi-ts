@@ -6,12 +6,13 @@ export interface TestClassOpts extends AnnotationOpts {
   name: string;
 }
 
-export interface TestMethodOpts extends AnnotationOpts {
+interface MethodAnnotationOpts extends AnnotationOpts {
+  only?: boolean;
+}
+export interface TestMethodOpts extends MethodAnnotationOpts {
   it: string;
 }
 
-export interface ContextClassOpts extends AnnotationOpts {
+export interface ContextClassOpts extends MethodAnnotationOpts {
   when: string;
-  englobingClass: any;
-  englobingInstanceAttributes: Array<string>;
 }

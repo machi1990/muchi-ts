@@ -1,15 +1,8 @@
-import {
-  Test,
-  After,
-  Before,
-  TsMuchi,
-  assertEqual,
-  assertStrictEqual
-} from "..";
+import { assertEqual, assertStrictEqual } from "..";
 
 import TestClass from "./test";
 
-@TsMuchi({ name: "Ignored flag on TsMuchi Annotation", ignore: true })
+@MuchiTs({ name: "Ignored flag on MuchiTs Annotation", ignore: true })
 class TsTestIgnored {
   private test: TestClass;
 

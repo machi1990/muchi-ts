@@ -1,9 +1,9 @@
 const colors = require("colors");
 const { spawn } = require("child_process");
 
-module.exports = ({ file, compilationPath }) => {
+module.exports = ({ fileName, outputFile }) => {
   const startTime = Date.now();
-  const testRunning = spawn("node", [compilationPath]);
+  const testRunning = spawn("node", [outputFile]);
   let testOutput = "";
 
   const append = chunk => {
@@ -16,8 +16,8 @@ module.exports = ({ file, compilationPath }) => {
     const duration = Date.now() - startTime;
     const finished = code ? colors.red("Finished-") : colors.white("Finished-");
 
+    console.log(fileName, finished, `- ${duration} ms`);
     console.log(testOutput);
-    console.log(file, finished, `- ${duration} ms`);
   };
 
   testRunning.stdout.on("data", append);

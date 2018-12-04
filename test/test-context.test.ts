@@ -1,13 +1,8 @@
 import TestClass from "./test";
-import { Context, TsMuchi, Test, assertEqual, Before } from "..";
+import { assertEqual } from "..";
 
 class ContextTestInContainer3 {
   private test: TestClass;
-
-  @Before
-  public before() {
-    this.test = new TestClass();
-  }
 
   @Test({ it: "Async function third" })
   async contextFunctionTesting3(): Promise<void> {
@@ -32,7 +27,6 @@ class ContextTestInContainer2 {
   }
 
   @Context({
-    englobingClass: ContextTestInContainer2,
     when: "testing context api sub sub level"
   })
   async contextFunctionTesting3() {
@@ -43,7 +37,7 @@ class ContextTestInContainer2 {
 class ContextTestInContainer {
   private test: TestClass;
 
-  @Test({ it: "Context function first" })
+  @Test({ it: "Context function first", only: false })
   async contextFunctionTesting1(): Promise<void> {
     //When
     const actual = await this.test.testAsync();
@@ -53,7 +47,6 @@ class ContextTestInContainer {
   }
 
   @Context({
-    englobingClass: ContextTestInContainer,
     when: "testing context api sub level",
     ignore: true
   })
@@ -62,10 +55,11 @@ class ContextTestInContainer {
   }
 }
 
-@TsMuchi({
+@MuchiTs({
   name: "Context Annotation",
   ignore: false
 })
+@Only()
 class ContextTest {
   private test: TestClass;
 
@@ -75,7 +69,6 @@ class ContextTest {
   }
 
   @Context({
-    englobingClass: ContextTest,
     when: "testing context api",
     ignore: false
   })

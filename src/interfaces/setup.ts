@@ -11,6 +11,7 @@ export interface MethodSetup extends Setup {
   message: string;
   ignore: boolean;
   key: string | number;
+  only: boolean;
 }
 
 export interface ContextSetup extends MethodSetup {}

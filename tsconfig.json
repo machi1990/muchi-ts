@@ -1,23 +1,15 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "types": ["@types/node"],
+    "types": ["@types/node", "@types/muchi-ts"],
     "lib": ["es6", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "outDir": "dist",
     "allowJs": true,
     "checkJs": false
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "test",
-    "bin",
-    "src/**/js",
-    "src/*js",
-    "dada-js",
-    "*.js"
-  ]
+  "exclude": ["node_modules", "build", "dist", "test", "bin", "dada-js", "*.js"]
 }

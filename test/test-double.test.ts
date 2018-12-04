@@ -1,5 +1,4 @@
 import { stub } from "dada-js";
-import { TsMuchi, Test, Before, After, Context } from "..";
 import { assertNotEqual, assertEqual } from "../src/assertion";
 import { reflect, revive } from "../src/utils/ts/test-double";
 
@@ -29,9 +28,10 @@ class ReviveTest {
   }
 }
 
-@TsMuchi({
+@MuchiTs({
   name: ".reflect()"
 })
+@Only()
 class ReflectMockTest {
   private objToStub: Stub = {
     fn: () => {}

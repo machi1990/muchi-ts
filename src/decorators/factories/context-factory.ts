@@ -1,14 +1,14 @@
 import RunnerOpts from "../../interfaces/runner-opts";
 import { ContextSetup } from "../../interfaces/setup";
-import TsMuchiTestRunner from "./ts-muchi-test-runner";
+import MuchiTsTestRunner from "./muchi-ts-test-runner";
 import canRunWithin from "../../utils/ts/can-run-within";
 import MockRegistry from "../../registries/mock-registry";
 import ContextBuilder from "../../utils/ts/context-builder";
 import AfterRegistry from "../../registries/after-registry";
 import BeforeRegistry from "../../registries/before-registry";
 import MethodRegistry from "../../registries/method-registry";
-import TsMuchiDecorator from "../../types/ts-muchi-decorator";
-import DecoratorFactory from "../../interfaces/decorator-factory";
+import MuchiTsDecorator from "../../types/muchi-ts-decorator";
+import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 import { ContextClassOpts } from "../../interfaces/annotation-opts";
 import { BeforeSetupRunner, AfterSetupRunner } from "./setup-runner";
 
@@ -20,7 +20,7 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
     private mockRegistry: MockRegistry
   ) {}
 
-  public create(): TsMuchiDecorator {
+  public create(): MuchiTsDecorator {
     return (opts: ContextClassOpts): MethodDecorator => (
       target: Object,
       method: string,
@@ -34,11 +34,13 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
 
       const message: string = opts.when || `${name}.${method}()`;
       const ignore: boolean = opts.ignore || false;
+      const only: boolean = opts.only || false;
 
       /**
        * Create a new test setup and register it
        */
       const contextSetup: ContextSetup = {
+        only,
         ignore,
         message,
         key: method,
@@ -47,6 +49,19 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
           const callerContext: any = currentRunnerOpts.contextInstance;
           const clazz = await callerContext[method]();
           if (clazz) {
+            const contextClazz = clazz.prototype;
+            const hasTestWithOnlyFn = !!this.methodRegistry.find(
+              setup => setup.only && setup.canRunWithin(contextClazz)
+            );
+            const hasOnly: boolean =
+              only || !currentRunnerOpts.hasOnly() || hasTestWithOnlyFn;
+            if (!hasOnly) {
+              return;
+            }
+            /**
+             * Execute before methods
+             */
+            await currentRunnerOpts.beforeRunner.run(currentRunnerOpts);
             const contextInstance = new ContextBuilder(clazz)
               .withEnglobingContext(callerContext)
               .build();
@@ -61,30 +76,32 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
               beforeRunner,
               afterRunner,
               contextInstance,
-              contextClazz: clazz.prototype,
+              contextClazz,
               logger: currentRunnerOpts.logger,
               message: opts.when || clazz.name,
               level: currentRunnerOpts.level + 1,
-              ignore: ignore || currentRunnerOpts.ignore
+              ignore: ignore || currentRunnerOpts.ignore,
+              hasOnly: () => hasTestWithOnlyFn
             };
 
-            const tsMuchiTestRunner = new TsMuchiTestRunner(
+            const muchiTsTestRunner = new MuchiTsTestRunner(
               this.beforeRegistry,
               this.methodRegistry,
               this.afterRegistry,
               this.mockRegistry
             );
 
-            return tsMuchiTestRunner.run(runnerOpts);
+            await muchiTsTestRunner.run(runnerOpts);
+
+            /**
+             * Execute before methods
+             */
+            return currentRunnerOpts.beforeRunner.run(currentRunnerOpts);
           }
         }
       };
 
       this.methodRegistry.register(contextSetup);
-
-      /**
-       * TODO englobing clazz and attributes
-       */
     };
   }
 }

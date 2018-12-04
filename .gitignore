@@ -3,3 +3,4 @@ build
 *.log
 test/*.js
 .vscode
+dist/

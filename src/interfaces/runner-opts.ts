@@ -13,4 +13,5 @@ export default interface RunnerOpts {
   contextClazz: any;
   beforeRunner: BeforeSetupRunner;
   afterRunner: AfterSetupRunner;
+  hasOnly: () => boolean;
 }

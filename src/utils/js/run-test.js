@@ -1,7 +1,7 @@
 const fs = require("fs");
 const ls = require("./ls");
-const compile = require("./compile");
-const runCompiledTestFiles = require("./run-compiled-test-files");
+const tranpile = require("./transpile");
+const runTranspiledTestFiles = require("./run-transpiled-test-files");
 
 const stopsJobs = jobs => {
   if (!jobs) return;
@@ -13,40 +13,56 @@ const stopsJobs = jobs => {
 };
 
 let currentJobs = [];
-const runTest = (tests, outDir) => {
+let testToRun = {};
+
+const runTest = () => {
   stopsJobs(currentJobs);
-  currentJobs = runCompiledTestFiles(outDir)(tests);
+  currentJobs = runTranspiledTestFiles(testToRun);
 };
 
-const watchFilesChangeAndRerunTests = (allFiles, tests, outDir) => {
+const watchFilesChangeAndRerunTests = (allFiles, outDir) => {
   allFiles.forEach(file => {
     fs.watchFile(file, { persistent: true, interval: 500 }, (curr, prev) => {
       if (+curr.mtime <= +prev.mtime) {
         return;
       }
 
-      compile([file], outDir);
-      runTest(tests, outDir);
+      const transpilationResult = tranpile([file], outDir, requirePath);
+      testToRun[file] = transpilationResult[file];
+      runTest();
     });
   });
 };
 
-module.exports = (testsArg, outDir, watch) => {
-  const regexes = testsArg.map(fileArg => new RegExp(fileArg));
-  const tsOrJsExtension = /(\.[tj]s)$/;
-  const isTestFile = file =>
-    tsOrJsExtension.test(file) && regexes.some(regex => regex.test(file));
+let requirePath = "";
 
+module.exports = _requirePath => (testsArg, outDir, watch) => {
+  requirePath = _requirePath;
   const workingDir = ".";
   const allFiles = ls(workingDir, {
     exclude: ["node_modules", ".git", outDir]
   });
+
+  /**
+   * Find tests files
+   */
+  const regexes = testsArg.map(fileArg => new RegExp(fileArg));
+  const isTestFile = file => regexes.some(regex => regex.test(file));
   const tests = allFiles.filter(isTestFile);
+
   /**
    * compile
    */
-  compile(tests, outDir);
-  runTest(tests, outDir);
+  const transpilationResults = tranpile(allFiles, outDir, requirePath);
+  testToRun = Object.keys(transpilationResults).reduce((obj, key) => {
+    if (!tests.includes(key)) return obj;
+    return {
+      ...obj,
+      [key]: transpilationResults[key]
+    };
+  }, {});
+
+  runTest();
   if (!watch) return;
-  watchFilesChangeAndRerunTests(allFiles, tests, outDir);
+  watchFilesChangeAndRerunTests(allFiles, outDir, requirePath);
 };
