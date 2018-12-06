@@ -1,4 +1,4 @@
-import { assertEqual } from "..";
+import { assertEqual, reflect } from "..";
 import TestClass from "./test";
 
 class TestGrandChild extends TestClass {

@@ -28,6 +28,7 @@ function findMuchiTsOptions(sourceFile) {
         break;
     }
 
+    if (declaredMuchiTsIdentifiers.size === muchiTsIdentifiers.length) return;
     ts.forEachChild(node, find);
   }
 
@@ -65,9 +66,8 @@ function writeSourceMap(sourceMapText, outputFile, sourceFile) {
 
 function writeTranspileOutputToFile(
   outputText,
-  file,
-  muchiTsOptions,
-  requirePath
+  { file, fileName },
+  { muchiTsOptions, requirePath }
 ) {
   const isTestFile = muchiTsOptions.length;
   let requireMuchiTs = "";
@@ -77,7 +77,7 @@ function writeTranspileOutputToFile(
      */
     requireMuchiTs = `const {${muchiTsOptions.join(
       ","
-    )}} = require('${requirePath}').muchiTsApi();\n`;
+    )}} = require('${requirePath}').muchiTsApi('${fileName}');\n`;
   }
   const transpiledModule =
     requireMuchiTs +
@@ -150,13 +150,16 @@ module.exports = (fileNames, outDir, requirePath) => {
      * Find annotation from AST
      */
     const muchiTsOptions = findMuchiTsOptions(sourceFile);
-
     /**
      * Transpile module
      */
     const { outputText, sourceMapText } = transpileSource(source, outDir);
 
-    writeTranspileOutputToFile(outputText, file, muchiTsOptions, requirePath);
+    writeTranspileOutputToFile(
+      outputText,
+      { file, fileName },
+      { muchiTsOptions, requirePath }
+    );
 
     const transpilationResult = {
       only: muchiTsOptions.includes(OnlyAnnotation),

@@ -8,13 +8,18 @@
   },
   "scripts": {
     "prebuild": "tsc",
-    "build": "ncc build dist/main.js -S -o .",
+    "build": "ncc build build/src/main.js -S -o .",
+    "prestart": "yarn build",
     "start": "node bin/muchi.test.js test/.*.test.ts",
     "test": "node bin/muchi.test.js test/test-double.test.ts",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.[tj]s": [
+    "*.ts": [
+      "pretty-quick",
+      "git add ."
+    ],
+    "bin/**/*.js": [
       "pretty-quick",
       "git add ."
     ]

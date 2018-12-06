@@ -7,9 +7,9 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "dist",
+    "outDir": "build",
     "allowJs": true,
     "checkJs": false
   },
-  "exclude": ["node_modules", "build", "dist", "test", "bin", "dada-js", "*.js"]
+  "exclude": ["node_modules", "build", "test", "bin", "dada-js", "*.js"]
 }

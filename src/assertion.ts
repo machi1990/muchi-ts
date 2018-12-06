@@ -8,7 +8,7 @@ import {
   NOT_EQL_OP,
   NOT_STRICT_EQL_OP,
   NOT_DEEP_EQL_OP
-} from "./utils/ts/op";
+} from "./utils/op";
 
 const findFailingLineNumberFromError = error => {
   const stack = error.stack;

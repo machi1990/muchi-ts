@@ -1,6 +1,5 @@
 import { stub } from "dada-js";
-import { assertNotEqual, assertEqual } from "../src/assertion";
-import { reflect, revive } from "../src/utils/ts/test-double";
+import { assertNotEqual, assertEqual, reflect, revive } from "..";
 
 interface Stub {
   fn: () => any;

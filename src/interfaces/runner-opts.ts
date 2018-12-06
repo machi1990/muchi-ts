@@ -1,4 +1,4 @@
-import { Logger } from "../utils/ts/logger";
+import { Logger } from "../utils/logger";
 import {
   BeforeSetupRunner,
   AfterSetupRunner

@@ -1,7 +1,7 @@
 import * as colors from "colors";
-import { TYPE, Logger } from "../../utils/ts/logger";
+import { TYPE, Logger } from "../../utils/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
-import { SPACE, SKIPPED } from "../../utils/ts/hard-corded-value";
+import { SPACE, SKIPPED } from "../../utils/hard-corded-value";
 import BeforeRegistry from "../../registries/before-registry";
 import AfterRegistry from "../../registries/after-registry";
 import MethodRegistry from "../../registries/method-registry";

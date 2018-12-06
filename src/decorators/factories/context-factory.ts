@@ -1,9 +1,9 @@
 import RunnerOpts from "../../interfaces/runner-opts";
 import { ContextSetup } from "../../interfaces/setup";
 import MuchiTsTestRunner from "./muchi-ts-test-runner";
-import canRunWithin from "../../utils/ts/can-run-within";
+import canRunWithin from "../../utils/can-run-within";
 import MockRegistry from "../../registries/mock-registry";
-import ContextBuilder from "../../utils/ts/context-builder";
+import ContextBuilder from "../../utils/context-builder";
 import AfterRegistry from "../../registries/after-registry";
 import BeforeRegistry from "../../registries/before-registry";
 import MethodRegistry from "../../registries/method-registry";

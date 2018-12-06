@@ -1,22 +1,23 @@
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
-import { Logger } from "../../utils/ts/logger";
+import { Logger } from "../../utils/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
 import MuchiTsTestRunner from "./muchi-ts-test-runner";
+import ContextBuilder from "../../utils/context-builder";
+import MockRegistry from "../../registries/mock-registry";
 import AfterRegistry from "../../registries/after-registry";
+import MuchiTsDecorator from "../../types/muchi-ts-decorator";
 import BeforeRegistry from "../../registries/before-registry";
 import MethodRegistry from "../../registries/method-registry";
 import { TestClassOpts } from "../../interfaces/annotation-opts";
-import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
-import ContextBuilder from "../../utils/ts/context-builder";
 import { BeforeSetupRunner, AfterSetupRunner } from "./setup-runner";
-import MockRegistry from "../../registries/mock-registry";
+import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 
 export default class MuchiTsDecoratorFactory implements DecoratorFactory {
   constructor(
     private beforeRegistry: BeforeRegistry,
     private methodRegistry: MethodRegistry,
     private afterRegistry: AfterRegistry,
-    private mockRegistry: MockRegistry
+    private mockRegistry: MockRegistry,
+    private testFileName: string
   ) {}
 
   public create(): MuchiTsDecorator {
@@ -43,9 +44,13 @@ export default class MuchiTsDecoratorFactory implements DecoratorFactory {
         this.mockRegistry
       );
 
+      console.time(this.testFileName);
       muchiTsTestRunner
         .run(runnerOpts)
-        .then(() => runnerOpts.logger.log())
+        .then(() => {
+          console.timeEnd(this.testFileName);
+          runnerOpts.logger.log();
+        })
         .catch(console.error);
     };
   }

@@ -13,7 +13,7 @@ import OnlyDecoratorFactory from "./factories/only-factory";
 import MockFactory from "./factories/mock-factory";
 import MockRegistry from "../registries/mock-registry";
 
-export const muchiTsApi = (): MuchiTsApi => {
+export const muchiTsApi = (testFileName): MuchiTsApi => {
   const testRegistry: TestRegistry = new TestRegistry();
   const afterRegistry: AfterRegistry = new AfterRegistry();
   const beforeRegistry: BeforeRegistry = new BeforeRegistry();
@@ -35,7 +35,8 @@ export const muchiTsApi = (): MuchiTsApi => {
       beforeRegistry,
       testRegistry,
       afterRegistry,
-      mockRegistry
+      mockRegistry,
+      testFileName
     ).create()
   };
 };

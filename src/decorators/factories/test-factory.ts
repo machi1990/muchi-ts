@@ -1,10 +1,10 @@
 import * as colors from "colors";
-import { Op } from "../../utils/ts/op";
+import { Op } from "../../utils/op";
 import MuchiTsDecorator from "../../types/muchi-ts-decorator";
 import { TestSetup } from "../../interfaces/setup";
-import { TYPE, Logger } from "../../utils/ts/logger";
+import { TYPE, Logger } from "../../utils/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
-import canRunWithin from "../../utils/ts/can-run-within";
+import canRunWithin from "../../utils/can-run-within";
 import TestRegistry from "../../registries/method-registry";
 import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 import { TestMethodOpts } from "../../interfaces/annotation-opts";
@@ -14,7 +14,7 @@ import {
   PASSED,
   FAILED,
   SKIPPED
-} from "../../utils/ts/hard-corded-value";
+} from "../../utils/hard-corded-value";
 
 export default class TestDecoratorFactory implements DecoratorFactory {
   constructor(private registry: TestRegistry) {}

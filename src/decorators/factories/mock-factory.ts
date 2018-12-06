@@ -1,10 +1,10 @@
 import { stub } from "dada-js";
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
 import { MockSetup } from "../../interfaces/setup";
-import canRunWithin from "../../utils/ts/can-run-within";
-import MockRegistry from "../../registries/mock-registry";
-import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 import RunnerOpts from "../../interfaces/runner-opts";
+import canRunWithin from "../../utils/can-run-within";
+import MockRegistry from "../../registries/mock-registry";
+import MuchiTsDecorator from "../../types/muchi-ts-decorator";
+import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 
 export default class MockFactory implements DecoratorFactory {
   constructor(private mockRegistry: MockRegistry) {}

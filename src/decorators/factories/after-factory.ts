@@ -1,7 +1,7 @@
 import { AfterSetup } from "../../interfaces/setup";
-import { Logger, TYPE } from "../../utils/ts/logger";
+import { Logger, TYPE } from "../../utils/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
-import canRunWithin from "../../utils/ts/can-run-within";
+import canRunWithin from "../../utils/can-run-within";
 import AfterRegistry from "../../registries/after-registry";
 import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 
