@@ -17,14 +17,12 @@ export default class MockFactory implements DecoratorFactory {
           run: (runnerOpts: RunnerOpts) => {
             const MockClass = () => {};
             MockClass.prototype = Class.prototype;
-
             const obj: Object = new MockClass();
-            const methods = Reflect.ownKeys(
-              Object.getPrototypeOf(Class.prototype)
-            );
-            methods.forEach(fnName => {
-              obj[fnName] = stub(obj, fnName);
-            });
+            for (const method in obj) {
+              if (method === "constructor" || typeof obj[method] !== "function")
+                continue;
+              obj[method] = stub(obj, method);
+            }
             runnerOpts.contextInstance[key] = obj;
           }
         };
