@@ -4,7 +4,7 @@ import MuchiTsTestRunner from "./muchi-ts-test-runner";
 import ContextBuilder from "../../utils/context-builder";
 import MockRegistry from "../../registries/mock-registry";
 import AfterRegistry from "../../registries/after-registry";
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
+import MuchiTsDecorator from "../../../types/muchi-ts-decorator";
 import BeforeRegistry from "../../registries/before-registry";
 import MethodRegistry from "../../registries/method-registry";
 import { TestClassOpts } from "../../interfaces/annotation-opts";

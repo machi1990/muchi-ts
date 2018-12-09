@@ -1,9 +1,9 @@
-import { stub } from "dada-js";
+import { stub } from "js-dada";
 import { MockSetup } from "../../interfaces/setup";
 import RunnerOpts from "../../interfaces/runner-opts";
 import canRunWithin from "../../utils/can-run-within";
 import MockRegistry from "../../registries/mock-registry";
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
+import MuchiTsDecorator from "../../../types/muchi-ts-decorator";
 import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 
 export default class MockFactory implements DecoratorFactory {

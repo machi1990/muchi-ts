@@ -1,11 +1,11 @@
-import { stub } from "dada-js";
-import { assertNotEqual, assertEqual, reflect, revive } from "..";
+import { stub } from "js-dada";
+import { assertNotEqual, assertEqual, verify, reconstruct } from "..";
 
 interface Stub {
   fn: () => any;
 }
 
-class ReviveTest {
+class ReconstructTest {
   private stub: Stub = {
     fn: () => 1
   };
@@ -20,7 +20,7 @@ class ReviveTest {
   })
   public testReviveMethodsReflection() {
     // When
-    revive(this.stub.fn);
+    reconstruct(this.stub.fn);
     // Then
     assertEqual(this.stub.fn["reset"], undefined);
     assertEqual(this.stub.fn(), 1);
@@ -28,10 +28,10 @@ class ReviveTest {
 }
 
 @MuchiTs({
-  name: ".reflect()"
+  name: ".verify(mock)"
 })
 @Only()
-class ReflectMockTest {
+class VerifyMockTest {
   private objToStub: Stub = {
     fn: () => {}
   };
@@ -42,31 +42,31 @@ class ReflectMockTest {
   }
 
   @Test({
-    it: "reflects test double methods"
+    it: "returns test double methods"
   })
   public testMockObjMethodsReflection() {
     // When
-    const reflection = reflect(this.objToStub.fn);
+    const verification = verify(this.objToStub.fn);
 
     // Then
-    assertNotEqual(reflection.args, undefined);
-    assertNotEqual(reflection.when, undefined);
-    assertNotEqual(reflection.reset, undefined);
-    assertNotEqual(reflection.throws, undefined);
-    assertNotEqual(reflection.returns, undefined);
-    assertNotEqual(reflection.inspect, undefined);
-    assertNotEqual(reflection.callCount, undefined);
-    assertNotEqual(reflection.notCalled, undefined);
-    assertNotEqual(reflection.calledWith, undefined);
-    assertNotEqual(reflection.calledOnce, undefined);
-    assertNotEqual(reflection.calledTwice, undefined);
-    assertNotEqual(reflection.calledThrice, undefined);
+    assertNotEqual(verification.args, undefined);
+    assertNotEqual(verification.when, undefined);
+    assertNotEqual(verification.reset, undefined);
+    assertNotEqual(verification.throws, undefined);
+    assertNotEqual(verification.returns, undefined);
+    assertNotEqual(verification.inspect, undefined);
+    assertNotEqual(verification.callCount, undefined);
+    assertNotEqual(verification.notCalled, undefined);
+    assertNotEqual(verification.calledWith, undefined);
+    assertNotEqual(verification.calledOnce, undefined);
+    assertNotEqual(verification.calledTwice, undefined);
+    assertNotEqual(verification.calledThrice, undefined);
   }
 
   @Context({
-    when: "reviving"
+    when: "recostructing"
   })
-  public reviveTest() {
-    return ReviveTest;
+  public reconstructTest() {
+    return ReconstructTest;
   }
 }

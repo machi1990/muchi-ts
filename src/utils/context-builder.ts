@@ -12,9 +12,9 @@ export default class ContextBuilder {
     const instance = new this.fromClass();
     if (!this.context) return instance;
 
-    const instanceAttributes: Array<any> = Reflect.ownKeys(instance);
+    const instanceAttributes: Array<any> = instanceKeys(instance);
 
-    Reflect.ownKeys(this.context).forEach(contextAttribute => {
+    instanceKeys(this.context).forEach(contextAttribute => {
       const containsKey = instanceAttributes.some(instanceAttribute => {
         if (
           typeof contextAttribute === "symbol" &&
@@ -26,6 +26,7 @@ export default class ContextBuilder {
         }
         return contextAttribute === instanceAttribute;
       });
+
       if (!containsKey) {
         instance[contextAttribute] = this.context[contextAttribute];
       }
@@ -33,4 +34,10 @@ export default class ContextBuilder {
 
     return instance;
   }
+}
+
+function instanceKeys(instance) {
+  const keys = [];
+  for (const key in instance) keys.push(key);
+  return keys;
 }

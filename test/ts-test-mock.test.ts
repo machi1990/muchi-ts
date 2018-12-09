@@ -1,4 +1,4 @@
-import { assertEqual, reflect } from "..";
+import { assertEqual, verify } from "..";
 import TestClass from "./test";
 
 class TestGrandChild extends TestClass {
@@ -57,6 +57,6 @@ class TsTest {
     this.classWithMock.callMock();
 
     // Then
-    assertEqual(reflect(this.mock.oneNumber).callCount(), 1);
+    assertEqual(verify(this.mock.oneNumber).callCount(), 1);
   }
 }

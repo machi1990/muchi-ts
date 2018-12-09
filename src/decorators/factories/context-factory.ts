@@ -7,7 +7,7 @@ import ContextBuilder from "../../utils/context-builder";
 import AfterRegistry from "../../registries/after-registry";
 import BeforeRegistry from "../../registries/before-registry";
 import MethodRegistry from "../../registries/method-registry";
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
+import MuchiTsDecorator from "../../../types/muchi-ts-decorator";
 import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 import { ContextClassOpts } from "../../interfaces/annotation-opts";
 import { BeforeSetupRunner, AfterSetupRunner } from "./setup-runner";

@@ -8,7 +8,7 @@ interface WhenConstruct {
   returns: (...args) => any;
 }
 
-export default interface ReflectMock extends CallInspection {
+export default interface Mocks extends CallInspection {
   reset: () => void;
   callCount: () => number;
   notCalled: () => boolean;

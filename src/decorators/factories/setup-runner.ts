@@ -1,5 +1,5 @@
-import { BeforeSetup, Setup, AfterSetup } from "../../interfaces/setup";
 import RunnerOpts from "../../interfaces/runner-opts";
+import { BeforeSetup, Setup, AfterSetup } from "../../interfaces/setup";
 
 export interface SetupContext<T extends Setup> {
   setup: T;

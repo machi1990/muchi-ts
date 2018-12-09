@@ -1,6 +1,6 @@
-import ReflectMock from "../types/reflect-mock-api";
+import Mocks from "./types/mock-api";
 
-export function reflect(mock): ReflectMock {
+export function verify(mock): Mocks {
   return {
     args: mock.args.bind(mock),
     when: mock.when.bind(mock),
@@ -20,6 +20,6 @@ export function reflect(mock): ReflectMock {
 /**
  * Restores
  */
-export function revive(mock: any) {
-  mock["revive"]();
+export function reconstruct(mock: any) {
+  mock["reconstruct"]();
 }

@@ -12,7 +12,7 @@ export * from "./assertion";
 /**
  * Reflect test doubles api.
  */
-export * from "./utils/test-double";
+export * from "./test-double";
 
 /**
  * MuchiTs Annotations

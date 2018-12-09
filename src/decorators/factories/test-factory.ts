@@ -1,13 +1,14 @@
 import * as colors from "colors";
 import { Op } from "../../utils/op";
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
 import { TestSetup } from "../../interfaces/setup";
 import { TYPE, Logger } from "../../utils/logger";
 import RunnerOpts from "../../interfaces/runner-opts";
 import canRunWithin from "../../utils/can-run-within";
 import TestRegistry from "../../registries/method-registry";
-import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
+import MuchiTsDecorator from "../../../types/muchi-ts-decorator";
 import { TestMethodOpts } from "../../interfaces/annotation-opts";
+import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
+
 import {
   SPACE,
   EXPECTS,

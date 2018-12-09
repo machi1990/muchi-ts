@@ -1,4 +1,4 @@
-import MuchiTsDecorator from "../../types/muchi-ts-decorator";
+import MuchiTsDecorator from "../../../types/muchi-ts-decorator";
 import DecoratorFactory from "../../interfaces/muchi-ts-decorator-factory";
 
 export default class OnlyDecoratorFactory implements DecoratorFactory {
