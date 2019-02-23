@@ -1,4 +1,4 @@
-import Mocks from "./types/mock-api";
+import Mocks from "../types/mock-api";
 
 export function verify(mock): Mocks {
   return {

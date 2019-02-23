@@ -8,10 +8,12 @@
   },
   "scripts": {
     "prebuild": "tsc",
-    "build": "ncc build build/main.js -S -o .",
-    "prestart": "yarn build",
+    "build": "ncc build build/src/main.js -m -o build",
+    "postbuild": "mv build/index.js .",
+    "pretest": "yarn build",
     "test": "node bin/muchi.test.js test/*.test.ts",
-    "precommit": "lint-staged"
+    "test:only": "node bin/muchi.test.js test/*.test.ts",
+    "precommit": "yarn build && lint-staged"
   },
   "lint-staged": {
     "*.ts": [
@@ -24,7 +26,7 @@
     ]
   },
   "devDependencies": {
-    "@zeit/ncc": "0.4.1",
+    "@zeit/ncc": "0.15.2",
     "husky": "0.14.3",
     "lint-staged": "7.3.0",
     "prettier": "1.14.2",
@@ -39,7 +41,7 @@
     "js-dada": "2.0.0",
     "reflect-metadata": "0.1.12",
     "source-map-support": "0.5.9",
-    "typescript": "3.1.3"
+    "typescript": "3.3.3333"
   },
   "license": "MIT",
   "author": {
