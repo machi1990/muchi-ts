@@ -3,3 +3,7 @@ test
 index.js.map
 build
 bin/muchi.test.js
+.vscode
+dist
+.prettierignore
+*.log
