@@ -1,7 +1,7 @@
 import { Setup } from "../interfaces/setup";
 
-const elements = Symbol("elements");
 const counter = Symbol("counter");
+const elements = Symbol("elements");
 
 export default class Registry<T extends Setup>
   implements Iterator<T>, IterableIterator<T> {
@@ -12,8 +12,8 @@ export default class Registry<T extends Setup>
     this[elements] = new Array<T>();
   }
 
-  public register(afterSetup: T): number {
-    return this[elements].push(afterSetup);
+  public register(setup: T): number {
+    return this[elements].push(setup);
   }
 
   public find(predicate: (T) => boolean): T {

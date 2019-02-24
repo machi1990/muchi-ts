@@ -1,4 +1,4 @@
-import Mocks from "./types/mock-api";
+import Mocks from "./src/types/mock-api";
 
 export const assertTruthy: (value: any) => void;
 export const assertEqual: (actual, expected) => void;

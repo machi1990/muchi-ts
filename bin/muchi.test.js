@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const runTest = require("./utils/run-test")("..");
 const outDir = "build";
-const testsFiles = process.argv.slice(2);
 const watch = false;
+const testsFiles = process.argv.slice(2);
+const runTest = require("../src/cli/run-test")("..");
 
 runTest(testsFiles, outDir, watch);

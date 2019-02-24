@@ -1,6 +1,5 @@
-import { assertEqual } from "..";
 import TestClass from "./test";
-import { assertTruthy } from "../src/assertion";
+import { assertEqual, assertTruthy } from "..";
 
 @MuchiTs({ name: "@Only Test", ignore: false })
 @Only()

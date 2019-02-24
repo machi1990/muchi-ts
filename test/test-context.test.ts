@@ -36,7 +36,6 @@ class ContextTestInContainer2 {
 
 class ContextTestInContainer {
   private test: TestClass;
-
   @Test({ it: "Context function first", only: false })
   async contextFunctionTesting1(): Promise<void> {
     //When

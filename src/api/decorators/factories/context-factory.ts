@@ -94,9 +94,9 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
             await muchiTsTestRunner.run(runnerOpts);
 
             /**
-             * Execute before methods
+             * Execute after methods
              */
-            return currentRunnerOpts.beforeRunner.run(currentRunnerOpts);
+            return currentRunnerOpts.afterRunner.run(currentRunnerOpts);
           }
         }
       };

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const { name, version } = require("../package.json");
-const runTest = require("./utils/run-test")(name);
-const cli = require("./utils/cli")(name, version);
+const runTest = require("../src/run-test")(name);
+const cli = require("../src/cli/arg-parser")(name, version);
 
 /**
  * Parse cli opts
