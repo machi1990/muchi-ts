@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { name, version } = require("../package.json");
-const runTest = require("../src/run-test")(name);
+const runTest = require("../src/cli/run-test")(name);
 const cli = require("../src/cli/arg-parser")(name, version);
 
 /**

@@ -7,3 +7,4 @@ bin/muchi.test.js
 dist
 .prettierignore
 *.log
+*.lock

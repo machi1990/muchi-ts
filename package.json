@@ -50,11 +50,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://chitson1990@bitbucket.org/chitson1990/muchi-ts.git"
+    "url": "https://github.com/machi1990/muchi-ts"
   },
   "keywords": [
     "test",
     "test-runner",
-    "typescript"
+    "typescript",
+    "test-framework"
   ]
 }
