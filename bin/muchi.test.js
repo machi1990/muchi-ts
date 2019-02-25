@@ -3,6 +3,6 @@
 const outDir = "build";
 const watch = false;
 const testsFiles = process.argv.slice(2);
-const runTest = require("../src/cli/run-test")("..");
+const runTests = require("../src/cli/run-tests")("..");
 
-runTest(testsFiles, outDir, watch);
+runTests(testsFiles, outDir, watch);

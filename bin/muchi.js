@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { name, version } = require("../package.json");
-const runTest = require("../src/cli/run-test")(name);
+const runTests = require("../src/cli/run-tests")(name);
 const cli = require("../src/cli/arg-parser")(name, version);
 
 /**
@@ -12,4 +12,4 @@ const { tests, outDir, watch } = cli(process.argv);
 /**
  * compile and run tests
  */
-runTest(tests, outDir, watch);
+runTests(tests, outDir, watch);
