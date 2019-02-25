@@ -11,5 +11,5 @@ export const assertNotDeepEqual: (actual, expected) => void;
 /**
  * Test doubles
  */
-export const reconstruct: (obj: Function) => void;
+export const restore: (obj: Function) => void;
 export const verify: (obj: Function) => Mocks;

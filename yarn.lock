@@ -639,9 +639,10 @@ jest-validate@^23.5.0:
     leven "^2.1.0"
     pretty-format "^23.6.0"
 
-js-dada@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-2.0.0.tgz#e5bf3906c649139b89ebbd6f73f99f7b7ffb0229"
+js-dada@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.0.tgz#46938aa3f2a14a1b9638ccfe863ec575146a0a8a"
+  integrity sha512-zMiNujkjv0+xpysr8zFgUDEPrlVeti7rvAhGcSKbcxL3uXclQ412hxMIWb/7ZkFgBR29lruIngucVrqxanUceg==
   dependencies:
     lodash "4.17.11"
 

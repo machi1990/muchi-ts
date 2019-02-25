@@ -20,6 +20,6 @@ export function verify(mock): Mocks {
 /**
  * Restores
  */
-export function reconstruct(mock: any) {
-  mock["reconstruct"]();
+export function restore(mock: any) {
+  mock["restore"]();
 }
