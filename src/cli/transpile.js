@@ -57,7 +57,7 @@ module.exports = (fileNames, outDir, requirePath) => {
      */
     const { outputText, sourceMapText } = transpileSource(source, outDir);
 
-    writeTranspileOutputToFile(
+    writeTranspiledOutputToFile(
       outputText,
       { file, fileName },
       { muchiTsOptions, requirePath }
@@ -142,7 +142,7 @@ const transpileSource = (source, outDir) => {
   });
 };
 
-const writeTranspileOutputToFile = (
+const writeTranspiledOutputToFile = (
   outputText,
   { file, fileName },
   { muchiTsOptions, requirePath }
