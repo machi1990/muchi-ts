@@ -1,8 +1,10 @@
+const colors = require('colors');
+const failure = colors.red("\u2718");
 const { spawn } = require("child_process");
+
 /**
  * Runs test files located in an output folder
  */
-
 module.exports = transpiledFiles => {
   const hasOnly = Object.values(transpiledFiles).some(({ only }) => only);
   const canRun = file => {
@@ -46,7 +48,7 @@ const run = outputFile => {
   job.stdout.on("data", append);
   job.stderr.on("data", chuck => {
     append(chuck);
-    testRunning.exitCode = 1;
+    testRunning.exitCode = chuck.includes(failure) ? 1 : testRunning.exitCode;
   });
   job.on("close", display);
   return testRunning;
