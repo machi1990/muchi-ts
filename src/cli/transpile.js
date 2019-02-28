@@ -55,10 +55,10 @@ module.exports = (fileNames, outDir, requirePath) => {
     /**
      * Transpile module
      */
-    const { outputText, sourceMapText } = transpileSource(source, outDir);
+    const output = transpileSource(source, outDir);
 
     writeTranspiledOutputToFile(
-      outputText,
+      output,
       { file, fileName },
       { muchiTsOptions, requirePath }
     );
@@ -70,11 +70,6 @@ module.exports = (fileNames, outDir, requirePath) => {
     };
 
     transpilationResults[fileName] = transpilationResult;
-
-    /**
-     * Write source map file.
-     */
-    writeSourceMap(sourceMapText, file, fileName);
   });
 
   return transpilationResults;
@@ -137,13 +132,14 @@ const transpileSource = (source, outDir) => {
       experimentalDecorators: true,
       emitDecoratorMetadata: true,
       sourceMap: true,
+      inlineSourceMap: false,
       exclude: [outDir, "node_modules"]
     }
   });
 };
 
 const writeTranspiledOutputToFile = (
-  outputText,
+  {outputText, sourceMapText},
   { file, fileName },
   { muchiTsOptions, requirePath }
 ) => {
@@ -157,21 +153,21 @@ const writeTranspiledOutputToFile = (
       ","
     )}} = require('${requirePath}').muchiTsApi('${fileName}');\n`;
   }
+  const sourceMap = encodeSourceMap(sourceMapText, file, fileName);
+
   const transpiledModule =
     requireMuchiTs +
     outputText.replace(
       /sourceMappingURL=module\.js\.map$/,
-      `sourceMappingURL=${path.basename(file, ".js")}.js.map`
+      `sourceMappingURL=data:application/json;base64,${sourceMap}`
     );
   const outputData = Buffer.from(transpiledModule);
   writeToFile(file, outputData);
 };
 
-const writeSourceMap = (sourceMapText, outputFile, sourceFile) => {
-  const sourceMapFile = outputFile + ".map";
+const encodeSourceMap = (sourceMapText, outputFile, sourceFile) => {
   const sourceMap = JSON.parse(sourceMapText);
   sourceMap["file"] = path.basename(outputFile); // points to the transpiled file
   sourceMap["sources"] = [path.join(process.cwd(), sourceFile)]; // points to the source file
-  const sourceMapData = Buffer.from(JSON.stringify(sourceMap));
-  writeToFile(sourceMapFile, sourceMapData);
+  return Buffer.from(JSON.stringify(sourceMap)).toString('base64');
 };
