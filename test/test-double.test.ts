@@ -26,11 +26,9 @@ class RestoreTest {
     assertEqual(this.stub.fn(), 1);
   }
 }
-
 @MuchiTs({
   name: ".verify(mock)"
 })
-@Only()
 class VerifyMockTest {
   private objToStub: Stub = {
     fn: () => {}

@@ -11,15 +11,15 @@ const ls = (file, opts) => {
   const stat = statSync(file);
   const exclude = opts.exclude || [];
   const predicate = opts.predicate || (() => true);
-  const isTestCodeFile = stat.isFile() && predicate(file);
-  const isCodeDir = stat.isDirectory() && !exclude.includes(file);
+  const isFile = stat.isFile() && predicate(file);
+  const isDirectory = stat.isDirectory() && !exclude.includes(file);
 
-  if (isCodeDir) {
+  if (isDirectory) {
     const lsDir = readdirSync(file).map(child =>
       ls(path.join(file, child), opts)
     );
     return [file, ...flatten(lsDir)];
-  } else if (isTestCodeFile) {
+  } else if (isFile) {
     return [file];
   }
   return [];

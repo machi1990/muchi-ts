@@ -3,7 +3,6 @@ import { assertEqual, assertStrictEqual, assertDeepEqual } from "..";
 import TestClass from "./test";
 
 @MuchiTs({ name: "Test, Before, After, MuchiTs Annotation", ignore: true })
-@Only()
 class TsTest {
   private test: TestClass;
 

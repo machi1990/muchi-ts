@@ -58,7 +58,6 @@ class ContextTestInContainer {
   name: "Context Annotation",
   ignore: false
 })
-@Only()
 class ContextTest {
   private test: TestClass;
 

@@ -7,9 +7,9 @@ const cli = require("../src/cli/arg-parser")(name, version);
 /**
  * Parse cli opts
  */
-const { tests, outDir, watch } = cli(process.argv);
+const { tests, watch } = cli(process.argv);
 
 /**
  * compile and run tests
  */
-runTests(tests, outDir, watch);
+runTests(tests, watch);

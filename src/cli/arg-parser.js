@@ -9,12 +9,6 @@ const collect = (val, memo) => {
 module.exports = (name, version) => argv => {
   muchiTsProgram
     .version(`${name} ${version}`, "-v, --version")
-    .option(
-      "-o, --outDir [outDir]",
-      "A string specifying build output directory.",
-      /^[^\/].*/i,
-      "build"
-    )
     .option("-w, --watch", "Rerun tests on file changes.")
     .option(
       "-t, --tests  <tests>",

@@ -2,7 +2,6 @@ import TestClass from "./test";
 import { assertEqual, assertTruthy } from "..";
 
 @MuchiTs({ name: "@Only Test", ignore: false })
-@Only()
 class OnlyTest {
   private test: TestClass;
 
@@ -27,7 +26,7 @@ class OnlyTest {
     const one: string = this.test.oneString();
 
     // Then
-    assertEqual(one, "one");
+    assertEqual(one, "on");
   }
 
   @Test({

@@ -4,44 +4,31 @@ const {
   OnlyAnnotation,
   MuchiTsAnnotation
 } = (muchiTsIdentifiers = require("./ts-muchi-annotation"));
-const {
-  readFileSync,
-  writeFileSync,
-  mkdirSync,
-  existsSync,
-  statSync
-} = require("fs");
-const tsOrJsExtension = /(\.[tj]s)$/;
+const { readFileSync, statSync } = require("fs");
+const tsExtension = /(\.[t]s)$/;
 
-module.exports = (fileNames, outDir, requirePath) => {
+module.exports = (fileNames, requirePath) => {
   const transpilationResults = {};
-
-  mkdirIfNotExists(outDir);
 
   fileNames.forEach(fileName => {
     const stat = statSync(fileName);
     if (stat.isDirectory()) {
-      mkdirIfNotExists(path.join(outDir, fileName));
       return;
     }
 
     const fileBuffer = readFileSync(fileName);
 
     /**
-     * Do not transpile neither .ts nor .js file.
+     * Transpile only .ts file.
      */
-    if (!tsOrJsExtension.test(fileName)) {
-      writeToFile(path.join(outDir, fileName), fileBuffer);
+    if (!tsExtension.test(fileName)) {
       return;
     }
-
     const source = fileBuffer.toString();
-    const basename = fileName.substring(0, fileName.length - 3) + ".js";
-    const file = path.join(outDir, basename);
     /**
      * Create source file's AST.
      */
-    const sourceFile = ts.createSourceFile(
+    const tsSourceFile = ts.createSourceFile(
       fileName,
       source,
       ts.ScriptTarget.ES2015,
@@ -51,22 +38,22 @@ module.exports = (fileNames, outDir, requirePath) => {
     /**
      * Find annotation from AST
      */
-    const muchiTsOptions = findMuchiTsOptions(sourceFile);
+    const muchiTsOptions = findMuchiTsOptions(tsSourceFile);
     /**
      * Transpile module
      */
-    const output = transpileSource(source, outDir);
+    const output = transpileSource(source);
 
-    writeTranspiledOutputToFile(
-      output,
-      { file, fileName },
-      { muchiTsOptions, requirePath }
-    );
+    const transpiledSource = getTranspiledSource(output, fileName, {
+      muchiTsOptions,
+      requirePath
+    });
 
     const transpilationResult = {
+      fileName,
+      output: transpiledSource,
       only: muchiTsOptions.includes(OnlyAnnotation),
-      runnable: muchiTsOptions.includes(MuchiTsAnnotation),
-      outputFile: file
+      runnable: muchiTsOptions.includes(MuchiTsAnnotation)
     };
 
     transpilationResults[fileName] = transpilationResult;
@@ -75,22 +62,9 @@ module.exports = (fileNames, outDir, requirePath) => {
   return transpilationResults;
 };
 
-const mkdirIfNotExists = dir => {
-  if (existsSync(dir)) {
-    return;
-  }
-
-  mkdirSync(dir, { recursive: true });
-};
-
-const writeToFile = (file, data) => {
-  mkdirIfNotExists(path.dirname(file));
-  writeFileSync(file, data);
-};
-
-const findMuchiTsOptions = sourceFile => {
+const findMuchiTsOptions = tsSourceFile => {
   const declaredMuchiTsIdentifiers = new Set();
-  findOptions(declaredMuchiTsIdentifiers)(sourceFile);
+  findOptions(declaredMuchiTsIdentifiers)(tsSourceFile);
   return [...declaredMuchiTsIdentifiers];
 };
 
@@ -115,7 +89,7 @@ const findIdentifierFromNode = node => {
   return findIdentifierFromNode(node.expression);
 };
 
-const transpileSource = (source, outDir) => {
+const transpileSource = source => {
   return ts.transpileModule(source, {
     compilerOptions: {
       allowJs: false,
@@ -133,14 +107,14 @@ const transpileSource = (source, outDir) => {
       emitDecoratorMetadata: true,
       sourceMap: true,
       inlineSourceMap: false,
-      exclude: [outDir, "node_modules"]
+      exclude: ["node_modules"]
     }
   });
 };
 
-const writeTranspiledOutputToFile = (
-  {outputText, sourceMapText},
-  { file, fileName },
+const getTranspiledSource = (
+  { outputText, sourceMapText },
+  fileName,
   { muchiTsOptions, requirePath }
 ) => {
   const isTestFile = muchiTsOptions.length;
@@ -153,7 +127,7 @@ const writeTranspiledOutputToFile = (
       ","
     )}} = require('${requirePath}').muchiTsApi('${fileName}');\n`;
   }
-  const sourceMap = encodeSourceMap(sourceMapText, file, fileName);
+  const sourceMap = encodeSourceMap(sourceMapText, fileName);
 
   const transpiledModule =
     requireMuchiTs +
@@ -161,13 +135,12 @@ const writeTranspiledOutputToFile = (
       /sourceMappingURL=module\.js\.map$/,
       `sourceMappingURL=data:application/json;base64,${sourceMap}`
     );
-  const outputData = Buffer.from(transpiledModule);
-  writeToFile(file, outputData);
+  return transpiledModule;
 };
 
-const encodeSourceMap = (sourceMapText, outputFile, sourceFile) => {
+const encodeSourceMap = (sourceMapText, sourceFile) => {
   const sourceMap = JSON.parse(sourceMapText);
-  sourceMap["file"] = path.basename(outputFile); // points to the transpiled file
+  sourceMap["file"] = path.basename(sourceFile); // points to the transpiled file
   sourceMap["sources"] = [path.join(process.cwd(), sourceFile)]; // points to the source file
-  return Buffer.from(JSON.stringify(sourceMap)).toString('base64');
+  return Buffer.from(JSON.stringify(sourceMap)).toString("base64");
 };
