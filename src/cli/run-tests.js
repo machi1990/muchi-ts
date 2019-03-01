@@ -3,52 +3,82 @@ const ls = require("./ls");
 const path = require("path");
 const Module = require("module");
 const colors = require("colors");
+const cluster = require("cluster");
 const tranpile = require("./transpile");
 
 const cwd = process.cwd();
+const passed = colors.green("\u2713");
 const failure = `${colors.red("\u2718")}`;
 const _load = Module._load.bind(Module);
 const _findPath = Module._findPath.bind(Module);
 
+let worker;
 let requirePath = "";
+let passingTestCount = 0;
+let failingTestCount = 0;
 let transpilationResults = {};
+const log = console.log.bind(console);
 const error = console.error.bind(console);
 
+console.log = (...args) => {
+  passingTestCount += args.join("").includes(passed) ? 1 : 0;
+  log.apply(null, args);
+};
+
 console.error = (...args) => {
-  process.exitCode = args.join("").includes(failure) ? 1 : process.exitCode;
+  if (args.join("").includes(failure)) {
+    process.exitCode = 1;
+    failingTestCount++;
+  }
   error.apply(null, args);
 };
 
 module.exports = _requirePath => (testsArg, watch) => {
   requirePath = _requirePath;
-  const workingDir = ".";
-  const allFiles = ls(workingDir, {
+  const files = ls(".", {
     exclude: ["node_modules", ".git"]
   });
-
   /**
    * compile
    */
-  transpilationResults = tranpile(allFiles, requirePath);
-  runTranspiledTestFiles(testsArg)(transpilationResults);
+  transpilationResults = tranpile(files, requirePath);
 
-  if (!watch) {
-    return;
+  if (cluster.isMaster) {
+    if (!watch) {
+      printSummaryBeforeProcessExit();
+      /**
+       * Run test files once.
+       */
+      runTranspiledTestFiles(testsArg)(transpilationResults);
+    } else {
+      worker = cluster.fork();
+      /**
+       * Watch file changes
+       */
+      watchFilesChanges(files);
+    }
+  } else {
+    /**
+     * Run watched files in child process
+     */
+    runTranspiledTestFiles(testsArg)(transpilationResults);
   }
-
-  watchFilesChangeAndRerunTests(testsArg)(allFiles, requirePath);
 };
 
-const watchFilesChangeAndRerunTests = testsArg => allFiles => {
-  allFiles.forEach(file => {
+const watchFilesChanges = files => {
+  files.forEach(file => {
     fs.watchFile(file, { persistent: true, interval: 1500 }, (curr, prev) => {
       if (+curr.mtime <= +prev.mtime) {
         return;
       }
-      fileChanged = true;
-      const transpilationResult = tranpile([file], requirePath);
-      transpilationResults[file] = transpilationResult[file];
-      runTranspiledTestFiles(testsArg)(transpilationResults);
+      passingTestCount = 0;
+      failingTestCount = 0;
+      transpilationResults = {
+        ...transpilationResults,
+        ...tranpile([file], requirePath)
+      };
+      worker.kill();
+      worker = cluster.fork();
     });
   });
 };
@@ -115,4 +145,19 @@ const runTranspiledTestFiles = testsArg => {
       main._compile(source, filename);
     }
   };
+};
+
+const printSummaryBeforeProcessExit = _ => {
+  process.on("beforeExit", () => {
+    const summary = colors.bold("summary:");
+    const failed = colors.red(colors.bold("failed"));
+    const passed = colors.green(colors.bold("passed"));
+    if (!failingTestCount) {
+      log(`\n${summary} ${passingTestCount} ${passed}.`);
+    } else {
+      log(
+        `\n${summary} ${passingTestCount} ${passed}, ${failed} ${failingTestCount}.`
+      );
+    }
+  });
 };
