@@ -1,3 +1,12 @@
+## <small>2.1.2 (2019-03-02)</small>
+
+* chore: adds a script to generate a CHANGELOG.md file ([43d10f9](https://github.com/machi1990/muchi-ts/commit/43d10f9))
+* feat: adds tests summary ([b20b825](https://github.com/machi1990/muchi-ts/commit/b20b825))
+* refactor: do not save compiled files. ([11d156a](https://github.com/machi1990/muchi-ts/commit/11d156a))
+* refactor: inline sourcemap ([e011707](https://github.com/machi1990/muchi-ts/commit/e011707))
+
+
+
 ## <small>2.1.1 (2019-02-28)</small>
 
 * 2.1.1 ([24affdb](https://github.com/machi1990/muchi-ts/commit/24affdb))
