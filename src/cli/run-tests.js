@@ -101,10 +101,10 @@ const runTranspiledTestFiles = testsArg => {
       const filename = Module._resolveFilename(request, parent, isMain);
 
       try {
-        const loadedModule = _load(request, parent, isMain);
-        return loadedModule;
+        return _load(request, parent, isMain);
       } catch (error) {
         const transpilationKey = filename.replace(`${cwd}${path.sep}`, "");
+        
         const transpiledModuleSource =
           transpiledFiles[`${transpilationKey}.ts`] ||
           transpiledFiles[`${transpilationKey}.js`];
