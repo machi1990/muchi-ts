@@ -1,3 +1,10 @@
+## 2.2.0 (2019-03-07)
+
+* feat: Adds a timeout cli option ([ac43997](https://github.com/machi1990/muchi-ts/commit/ac43997))
+* chore: remove unused dependency and make conventional-changelog-cli a devDependency ([6658b0f](https://github.com/machi1990/muchi-ts/commit/6658b0f))
+
+
+
 ## <small>2.1.2 (2019-03-02)</small>
 
 * chore: adds a script to generate a CHANGELOG.md file ([43d10f9](https://github.com/machi1990/muchi-ts/commit/43d10f9))
