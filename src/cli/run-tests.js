@@ -33,7 +33,7 @@ console.error = (...args) => {
   error.apply(null, args);
 };
 
-module.exports = _requirePath => (testsArg, watch) => {
+module.exports = _requirePath => (testsArg, watch, timeOut) => {
   requirePath = _requirePath;
   const files = ls(".", {
     exclude: ["node_modules", ".git"]
@@ -41,7 +41,7 @@ module.exports = _requirePath => (testsArg, watch) => {
   /**
    * compile
    */
-  transpilationResults = tranpile(files, requirePath);
+  transpilationResults = tranpile(files, requirePath, timeOut);
 
   if (cluster.isMaster) {
     if (!watch) {
@@ -55,7 +55,7 @@ module.exports = _requirePath => (testsArg, watch) => {
       /**
        * Watch file changes
        */
-      watchFilesChanges(files);
+      watchFilesChanges(files, timeOut);
     }
   } else {
     /**
@@ -65,7 +65,7 @@ module.exports = _requirePath => (testsArg, watch) => {
   }
 };
 
-const watchFilesChanges = files => {
+const watchFilesChanges = (files, timeOut) => {
   files.forEach(file => {
     fs.watchFile(file, { persistent: true, interval: 1500 }, (curr, prev) => {
       if (+curr.mtime <= +prev.mtime) {
@@ -75,7 +75,7 @@ const watchFilesChanges = files => {
       failingTestCount = 0;
       transpilationResults = {
         ...transpilationResults,
-        ...tranpile([file], requirePath)
+        ...tranpile([file], requirePath, timeOut)
       };
       worker.kill();
       worker = cluster.fork();
@@ -116,6 +116,8 @@ const runTranspiledTestFiles = testsArg => {
         Module._cache[filename] = loadedModule;
         loadedModule.paths = Module._nodeModulePaths(cwd);
         loadedModule.filename = moduleId;
+        loadedModule.__filename = moduleId;
+        loadedModule.__dirname = path.dirname(moduleId);
         loadedModule._compile(transpiledModuleSource.output, moduleId);
         return loadedModule.exports;
       }
@@ -141,6 +143,8 @@ const runTranspiledTestFiles = testsArg => {
       const filename = path.join(cwd, fileName);
       const main = new Module(filename);
       main.filename = filename;
+      main.__filename = filename;
+      main.__dirname = path.dirname(filename);
       main.paths = Module._nodeModulePaths(cwd);
       main._compile(source, filename);
     }

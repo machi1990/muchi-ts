@@ -7,7 +7,7 @@ const {
 const { readFileSync, statSync } = require("fs");
 const tsExtension = /(\.[t]s)$/;
 
-module.exports = (fileNames, requirePath) => {
+module.exports = (fileNames, requirePath, timeOut) => {
   const transpilationResults = {};
 
   fileNames.forEach(fileName => {
@@ -46,7 +46,8 @@ module.exports = (fileNames, requirePath) => {
 
     const transpiledSource = getTranspiledSource(output, fileName, {
       muchiTsOptions,
-      requirePath
+      requirePath,
+      timeOut
     });
 
     const transpilationResult = {
@@ -115,7 +116,7 @@ const transpileSource = source => {
 const getTranspiledSource = (
   { outputText, sourceMapText },
   fileName,
-  { muchiTsOptions, requirePath }
+  { muchiTsOptions, requirePath, timeOut }
 ) => {
   const isTestFile = muchiTsOptions.length;
   let requireMuchiTs = "";
@@ -125,7 +126,7 @@ const getTranspiledSource = (
      */
     requireMuchiTs = `const {${muchiTsOptions.join(
       ","
-    )}} = require('${requirePath}').muchiTsApi('${fileName}');\n`;
+    )}} = require('${requirePath}').muchiTsApi('${fileName}', ${timeOut});\n`;
   }
   const sourceMap = encodeSourceMap(sourceMapText, fileName);
 

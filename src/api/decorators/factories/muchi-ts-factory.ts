@@ -17,17 +17,22 @@ export default class MuchiTsDecoratorFactory implements DecoratorFactory {
     private methodRegistry: MethodRegistry,
     private afterRegistry: AfterRegistry,
     private mockRegistry: MockRegistry,
-    private testFileName: string
+    private testFileName: string,
+    private timeOut: number
   ) {}
 
   public create(): MuchiTsDecorator {
-    return ({ name, ignore }: TestClassOpts): ClassDecorator => testClass => {
+    return ({
+      name,
+      ignore = false
+    }: TestClassOpts): ClassDecorator => testClass => {
       const message: string = name || testClass.name;
       const runnerOpts: RunnerOpts = {
         message,
         ignore,
         level: 0,
         logger: new Logger(),
+        timeOut: this.timeOut,
         contextInstance: new ContextBuilder(testClass).build(),
         contextClazz: testClass.prototype,
         beforeRunner: new BeforeSetupRunner(),
@@ -36,7 +41,6 @@ export default class MuchiTsDecoratorFactory implements DecoratorFactory {
           return !!this.methodRegistry.find(({ only }) => only);
         }
       };
-
       const muchiTsTestRunner = new MuchiTsTestRunner(
         this.beforeRegistry,
         this.methodRegistry,

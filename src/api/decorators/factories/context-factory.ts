@@ -77,11 +77,12 @@ export default class ContextDecoratorFactory implements DecoratorFactory {
               afterRunner,
               contextInstance,
               contextClazz,
-              logger: currentRunnerOpts.logger,
+              hasOnly: () => hasTestWithOnlyFn,
               message: opts.when || clazz.name,
+              logger: currentRunnerOpts.logger,
+              timeOut: currentRunnerOpts.timeOut,
               level: currentRunnerOpts.level + 1,
-              ignore: ignore || currentRunnerOpts.ignore,
-              hasOnly: () => hasTestWithOnlyFn
+              ignore: ignore || currentRunnerOpts.ignore
             };
 
             const muchiTsTestRunner = new MuchiTsTestRunner(

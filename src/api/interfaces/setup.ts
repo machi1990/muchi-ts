@@ -1,5 +1,5 @@
 export interface Setup {
-  run: (runnerOpts) => void;
+  run: (runnerOpts) => any;
   canRunWithin: (TestClass) => boolean;
 }
 

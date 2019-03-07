@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-const watch = true;
+const watch = false;
+const timeOut = 1;
 const testsFiles = process.argv.slice(2);
 const runTests = require("../src/cli/run-tests")("..");
 
-runTests(testsFiles, watch);
+runTests(testsFiles, watch, timeOut);
