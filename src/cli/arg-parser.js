@@ -11,7 +11,7 @@ module.exports = (name, version) => argv => {
     .version(`${name} ${version}`, "-v, --version")
     .option("-w, --watch", "Rerun tests on file changes.")
     .option(
-      "-t, --timeOut",
+      "-s, --timeOut",
       "Time limit in ms after which a test execution times out with an error. Defaults to 1000ms",
       1000
     )
