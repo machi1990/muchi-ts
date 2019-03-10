@@ -1,7 +1,15 @@
+## <small>2.2.1 (2019-03-10)</small>
+
+* fix: cli options short name collision ([f6a1332](https://github.com/machi1990/muchi-ts/commit/f6a1332))
+* refactor: remove unnecessary const declaration ([bd34151](https://github.com/machi1990/muchi-ts/commit/bd34151))
+
+
+
 ## 2.2.0 (2019-03-07)
 
-* feat: Adds a timeout cli option ([ac43997](https://github.com/machi1990/muchi-ts/commit/ac43997))
 * chore: remove unused dependency and make conventional-changelog-cli a devDependency ([6658b0f](https://github.com/machi1990/muchi-ts/commit/6658b0f))
+* chore(release): 2.2.0 ([c34635b](https://github.com/machi1990/muchi-ts/commit/c34635b))
+* feat: Adds a timeout cli option ([ac43997](https://github.com/machi1990/muchi-ts/commit/ac43997))
 
 
 
