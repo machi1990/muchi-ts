@@ -6,14 +6,29 @@ const collect = (val, memo) => {
   return memo;
 };
 
+const parseTimeOut = time => {
+  if (Number.isInteger(time)) return +time;
+  return 1000;
+};
+
+const parseWatchMode = watch => {
+  console.log({ watch });
+};
+
 module.exports = (name, version) => argv => {
-  muchiTsProgram
+  const { tests, watch, timeOut } = muchiTsProgram
     .version(`${name} ${version}`, "-v, --version")
-    .option("-w, --watch", "Rerun tests on file changes.")
     .option(
-      "-s, --timeOut",
+      "-w, --watch <watch>",
+      "Rerun tests on file changes. Defaults to false",
+      parseWatchMode,
+      false
+    )
+    .option(
+      "-s, --timeOut <timeOut>",
       "Time limit in ms after which a test execution times out with an error. Defaults to 1000ms",
-      1000
+      parseTimeOut,
+      "1000"
     )
     .option(
       "-t, --tests  <tests>",
@@ -23,7 +38,7 @@ module.exports = (name, version) => argv => {
     )
     .parse(argv);
 
-  if (!muchiTsProgram.tests.length) {
+  if (!tests.length) {
     console.error(
       colors.red(
         'You must supply a path to test files. Use the "-t" option to do so.'
@@ -32,5 +47,5 @@ module.exports = (name, version) => argv => {
     process.exit(0);
   }
 
-  return { ...muchiTsProgram };
+  return { tests, watch, timeOut };
 };

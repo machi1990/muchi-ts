@@ -1,12 +1,14 @@
 const path = require("path");
 const ts = require("typescript");
+const nyc = new (require("nyc"))();
+const { readFileSync, statSync } = require("fs");
 const {
   OnlyAnnotation,
   MuchiTsAnnotation
 } = (muchiTsIdentifiers = require("./ts-muchi-annotation"));
-const { readFileSync, statSync } = require("fs");
-const tsExtension = /(\.[t]s)$/;
 
+const tsExtension = /(\.[t]s)$/;
+const coverageInstrumenter = nyc.instrumenter();
 module.exports = (fileNames, requirePath, timeOut) => {
   const transpilationResults = {};
 
@@ -24,6 +26,7 @@ module.exports = (fileNames, requirePath, timeOut) => {
     if (!tsExtension.test(fileName)) {
       return;
     }
+
     const source = fileBuffer.toString();
     /**
      * Create source file's AST.
@@ -52,9 +55,9 @@ module.exports = (fileNames, requirePath, timeOut) => {
 
     const transpilationResult = {
       fileName,
-      output: transpiledSource,
       only: muchiTsOptions.includes(OnlyAnnotation),
-      runnable: muchiTsOptions.includes(MuchiTsAnnotation)
+      runnable: muchiTsOptions.includes(MuchiTsAnnotation),
+      output: coverageInstrumenter.instrumentSync(transpiledSource, fileName)
     };
 
     transpilationResults[fileName] = transpilationResult;

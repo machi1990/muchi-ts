@@ -7,8 +7,8 @@ const cluster = require("cluster");
 const tranpile = require("./transpile");
 
 const cwd = process.cwd();
+const failure = colors.red("\u2718");
 const passed = colors.green("\u2713");
-const failure = `${colors.red("\u2718")}`;
 const _load = Module._load.bind(Module);
 const _findPath = Module._findPath.bind(Module);
 
@@ -103,8 +103,15 @@ const runTranspiledTestFiles = testsArg => {
       try {
         return _load(request, parent, isMain);
       } catch (error) {
-        const transpilationKey = filename.replace(`${cwd}${path.sep}`, "");
-        
+        let transpilationKey = filename.replace(`${cwd}${path.sep}`, "");
+        try {
+          fs.lstatSync(filename);
+          transpilationKey = (transpilationKey + "/index").replace(
+            /\/{2,}/g,
+            "/"
+          );
+        } catch (_) {}
+
         const transpiledModuleSource =
           transpiledFiles[`${transpilationKey}.ts`] ||
           transpiledFiles[`${transpilationKey}.js`];
