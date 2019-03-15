@@ -1,9 +1,9 @@
 import AssertionOptions from "../interfaces/assertion-error";
 
-export default (context, { name, method }, timeOut) => {
+export default (context: any, { name, method }: any, timeOut: number) => {
   return Promise.race([
     context[method](),
-    new Promise((resolve, reject) => {
+    new Promise((_, reject) => {
       setTimeout(() => {
         const timeOutError: AssertionOptions = {
           operator: undefined,

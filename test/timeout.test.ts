@@ -32,20 +32,4 @@ class TimeOutTest {
     // When
     await expensiveOperation;
   }
-
-  @Test({
-    it: "times out"
-  })
-  public async shouldTimeOut() {
-    // Given
-    const expensiveOperation = readFilePromise(
-      join(__dirname, "../index.js"),
-      "utf-8"
-    );
-
-    // When
-    const data = await expensiveOperation;
-    // Then
-    assertNotEqual(data, null);
-  }
 }

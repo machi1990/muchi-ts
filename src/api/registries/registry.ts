@@ -16,11 +16,11 @@ export default class Registry<T extends Setup>
     return this[elements].push(setup);
   }
 
-  public find(predicate: (T) => boolean): T {
+  public find(predicate: (arg: T) => boolean): T {
     return this[elements].find(predicate);
   }
 
-  public filter(predicate: (T) => boolean): Registry<T> {
+  public filter(predicate: (arg: T) => boolean): Registry<T> {
     const registry = new Registry<T>();
     this[elements]
       .filter(predicate)
