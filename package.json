@@ -60,6 +60,9 @@
     "test",
     "test-runner",
     "typescript",
-    "test-framework"
+    "javascript",
+    "test-framework",
+    "unit-test",
+    "tdd"
   ]
 }
