@@ -1,5 +1,14 @@
+## 2.3.0 (2019-03-17)
+
+* docs: updates README ([f92c40b](https://github.com/machi1990/muchi-ts/commit/f92c40b))
+* test: adds tests for some internal apis ([8511cfd](https://github.com/machi1990/muchi-ts/commit/8511cfd))
+* feat: coverage ([436e5a3](https://github.com/machi1990/muchi-ts/commit/436e5a3))
+
+
+
 ## <small>2.2.1 (2019-03-10)</small>
 
+* chore(release): 2.2.1 ([bca39db](https://github.com/machi1990/muchi-ts/commit/bca39db))
 * fix: cli options short name collision ([f6a1332](https://github.com/machi1990/muchi-ts/commit/f6a1332))
 * refactor: remove unnecessary const declaration ([bd34151](https://github.com/machi1990/muchi-ts/commit/bd34151))
 
