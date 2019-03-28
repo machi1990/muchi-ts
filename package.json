@@ -40,7 +40,7 @@
     "@types/muchi-ts": "https://github.com/machi1990/muchi-ts-types.git",
     "@types/node": "10.10.2",
     "assert": "1.4.1",
-    "colors": "1.3.2",
+    "colors": "1.3.3",
     "commander": "2.19.0",
     "nyc": "13.3.0",
     "reflect-metadata": "0.1.12",
