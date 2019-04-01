@@ -1,3 +1,17 @@
+## <small>2.3.2 (2019-04-13)</small>
+
+* chore(deps-dev): bump @zeit/ncc from 0.15.2 to 0.17.3 ([cbe0729](https://github.com/machi1990/muchi-ts/commit/cbe0729))
+* chore(deps-dev): bump @zeit/ncc from 0.17.3 to 0.17.4 ([8349a75](https://github.com/machi1990/muchi-ts/commit/8349a75))
+* chore(deps): bump @types/node from 11.12.0 to 11.13.0 ([20ba637](https://github.com/machi1990/muchi-ts/commit/20ba637))
+* chore(deps): bump @types/node from 11.13.0 to 11.13.4 ([6751cf6](https://github.com/machi1990/muchi-ts/commit/6751cf6))
+* chore(deps): bump commander from 2.19.0 to 2.20.0 ([4b6570d](https://github.com/machi1990/muchi-ts/commit/4b6570d))
+* chore(deps): bump source-map-support from 0.5.11 to 0.5.12 ([a9bca47](https://github.com/machi1990/muchi-ts/commit/a9bca47))
+* chore(deps): bump typescript from 3.3.4000 to 3.4.1 ([20a3f8d](https://github.com/machi1990/muchi-ts/commit/20a3f8d))
+* chore(deps): bump typescript from 3.4.1 to 3.4.2 ([87fa60e](https://github.com/machi1990/muchi-ts/commit/87fa60e))
+* chore(deps): bump typescript from 3.4.2 to 3.4.3 ([bed9fac](https://github.com/machi1990/muchi-ts/commit/bed9fac))
+
+
+
 ## <small>2.3.1 (2019-03-30)</small>
 
 * chore(deps-dev): bump husky from 0.14.3 to 1.3.1 ([0e84181](https://github.com/machi1990/muchi-ts/commit/0e84181))
@@ -10,6 +24,12 @@
 * chore(deps): bump reflect-metadata from 0.1.12 to 0.1.13 ([b553504](https://github.com/machi1990/muchi-ts/commit/b553504))
 * chore(deps): bump source-map-support from 0.5.9 to 0.5.11 ([c23e5d6](https://github.com/machi1990/muchi-ts/commit/c23e5d6))
 * chore(deps): bump typescript from 3.3.3333 to 3.3.4000 ([ccd6860](https://github.com/machi1990/muchi-ts/commit/ccd6860))
+* chore(release): 2.3.1 ([ac1ae75](https://github.com/machi1990/muchi-ts/commit/ac1ae75))
+
+
+
+## 2.3.0 (2019-03-17)
+
 * chore(release): 2.3.0 ([be3d816](https://github.com/machi1990/muchi-ts/commit/be3d816))
 * docs: updates README ([f92c40b](https://github.com/machi1990/muchi-ts/commit/f92c40b))
 * test: adds tests for some internal apis ([8511cfd](https://github.com/machi1990/muchi-ts/commit/8511cfd))
