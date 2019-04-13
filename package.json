@@ -1,6 +1,6 @@
 {
   "name": "muchi-ts",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Annotation based test runner for JavaScript and TypeScript, written in TypeScript.",
   "main": "index.js",
   "bin": {
