@@ -96,9 +96,9 @@
   version "2.0.0"
   resolved "https://github.com/machi1990/muchi-ts-types.git#9d6f2aa1e942fd29c5e1cf136c4caf715c8a8d16"
 
-"@types/node@11.13.5":
-  version "11.13.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.5.tgz#266564afa8a6a09dc778dfacc703ed3f09c80516"
+"@types/node@11.13.6":
+  version "11.13.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.6.tgz#37ec75690830acb0d74ce3c6c43caab787081e85"
 
 "@zeit/ncc@0.18.0":
   version "0.18.0"
