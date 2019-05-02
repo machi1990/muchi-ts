@@ -1,3 +1,21 @@
+## <small>2.3.3 (2019-05-02)</small>
+
+* generate index ([997730e](https://github.com/machi1990/muchi-ts/commit/997730e))
+* chore(deps-dev): bump @zeit/ncc from 0.17.4 to 0.18.0 ([7e3d99b](https://github.com/machi1990/muchi-ts/commit/7e3d99b))
+* chore(deps-dev): bump @zeit/ncc from 0.18.0 to 0.18.1 ([10361e1](https://github.com/machi1990/muchi-ts/commit/10361e1))
+* chore(deps-dev): bump @zeit/ncc from 0.18.1 to 0.18.2 ([277dfb5](https://github.com/machi1990/muchi-ts/commit/277dfb5))
+* chore(deps-dev): bump husky from 1.3.1 to 2.2.0 ([2c30df1](https://github.com/machi1990/muchi-ts/commit/2c30df1))
+* chore(deps-dev): bump prettier from 1.16.4 to 1.17.0 ([748fcd4](https://github.com/machi1990/muchi-ts/commit/748fcd4))
+* chore(deps): bump @types/node from 11.13.4 to 11.13.5 ([bad320b](https://github.com/machi1990/muchi-ts/commit/bad320b))
+* chore(deps): bump @types/node from 11.13.5 to 11.13.6 ([6188ce2](https://github.com/machi1990/muchi-ts/commit/6188ce2))
+* chore(deps): bump @types/node from 11.13.6 to 11.13.7 ([e07a52b](https://github.com/machi1990/muchi-ts/commit/e07a52b))
+* chore(deps): bump @types/node from 11.13.7 to 11.13.8 ([7eac10e](https://github.com/machi1990/muchi-ts/commit/7eac10e))
+* chore(deps): bump nyc from 13.3.0 to 14.0.0 ([7c7773b](https://github.com/machi1990/muchi-ts/commit/7c7773b))
+* chore(deps): bump typescript from 3.4.3 to 3.4.4 ([2fbafba](https://github.com/machi1990/muchi-ts/commit/2fbafba))
+* chore(deps): bump typescript from 3.4.4 to 3.4.5 ([1faea05](https://github.com/machi1990/muchi-ts/commit/1faea05))
+
+
+
 ## <small>2.3.2 (2019-04-13)</small>
 
 * chore(deps-dev): bump @zeit/ncc from 0.15.2 to 0.17.3 ([cbe0729](https://github.com/machi1990/muchi-ts/commit/cbe0729))
@@ -9,6 +27,7 @@
 * chore(deps): bump typescript from 3.3.4000 to 3.4.1 ([20a3f8d](https://github.com/machi1990/muchi-ts/commit/20a3f8d))
 * chore(deps): bump typescript from 3.4.1 to 3.4.2 ([87fa60e](https://github.com/machi1990/muchi-ts/commit/87fa60e))
 * chore(deps): bump typescript from 3.4.2 to 3.4.3 ([bed9fac](https://github.com/machi1990/muchi-ts/commit/bed9fac))
+* chore(release): 2.3.2 ([1c4205e](https://github.com/machi1990/muchi-ts/commit/1c4205e))
 
 
 
