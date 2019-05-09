@@ -1,6 +1,11 @@
+## <small>2.3.4 (2019-05-09)</small>
+
+* chore(deps): bump assert from 1.4.1 to 1.5.0 ([d344b85](https://github.com/machi1990/muchi-ts/commit/d344b85))
+
+
+
 ## <small>2.3.3 (2019-05-02)</small>
 
-* generate index ([997730e](https://github.com/machi1990/muchi-ts/commit/997730e))
 * chore(deps-dev): bump @zeit/ncc from 0.17.4 to 0.18.0 ([7e3d99b](https://github.com/machi1990/muchi-ts/commit/7e3d99b))
 * chore(deps-dev): bump @zeit/ncc from 0.18.0 to 0.18.1 ([10361e1](https://github.com/machi1990/muchi-ts/commit/10361e1))
 * chore(deps-dev): bump @zeit/ncc from 0.18.1 to 0.18.2 ([277dfb5](https://github.com/machi1990/muchi-ts/commit/277dfb5))
@@ -13,6 +18,8 @@
 * chore(deps): bump nyc from 13.3.0 to 14.0.0 ([7c7773b](https://github.com/machi1990/muchi-ts/commit/7c7773b))
 * chore(deps): bump typescript from 3.4.3 to 3.4.4 ([2fbafba](https://github.com/machi1990/muchi-ts/commit/2fbafba))
 * chore(deps): bump typescript from 3.4.4 to 3.4.5 ([1faea05](https://github.com/machi1990/muchi-ts/commit/1faea05))
+* chore(release): 2.3.3 ([2284340](https://github.com/machi1990/muchi-ts/commit/2284340))
+* generate index ([997730e](https://github.com/machi1990/muchi-ts/commit/997730e))
 
 
 
