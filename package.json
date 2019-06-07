@@ -32,7 +32,7 @@
     "conventional-changelog-cli": "2.0.21",
     "husky": "2.4.0",
     "js-dada": "3.0.0",
-    "lint-staged": "8.1.7",
+    "lint-staged": "8.2.0",
     "prettier": "1.17.1",
     "pretty-quick": "1.11.0"
   },
