@@ -1,56 +1,15 @@
-## <small>2.3.4 (2019-05-09)</small>
+## <small>2.3.5 (2019-06-07)</small>
 
-* chore(deps): bump assert from 1.4.1 to 1.5.0 ([d344b85](https://github.com/machi1990/muchi-ts/commit/d344b85))
-
-
-
-## <small>2.3.3 (2019-05-02)</small>
-
-* chore(deps-dev): bump @zeit/ncc from 0.17.4 to 0.18.0 ([7e3d99b](https://github.com/machi1990/muchi-ts/commit/7e3d99b))
-* chore(deps-dev): bump @zeit/ncc from 0.18.0 to 0.18.1 ([10361e1](https://github.com/machi1990/muchi-ts/commit/10361e1))
-* chore(deps-dev): bump @zeit/ncc from 0.18.1 to 0.18.2 ([277dfb5](https://github.com/machi1990/muchi-ts/commit/277dfb5))
-* chore(deps-dev): bump husky from 1.3.1 to 2.2.0 ([2c30df1](https://github.com/machi1990/muchi-ts/commit/2c30df1))
-* chore(deps-dev): bump prettier from 1.16.4 to 1.17.0 ([748fcd4](https://github.com/machi1990/muchi-ts/commit/748fcd4))
-* chore(deps): bump @types/node from 11.13.4 to 11.13.5 ([bad320b](https://github.com/machi1990/muchi-ts/commit/bad320b))
-* chore(deps): bump @types/node from 11.13.5 to 11.13.6 ([6188ce2](https://github.com/machi1990/muchi-ts/commit/6188ce2))
-* chore(deps): bump @types/node from 11.13.6 to 11.13.7 ([e07a52b](https://github.com/machi1990/muchi-ts/commit/e07a52b))
-* chore(deps): bump @types/node from 11.13.7 to 11.13.8 ([7eac10e](https://github.com/machi1990/muchi-ts/commit/7eac10e))
-* chore(deps): bump nyc from 13.3.0 to 14.0.0 ([7c7773b](https://github.com/machi1990/muchi-ts/commit/7c7773b))
-* chore(deps): bump typescript from 3.4.3 to 3.4.4 ([2fbafba](https://github.com/machi1990/muchi-ts/commit/2fbafba))
-* chore(deps): bump typescript from 3.4.4 to 3.4.5 ([1faea05](https://github.com/machi1990/muchi-ts/commit/1faea05))
-* chore(release): 2.3.3 ([2284340](https://github.com/machi1990/muchi-ts/commit/2284340))
-* generate index ([997730e](https://github.com/machi1990/muchi-ts/commit/997730e))
-
-
-
-## <small>2.3.2 (2019-04-13)</small>
-
-* chore(deps-dev): bump @zeit/ncc from 0.15.2 to 0.17.3 ([cbe0729](https://github.com/machi1990/muchi-ts/commit/cbe0729))
-* chore(deps-dev): bump @zeit/ncc from 0.17.3 to 0.17.4 ([8349a75](https://github.com/machi1990/muchi-ts/commit/8349a75))
-* chore(deps): bump @types/node from 11.12.0 to 11.13.0 ([20ba637](https://github.com/machi1990/muchi-ts/commit/20ba637))
-* chore(deps): bump @types/node from 11.13.0 to 11.13.4 ([6751cf6](https://github.com/machi1990/muchi-ts/commit/6751cf6))
-* chore(deps): bump commander from 2.19.0 to 2.20.0 ([4b6570d](https://github.com/machi1990/muchi-ts/commit/4b6570d))
-* chore(deps): bump source-map-support from 0.5.11 to 0.5.12 ([a9bca47](https://github.com/machi1990/muchi-ts/commit/a9bca47))
-* chore(deps): bump typescript from 3.3.4000 to 3.4.1 ([20a3f8d](https://github.com/machi1990/muchi-ts/commit/20a3f8d))
-* chore(deps): bump typescript from 3.4.1 to 3.4.2 ([87fa60e](https://github.com/machi1990/muchi-ts/commit/87fa60e))
-* chore(deps): bump typescript from 3.4.2 to 3.4.3 ([bed9fac](https://github.com/machi1990/muchi-ts/commit/bed9fac))
-* chore(release): 2.3.2 ([1c4205e](https://github.com/machi1990/muchi-ts/commit/1c4205e))
-
-
-
-## <small>2.3.1 (2019-03-30)</small>
-
-* chore(deps-dev): bump husky from 0.14.3 to 1.3.1 ([0e84181](https://github.com/machi1990/muchi-ts/commit/0e84181))
-* chore(deps-dev): bump lint-staged from 7.3.0 to 8.1.5 ([1b8ee34](https://github.com/machi1990/muchi-ts/commit/1b8ee34))
-* chore(deps-dev): bump prettier from 1.14.2 to 1.16.4 ([368f65b](https://github.com/machi1990/muchi-ts/commit/368f65b))
-* chore(deps-dev): bump pretty-quick from 1.6.0 to 1.10.0 ([d51b4ba](https://github.com/machi1990/muchi-ts/commit/d51b4ba))
-* chore(deps-dev): update ncc version ([455e4a8](https://github.com/machi1990/muchi-ts/commit/455e4a8))
-* chore(deps): bump @types/node from 10.10.2 to 11.12.0 ([0766371](https://github.com/machi1990/muchi-ts/commit/0766371))
-* chore(deps): bump colors from 1.3.2 to 1.3.3 ([f4d7f7d](https://github.com/machi1990/muchi-ts/commit/f4d7f7d))
-* chore(deps): bump reflect-metadata from 0.1.12 to 0.1.13 ([b553504](https://github.com/machi1990/muchi-ts/commit/b553504))
-* chore(deps): bump source-map-support from 0.5.9 to 0.5.11 ([c23e5d6](https://github.com/machi1990/muchi-ts/commit/c23e5d6))
-* chore(deps): bump typescript from 3.3.3333 to 3.3.4000 ([ccd6860](https://github.com/machi1990/muchi-ts/commit/ccd6860))
-* chore(release): 2.3.1 ([ac1ae75](https://github.com/machi1990/muchi-ts/commit/ac1ae75))
+* chore: generate index.js ([03f718d](https://github.com/machi1990/muchi-ts/commit/03f718d))
+* chore(deps): bump assert from 1.4.1 to 1.5.0 ([9a7a8bb](https://github.com/machi1990/muchi-ts/commit/9a7a8bb))
+* chore(deps): bump colors from 1.3.2 to 1.3.3 ([a5d5931](https://github.com/machi1990/muchi-ts/commit/a5d5931))
+* chore(deps): bump typescript from 3.3.4000 to 3.4.1 ([fc72e5b](https://github.com/machi1990/muchi-ts/commit/fc72e5b))
+* chore(release): 2.3.1 ([5eb55b0](https://github.com/machi1990/muchi-ts/commit/5eb55b0))
+* chore(release): 2.3.3 ([f796433](https://github.com/machi1990/muchi-ts/commit/f796433))
+* chore(release): 2.3.4 ([2429280](https://github.com/machi1990/muchi-ts/commit/2429280))
+* generate index ([ca12dba](https://github.com/machi1990/muchi-ts/commit/ca12dba))
+* Set theme jekyll-theme-minimal ([6a53e9b](https://github.com/machi1990/muchi-ts/commit/6a53e9b))
+* updates deps ([50f3b5c](https://github.com/machi1990/muchi-ts/commit/50f3b5c))
 
 
 
