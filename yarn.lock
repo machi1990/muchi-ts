@@ -116,17 +116,17 @@
   version "2.0.0"
   resolved "https://github.com/machi1990/muchi-ts-types.git#9d6f2aa1e942fd29c5e1cf136c4caf715c8a8d16"
 
-"@types/node@12.0.7":
-  version "12.0.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.7.tgz#4f2563bad652b2acb1722d7e7aae2b0ff62d192c"
+"@types/node@12.0.8":
+  version "12.0.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.8.tgz#551466be11b2adc3f3d47156758f610bd9f6b1d8"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
 
-"@zeit/ncc@0.18.5":
-  version "0.18.5"
-  resolved "https://registry.yarnpkg.com/@zeit/ncc/-/ncc-0.18.5.tgz#5687df6c32f1a2e2486aa110b3454ccebda4fb9c"
+"@zeit/ncc@0.19.1":
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/@zeit/ncc/-/ncc-0.19.1.tgz#8914765cff5ddef5645f56de3ce244d3e5000e58"
 
 JSONStream@^1.0.4:
   version "1.3.5"
@@ -1147,9 +1147,9 @@ hosted-git-info@^2.1.4:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
 
-husky@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-2.4.0.tgz#1bac7c44588f6e91f808b72efc82d24a57194f36"
+husky@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-2.4.1.tgz#dd00f9646f8693b93f7b3a12ba4be00be0eff7ab"
   dependencies:
     cosmiconfig "^5.2.0"
     execa "^1.0.0"
@@ -1466,9 +1466,9 @@ istanbul-reports@^2.2.4:
   dependencies:
     handlebars "^4.1.2"
 
-js-dada@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.0.tgz#46938aa3f2a14a1b9638ccfe863ec575146a0a8a"
+js-dada@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.3.tgz#538a002ce9f245b0fc0430e6c97896fb3ed71d0e"
   dependencies:
     lodash "4.17.11"
 
@@ -1525,9 +1525,9 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-lint-staged@8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.2.0.tgz#3d4149a229580815c955047a7acd8f09054be5a9"
+lint-staged@8.2.1:
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-8.2.1.tgz#752fcf222d9d28f323a3b80f1e668f3654ff221f"
   dependencies:
     chalk "^2.3.1"
     commander "^2.14.1"
@@ -2800,9 +2800,9 @@ type-fest@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.4.1.tgz#8bdf77743385d8a4f13ba95f610f5ccd68c728f8"
 
-typescript@3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.1.tgz#ba72a6a600b2158139c5dd8850f700e231464202"
+typescript@3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.2.tgz#a09e1dc69bc9551cadf17dba10ee42cf55e5d56c"
 
 uglify-js@^3.1.4:
   version "3.4.9"
