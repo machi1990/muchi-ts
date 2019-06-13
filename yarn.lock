@@ -1466,9 +1466,9 @@ istanbul-reports@^2.2.4:
   dependencies:
     handlebars "^4.1.2"
 
-js-dada@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.0.tgz#46938aa3f2a14a1b9638ccfe863ec575146a0a8a"
+js-dada@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.3.tgz#538a002ce9f245b0fc0430e6c97896fb3ed71d0e"
   dependencies:
     lodash "4.17.11"
 
