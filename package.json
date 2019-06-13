@@ -31,7 +31,7 @@
     "@zeit/ncc": "0.18.5",
     "conventional-changelog-cli": "2.0.21",
     "husky": "2.4.1",
-    "js-dada": "3.0.0",
+    "js-dada": "3.0.3",
     "lint-staged": "8.2.0",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.0"
