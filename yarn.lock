@@ -1466,11 +1466,9 @@ istanbul-reports@^2.2.4:
   dependencies:
     handlebars "^4.1.2"
 
-js-dada@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.3.tgz#538a002ce9f245b0fc0430e6c97896fb3ed71d0e"
-  dependencies:
-    lodash "4.17.11"
+js-dada@3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/js-dada/-/js-dada-3.0.4.tgz#42cabec9564a7efede53bb2f0fba390e479a46c7"
 
 js-tokens@^4.0.0:
   version "4.0.0"
@@ -1652,7 +1650,7 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "~3.0.0"
 
-lodash@4.17.11, lodash@^4.17.11, lodash@^4.2.1:
+lodash@^4.17.11, lodash@^4.2.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
