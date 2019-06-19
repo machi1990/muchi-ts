@@ -1,3 +1,10 @@
+## <small>2.3.6 (2019-06-19)</small>
+
+* chore: generate index.js ([c27f4f8](https://github.com/machi1990/muchi-ts/commit/c27f4f8))
+* chore(deps): update deps ([c153fa8](https://github.com/machi1990/muchi-ts/commit/c153fa8))
+
+
+
 ## <small>2.3.5 (2019-06-07)</small>
 
 * chore: generate index.js ([03f718d](https://github.com/machi1990/muchi-ts/commit/03f718d))
@@ -7,6 +14,7 @@
 * chore(release): 2.3.1 ([5eb55b0](https://github.com/machi1990/muchi-ts/commit/5eb55b0))
 * chore(release): 2.3.3 ([f796433](https://github.com/machi1990/muchi-ts/commit/f796433))
 * chore(release): 2.3.4 ([2429280](https://github.com/machi1990/muchi-ts/commit/2429280))
+* chore(release): 2.3.5 ([616c359](https://github.com/machi1990/muchi-ts/commit/616c359))
 * generate index ([ca12dba](https://github.com/machi1990/muchi-ts/commit/ca12dba))
 * Set theme jekyll-theme-minimal ([6a53e9b](https://github.com/machi1990/muchi-ts/commit/6a53e9b))
 * updates deps ([50f3b5c](https://github.com/machi1990/muchi-ts/commit/50f3b5c))
