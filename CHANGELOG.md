@@ -1,7 +1,14 @@
+## <small>2.3.7 (2019-07-04)</small>
+
+* chore(deps-dev): bump @zeit/ncc from 0.20.0 to 0.20.1 ([dc7bac3](https://github.com/machi1990/muchi-ts/commit/dc7bac3))
+
+
+
 ## <small>2.3.6 (2019-06-19)</small>
 
 * chore: generate index.js ([c27f4f8](https://github.com/machi1990/muchi-ts/commit/c27f4f8))
 * chore(deps): update deps ([c153fa8](https://github.com/machi1990/muchi-ts/commit/c153fa8))
+* chore(release): 2.3.6 ([0cac7c1](https://github.com/machi1990/muchi-ts/commit/0cac7c1))
 
 
 
