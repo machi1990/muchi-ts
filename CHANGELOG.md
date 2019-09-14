@@ -1,6 +1,14 @@
+## <small>2.3.8 (2019-09-14)</small>
+
+* chore(deps-dev): upgrade deps ([6c8fdc7](https://github.com/machi1990/muchi-ts/commit/6c8fdc7))
+* chore(deps): bump @types/node from 12.6.2 to 12.6.3 ([c15928e](https://github.com/machi1990/muchi-ts/commit/c15928e))
+
+
+
 ## <small>2.3.7 (2019-07-04)</small>
 
 * chore(deps-dev): bump @zeit/ncc from 0.20.0 to 0.20.1 ([dc7bac3](https://github.com/machi1990/muchi-ts/commit/dc7bac3))
+* chore(release): 2.3.7 ([eb79b04](https://github.com/machi1990/muchi-ts/commit/eb79b04))
 
 
 
