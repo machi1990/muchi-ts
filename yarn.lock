@@ -144,9 +144,9 @@
   version "2.0.0"
   resolved "https://github.com/machi1990/muchi-ts-types.git#9d6f2aa1e942fd29c5e1cf136c4caf715c8a8d16"
 
-"@types/node@*", "@types/node@12.7.5":
-  version "12.7.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+"@types/node@*", "@types/node@12.7.7":
+  version "12.7.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.7.tgz#f9bd8c00fa9e1a8129af910fc829f6139c397d6c"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
