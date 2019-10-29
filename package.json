@@ -44,7 +44,7 @@
     "commander": "3.0.2",
     "nyc": "14.1.1",
     "reflect-metadata": "0.1.13",
-    "source-map-support": "0.5.13",
+    "source-map-support": "0.5.15",
     "typescript": "3.6.4"
   },
   "license": "MIT",
