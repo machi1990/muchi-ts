@@ -41,7 +41,7 @@
     "@types/node": "12.12.3",
     "assert": "2.0.0",
     "colors": "1.4.0",
-    "commander": "3.0.2",
+    "commander": "4.0.0",
     "nyc": "14.1.1",
     "reflect-metadata": "0.1.13",
     "source-map-support": "0.5.16",
