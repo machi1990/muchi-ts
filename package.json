@@ -45,7 +45,7 @@
     "nyc": "15.0.0",
     "reflect-metadata": "0.1.13",
     "source-map-support": "0.5.16",
-    "typescript": "3.7.3"
+    "typescript": "3.7.4"
   },
   "license": "MIT",
   "author": {
