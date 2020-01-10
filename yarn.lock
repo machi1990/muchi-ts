@@ -179,9 +179,9 @@
   version "2.0.0"
   resolved "https://github.com/machi1990/muchi-ts-types.git#9d6f2aa1e942fd29c5e1cf136c4caf715c8a8d16"
 
-"@types/node@*", "@types/node@13.1.4":
-  version "13.1.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.4.tgz#4cfd90175a200ee9b02bd6b1cd19bc349741607e"
+"@types/node@*", "@types/node@13.1.6":
+  version "13.1.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
