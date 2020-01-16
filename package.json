@@ -30,7 +30,7 @@
   "devDependencies": {
     "@zeit/ncc": "0.21.0",
     "conventional-changelog-cli": "2.0.31",
-    "husky": "4.0.9",
+    "husky": "4.0.10",
     "js-dada": "3.0.4",
     "lint-staged": "9.5.0",
     "prettier": "1.19.1",
