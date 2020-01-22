@@ -28,24 +28,24 @@
     ]
   },
   "devDependencies": {
-    "@zeit/ncc": "0.20.5",
-    "conventional-changelog-cli": "2.0.27",
-    "husky": "3.1.0",
+    "@zeit/ncc": "0.21.0",
+    "conventional-changelog-cli": "2.0.31",
+    "husky": "4.2.0",
     "js-dada": "3.0.4",
-    "lint-staged": "9.4.3",
+    "lint-staged": "10.0.1",
     "prettier": "1.19.1",
     "pretty-quick": "2.0.1"
   },
   "dependencies": {
     "@types/muchi-ts": "https://github.com/machi1990/muchi-ts-types.git",
-    "@types/node": "12.12.8",
+    "@types/node": "13.1.8",
     "assert": "2.0.0",
     "colors": "1.4.0",
-    "commander": "4.0.1",
-    "nyc": "14.1.1",
+    "commander": "4.1.0",
+    "nyc": "15.0.0",
     "reflect-metadata": "0.1.13",
     "source-map-support": "0.5.16",
-    "typescript": "3.7.2"
+    "typescript": "3.7.5"
   },
   "license": "MIT",
   "author": {
