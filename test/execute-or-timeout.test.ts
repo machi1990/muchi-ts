@@ -4,8 +4,6 @@ import { promisify } from "util";
 import { assertNotEqual, assertEqual } from "..";
 import executeOrTimeout from "../src/api/utils/executeOrTimeout";
 const readFilePromise = promisify(readFile);
-const cheap = Symbol("cheap");
-const expensive = Symbol("expensive");
 
 class Operations {
   public expensive() {

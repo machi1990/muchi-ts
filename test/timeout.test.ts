@@ -1,7 +1,6 @@
 import { readFile } from "fs";
 import { join } from "path";
 import { promisify } from "util";
-import { assertNotEqual } from "..";
 
 const readFilePromise = promisify(readFile);
 
