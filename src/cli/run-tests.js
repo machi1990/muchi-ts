@@ -1,37 +1,39 @@
 const fs = require("fs");
 const ls = require("./ls");
 const path = require("path");
+require("../api/test-counter");
 const Module = require("module");
 const colors = require("colors");
 const cluster = require("cluster");
 const tranpile = require("./transpile");
 
 const cwd = process.cwd();
-const failure = colors.red("\u2718");
-const passed = colors.green("\u2713");
 const _load = Module._load.bind(Module);
 const _findPath = Module._findPath.bind(Module);
 
 let worker;
 let requirePath = "";
-let passingTestCount = 0;
-let failingTestCount = 0;
+let counts = {
+  passed: 0,
+  failed: 0,
+  skipped: 0
+};
+
 let transpilationResults = {};
-const log = console.log.bind(console);
-const error = console.error.bind(console);
+const testCounter = global["muchi-ts-test-counter"];
 
-console.log = (...args) => {
-  passingTestCount += args.join("").includes(passed) ? 1 : 0;
-  log.apply(null, args);
-};
+testCounter.on("passed", () => {
+  counts.passed += 1;
+});
 
-console.error = (...args) => {
-  if (args.join("").includes(failure)) {
-    process.exitCode = 1;
-    failingTestCount++;
-  }
-  error.apply(null, args);
-};
+testCounter.on("failed", () => {
+  counts.failed += 1;
+  process.exitCode = 1;
+});
+
+testCounter.on("skipped", () => {
+  counts.skipped += 1;
+});
 
 module.exports = _requirePath => (testsArg, watch, timeOut) => {
   requirePath = _requirePath;
@@ -71,11 +73,15 @@ const watchFilesChanges = (files, timeOut) => {
       if (+curr.mtime <= +prev.mtime) {
         return;
       }
-      passingTestCount = 0;
-      failingTestCount = 0;
+
       transpilationResults = {
         ...transpilationResults,
         ...tranpile([file], requirePath, timeOut)
+      };
+      counts = {
+        passed: 0,
+        failed: 0,
+        skipped: 0
       };
       worker.kill();
       worker = cluster.fork();
@@ -160,15 +166,25 @@ const runTranspiledTestFiles = testsArg => {
 
 const printSummaryBeforeProcessExit = _ => {
   process.on("beforeExit", () => {
-    const summary = colors.bold("summary:");
-    const failed = colors.red(colors.bold("failed"));
-    const passed = colors.green(colors.bold("passed"));
-    if (!failingTestCount) {
-      log(`\n${summary} ${passingTestCount} ${passed}.`);
-    } else {
-      log(
-        `\n${summary} ${passingTestCount} ${passed}, ${failed} ${failingTestCount}.`
-      );
-    }
+    const summary = Object.keys(counts)
+      .filter(key => counts[key])
+      .map(key => {
+        let summaryMessage = "\n> ";
+        if (key === "passed") {
+          summaryMessage += colors.green(colors.bold(key));
+        } else if (key === "failed") {
+          summaryMessage += colors.red(colors.bold(key));
+        } else {
+          summaryMessage += colors.cyan(colors.bold(key));
+        }
+        return summaryMessage + " " + counts[key];
+      })
+      .join();
+
+    const totalMessage = colors.bold(
+      "summary:\n> total " +
+        Object.values(counts).reduce((acc, count) => acc + count, 0)
+    );
+    console.log(`\n${totalMessage}${summary}\n`);
   });
 };

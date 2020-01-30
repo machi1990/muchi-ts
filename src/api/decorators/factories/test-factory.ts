@@ -1,3 +1,4 @@
+import "../../test-counter";
 import * as colors from "colors";
 import { Op } from "../../utils/op";
 import { TestSetup } from "../../interfaces/setup";
@@ -59,11 +60,12 @@ const run = async (
   runnerOpts: RunnerOpts,
   { method, name, ignore = false, message }
 ) => {
-  const level: number = runnerOpts.level * 2;
   const logger: Logger = runnerOpts.logger;
+  const timeOut: number = runnerOpts.timeOut;
+  const level: number = runnerOpts.level * 2;
   const skipTest = ignore || runnerOpts.ignore;
   const context: any = runnerOpts.contextInstance;
-  const timeOut: number = runnerOpts.timeOut;
+  const testCounter = global["muchi-ts-test-counter"];
 
   if (skipTest) {
     runnerOpts.logger.addLog(
@@ -72,6 +74,7 @@ const run = async (
       SKIPPED,
       colors.cyan(message)
     );
+    testCounter.emit("skipped");
   } else {
     /**
      * Execute before methods
@@ -90,7 +93,9 @@ const run = async (
         colors.green(message),
         colors.gray(`- ${duration} ms`) // tests logs
       );
+      testCounter.emit("passed");
     } catch (error) {
+      testCounter.emit("failed");
       duration = Date.now() - startTime;
       const { actual, expected, operator, stack } = error;
       logger.addLog(
