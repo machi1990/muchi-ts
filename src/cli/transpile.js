@@ -1,6 +1,6 @@
 const path = require("path");
 const ts = require("typescript");
-const nyc = new (require("nyc"))();
+const nyc = new (require("nyc"))({});
 const { readFileSync, statSync } = require("fs");
 const {
   OnlyAnnotation,
@@ -57,7 +57,9 @@ module.exports = (fileNames, requirePath, timeOut) => {
       fileName,
       only: muchiTsOptions.includes(OnlyAnnotation),
       runnable: muchiTsOptions.includes(MuchiTsAnnotation),
-      output: coverageInstrumenter.instrumentSync(transpiledSource, fileName)
+      output: coverageInstrumenter.instrumentSync(transpiledSource, fileName, {
+        registerMap: () => {}
+      })
     };
 
     transpilationResults[fileName] = transpilationResult;
