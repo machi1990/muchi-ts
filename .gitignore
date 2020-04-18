@@ -5,4 +5,5 @@ test/*.js
 .vscode
 dist/
 .nyc_output
+package-lock.json
 
