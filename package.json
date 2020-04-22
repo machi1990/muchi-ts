@@ -33,7 +33,7 @@
     "husky": "4.2.5",
     "js-dada": "3.0.4",
     "lint-staged": "10.1.5",
-    "prettier": "2.0.4",
+    "prettier": "2.0.5",
     "pretty-quick": "2.0.1"
   },
   "dependencies": {
