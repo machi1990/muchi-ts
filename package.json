@@ -28,7 +28,7 @@
     ]
   },
   "devDependencies": {
-    "@zeit/ncc": "0.22.1",
+    "@zeit/ncc": "0.22.2",
     "conventional-changelog-cli": "2.0.34",
     "husky": "4.2.5",
     "js-dada": "3.0.4",
