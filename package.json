@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@types/muchi-ts": "https://github.com/machi1990/muchi-ts-types.git",
-    "@types/node": "14.0.1",
+    "@types/node": "14.0.18",
     "assert": "2.0.0",
     "colors": "1.4.0",
     "commander": "5.1.0",
