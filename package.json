@@ -34,7 +34,7 @@
     "js-dada": "3.0.4",
     "lint-staged": "10.2.2",
     "prettier": "2.0.5",
-    "pretty-quick": "2.0.1"
+    "pretty-quick": "3.0.0"
   },
   "dependencies": {
     "@types/muchi-ts": "https://github.com/machi1990/muchi-ts-types.git",
